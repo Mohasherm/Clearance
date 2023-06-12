@@ -10,7 +10,8 @@ namespace Clearance.Server.Data
         {
 
         }
-      
+
+        public DbSet<Direction> Directions { get; set; }
 
     }
 }

@@ -1,0 +1,89 @@
+﻿@page "/Directions"
+@inject NavigationManager navigate
+@inject DirectionService ser
+@inject IJSRuntime js
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>الجهات</PageTitle>
+
+        <div class="panel panel-info">
+            <div class="panel-heading d-flex justify-content-between">
+                <h5>الجهات</h5>
+                <div>
+                    <button class="btn rounded-pill btn-above " @onclick="AddNew">إضافة جديد</button>
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive nomargin">
+
+                    @if (lst_DirectionDTO != null && lst_DirectionDTO.Count > 0)
+                    {
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fa  pull-right hidden-xs"></i>الجهات</th>
+                                    <th><i class="fa  pull-right hidden-xs"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var r in lst_DirectionDTO)
+                                {
+                                    <tr>
+                                        <td>@r.Name</td>
+                                        <td>
+                                            <a class="edit" title="Edit" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="material-icons">&#xE254;</i></a>
+                                            <a class="delete" title="Delete" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+                    else if (lst_DirectionDTO.Count == 0)
+                    {
+                        <div class="alert alert-primary" role="alert">
+                           لا توجد بيانات
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            you are not authoriazed
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+@code {
+    List<DirectionDTO>? lst_DirectionDTO = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lst_DirectionDTO = await ser.GetAll();
+    }
+
+
+    void AddNew()
+    {
+        navigate.NavigateTo("/AddDirection");
+    }
+
+
+}

@@ -1,17 +1,47 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavManager
+@using Clearance.Client.Pages.Users
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<AuthorizeView>
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <main>
+                <div class="top-row px-4">
+                    <a href="/ChangePassword">تغيير كلمة المرور</a>
+                    <a href="/logout">تسجيل الخروج</a>
+                </div>
+
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="page">
+
+            <main>
+                <article class="content px-4">
+                    <div class="mx-auto mt-5 w-75 h-100">
+                      <Login />
+                    </div>
+                </article>
+            </main>
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code{
+    protected override Task OnInitializedAsync()
+    {
+        //NavManager.NavigateTo("/login");
+        return base.OnInitializedAsync();
+    }
+}

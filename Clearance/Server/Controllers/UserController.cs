@@ -27,44 +27,44 @@ namespace Clearance.Server.Controllers
             this.db = db;
         }
 
-        //[HttpGet]
-        //[Route("GetUsers")]
-        //public async Task<ActionResult<List<UserDTO>>> GetUsers()
-        //{
-        //    var c = await (from u in db.Users
-        //                   select new UserDTO
-        //                   {
-        //                       Id = u.Id,
-        //                       Name = u.Name,
-        //                       UserName = u.UserName
-        //                   }).ToListAsync();
-        //    if (c == null)
-        //    {
-        //        return NoContent();
-        //    }
+        [HttpGet]
+        [Route("GetUsers")]
+        public async Task<ActionResult<List<UserDTO>>> GetUsers()
+        {
+            var c = await (from u in db.Users
+                           select new UserDTO
+                           {
+                               Id = u.Id,
+                               FirstName = u.FirstName,
+                               UserName = u.UserName
+                           }).ToListAsync();
+            if (c == null)
+            {
+                return NoContent();
+            }
 
-        //    return Ok(c);
-        //}
+            return Ok(c);
+        }
 
-        //[HttpGet]
-        //[Route("GetUser/{Email}")]
-        //public async Task<ActionResult<UserDTO>> GetUser(string Email)
-        //{
-        //    var c = await (from u in db.Users
-        //                   where u.Email == Email
-        //                   select new UserDTO
-        //                   {
-        //                       Id = u.Id,
-        //                       Name = u.Name,
-        //                       UserName = u.UserName
-        //                   }).FirstOrDefaultAsync();
-        //    if (c == null)
-        //    {
-        //        return NoContent();
-        //    }
+        [HttpGet]
+        [Route("GetUser/{Email}")]
+        public async Task<ActionResult<UserDTO>> GetUser(string Email)
+        {
+            var c = await (from u in db.Users
+                           where u.Email == Email
+                           select new UserDTO
+                           {
+                               Id = u.Id,
+                               FirstName = u.FirstName,
+                               UserName = u.UserName
+                           }).FirstOrDefaultAsync();
+            if (c == null)
+            {
+                return NoContent();
+            }
 
-        //    return Ok(c);
-        //}
+            return Ok(c);
+        }
 
 
         [HttpPost]
@@ -77,6 +77,10 @@ namespace Clearance.Server.Controllers
 
             AppUser newUser = new()
             {
+                FirstName = userRegisterDTO.FirstName,
+                LastName = userRegisterDTO.LastName,
+                Father = userRegisterDTO.Father,
+                Direction_Id = userRegisterDTO.Direction_Id,
                 Email = userRegisterDTO.Email,
                 UserName = userRegisterDTO.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -184,23 +188,23 @@ namespace Clearance.Server.Controllers
         }
 
 
-        //[HttpGet("GetUserRoles/{RoleName:alpha}")]
-        //public async Task<ActionResult<List<UserDTO>>> GetUserRoles(string RoleName)
-        //{
-        //    var Roles = await _userManager.GetUsersInRoleAsync(RoleName);
-        //    if (Roles == null)
-        //    {
-        //        return NoContent();
-        //    }
-        //    var result = (from u in Roles
-        //                  select new UserDTO
-        //                  {
-        //                      Id = u.Id,
-        //                      Name = u.Name,
-        //                      UserName = u.UserName
-        //                  }).ToList();
-        //    return Ok(result);
-        //}
+        [HttpGet("GetUserRoles/{RoleName:alpha}")]
+        public async Task<ActionResult<List<UserDTO>>> GetUserRoles(string RoleName)
+        {
+            var Roles = await _userManager.GetUsersInRoleAsync(RoleName);
+            if (Roles == null)
+            {
+                return NoContent();
+            }
+            var result = (from u in Roles
+                          select new UserDTO
+                          {
+                              Id = u.Id,
+                              FirstName = u.FirstName,
+                              UserName = u.UserName
+                          }).ToList();
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("SetUserRole")]

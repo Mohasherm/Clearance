@@ -10,7 +10,11 @@ namespace Clearance.Shared
     public class UserRegisterDTO
     {
         [Required]
-        public string Name { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        [Required]
+        public string LastName { get; set; } = string.Empty;
+        [Required]
+        public string Father { get; set; } = string.Empty;
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
@@ -20,10 +24,6 @@ namespace Clearance.Shared
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "password not match")]
         public string? ConfirmPassword { get; set; }
-        //[Required]
-        //public int? JobTitle { get; set; }
-        //[Required]
-        //public string Mobile { get; set; } = string.Empty;
-       
+        public int? Direction_Id { get; set; }
     }
 }

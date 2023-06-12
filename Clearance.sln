@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clearance.Server", "Clearance\Server\Clearance.Server.csproj", "{4DD5C508-B9BB-479F-ADC3-433A3C98B43B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clearance.Server", "Clearance\Server\Clearance.Server.csproj", "{4DD5C508-B9BB-479F-ADC3-433A3C98B43B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clearance.Client", "Clearance\Client\Clearance.Client.csproj", "{FC4931CF-19F2-4FCB-B9F6-C1AFAD480196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clearance.Client", "Clearance\Client\Clearance.Client.csproj", "{FC4931CF-19F2-4FCB-B9F6-C1AFAD480196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clearance.Shared", "Clearance\Shared\Clearance.Shared.csproj", "{C63A66A6-0899-468A-990F-1F08F84E5A8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clearance.Shared", "Clearance\Shared\Clearance.Shared.csproj", "{C63A66A6-0899-468A-990F-1F08F84E5A8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
