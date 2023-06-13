@@ -97,41 +97,41 @@ namespace Clearance.Client.Authentication
                 return false;
         }
 
-        //public async Task<UserDTO?> GetUser(string Email)
-        //{
-        //    var response = await http.GetAsync($"api/User/GetUser/{Email}");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-        //        {
-        //            return null;
-        //        }
+        public async Task<UserDTO?> GetUser(string Email)
+        {
+            var response = await http.GetAsync($"api/User/GetUser/{Email}");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return null;
+                }
 
-        //        return await response.Content.ReadFromJsonAsync<UserDTO>();
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+                return await response.Content.ReadFromJsonAsync<UserDTO>();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        //public async Task<List<UserDTO>?> GetUsers()
-        //{
-        //    var response = await http.GetAsync($"api/User/GetUsers");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-        //        {
-        //            return null;
-        //        }
+        public async Task<List<UserDTO>?> GetUsers()
+        {
+            var response = await http.GetAsync($"api/User/GetUsers");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return null;
+                }
 
-        //        return await response.Content.ReadFromJsonAsync<List<UserDTO>>();
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+                return await response.Content.ReadFromJsonAsync<List<UserDTO>>();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public async Task<IList<string>?> GetRoleForUser(Guid Id)
         {
@@ -152,24 +152,24 @@ namespace Clearance.Client.Authentication
             }
         }
 
-        //public async Task<List<UserDTO>?> GetUserRoles(string RoleName)
-        //{
+        public async Task<List<UserDTO>?> GetUserRoles(string RoleName)
+        {
 
-        //    var response = await http.GetAsync($"api/User/GetUserRoles/{RoleName}");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-        //        {
-        //            return null;
-        //        }
+            var response = await http.GetAsync($"api/User/GetUserRoles/{RoleName}");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return null;
+                }
 
-        //        return await response.Content.ReadFromJsonAsync<List<UserDTO>>();
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+                return await response.Content.ReadFromJsonAsync<List<UserDTO>>();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public async Task<bool> SetRole(UserRolesDTO userRolesDTO)
         {
@@ -179,6 +179,26 @@ namespace Clearance.Client.Authentication
                 return true;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+
+        public async Task<bool> Update(UserDTO userDTO, int Id)
+        {
+            var response = await http.PutAsJsonAsync($"api/User/Put/{Id}", userDTO);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 return false;
             }

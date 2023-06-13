@@ -33,7 +33,7 @@ namespace Clearance.Server.Repo
 
         public async Task<List<DirectionDTO>> GetAll()
         {
-            return await(
+            return await (
                 from a in db.Directions
                 select new DirectionDTO
                 {
@@ -45,13 +45,13 @@ namespace Clearance.Server.Repo
 
         public async Task<DirectionDTO?> GetById(int id)
         {
-            return await(from a in db.Directions
-                         where a.Id == id
-                         select new DirectionDTO
-                         {
-                             Id = a.Id,
-                             Name = a.Name
-                         }).FirstOrDefaultAsync();
+            return await (from a in db.Directions
+                          where a.Id == id
+                          select new DirectionDTO
+                          {
+                              Id = a.Id,
+                              Name = a.Name
+                          }).FirstOrDefaultAsync();
         }
 
         public async Task<bool> Insert(DirectionDTO directionDTO)
@@ -70,24 +70,17 @@ namespace Clearance.Server.Repo
             }
         }
 
-        public async Task<List<DirectionDTO>> Search(string? Name)
+        public async Task<List<DirectionDTO>> Search(string Name)
         {
-            if (string.IsNullOrEmpty(Name))
+            return await (
+            from a in db.Directions
+            where a.Name.Contains(Name)
+            select new DirectionDTO
             {
-                return await GetAll();
+                Id = a.Id,
+                Name = a.Name
             }
-            else
-            {
-                return await (
-                from a in db.Directions
-                where a.Name.Contains(Name)    
-                select new DirectionDTO
-                {
-                    Id = a.Id,
-                    Name = a.Name
-                }
-                   ).ToListAsync();
-            }
+               ).ToListAsync();
         }
 
         public async Task<bool> Update(DirectionDTO directionDTO, int Id)

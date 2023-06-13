@@ -36,6 +36,11 @@ namespace Clearance.Server.Controllers
                            {
                                Id = u.Id,
                                FirstName = u.FirstName,
+                               LastName = u.LastName,
+                               Father = u.Father,
+                               FullName = u.FirstName + " " + u.Father + " " + u.LastName,
+                               DirectionName = u.Direction.Name,
+                               Direction_Id= u.Direction_Id,
                                UserName = u.UserName
                            }).ToListAsync();
             if (c == null)
@@ -56,6 +61,11 @@ namespace Clearance.Server.Controllers
                            {
                                Id = u.Id,
                                FirstName = u.FirstName,
+                               LastName = u.LastName,
+                               Father = u.Father,
+                               FullName = u.FirstName + " " + u.Father + " " + u.LastName,
+                               DirectionName = u.Direction.Name,
+                               Direction_Id= u.Direction_Id,
                                UserName = u.UserName
                            }).FirstOrDefaultAsync();
             if (c == null)
@@ -201,6 +211,11 @@ namespace Clearance.Server.Controllers
                           {
                               Id = u.Id,
                               FirstName = u.FirstName,
+                              LastName = u.LastName,
+                              Father = u.Father,
+                              FullName = u.FirstName + " " + u.Father + " " + u.LastName,
+                              DirectionName = u.Direction.Name,
+                              Direction_Id = u.Direction_Id,
                               UserName = u.UserName
                           }).ToList();
             return Ok(result);
@@ -220,6 +235,36 @@ namespace Clearance.Server.Controllers
             var result = await _userManager.AddToRoleAsync(user, userRolesDTO.RoleName);
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("Put/{Id:Guid}")]
+        public async Task<ActionResult> Put([FromBody] UserDTO userDTO, Guid Id)
+        {
+            if (userDTO == null || userDTO.Id != Id)
+                return NotFound();
+
+            var data = await db.Users.FindAsync(Id);
+            data.FirstName = userDTO.FirstName;
+            data.LastName = userDTO.LastName;
+            data.Father= userDTO.Father;
+            data.Direction_Id= userDTO.Direction_Id;
+
+            db.Entry(data).State = EntityState.Modified;
+            try
+            {
+                await db.SaveChangesAsync();
+                return Ok(data);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest();
+            }
+           
         }
     }
 }

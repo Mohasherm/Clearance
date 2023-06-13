@@ -16,7 +16,7 @@ namespace Clearance.Client.Services
         {
             return await httpClient.GetFromJsonAsync<List<DirectionDTO>>("api/Direction/GetAll");
         }
-         public async Task<List<DirectionDTO>?> Search(string Name)
+         public async Task<List<DirectionDTO>?> Search(string? Name)
         {
             return await httpClient.GetFromJsonAsync<List<DirectionDTO>>($"api/Direction/Search/{Name}");
         }

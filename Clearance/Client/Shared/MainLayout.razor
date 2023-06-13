@@ -11,8 +11,8 @@
 
             <main>
                 <div class="top-row px-4">
-                    <a href="/ChangePassword">تغيير كلمة المرور</a>
-                    <a href="/logout">تسجيل الخروج</a>
+                    <a class="text-white" href="/ChangePassword" title="تغيير كلمة المرور" data-toggle="tooltip"><i class="oi oi-lock-locked"></i></a>
+                    <a class="text-white" href="/logout" title="تسجيل الخروج" data-toggle="tooltip"><i class="oi oi-account-logout"></i></a>
                 </div>
 
                 <article class="content px-4">
@@ -22,23 +22,16 @@
         </div>
     </Authorized>
     <NotAuthorized>
-        <div class="page">
-
-            <main>
-                <article class="content px-4">
-                    <div class="mx-auto mt-5 w-75 h-100">
-                      <Login />
-                    </div>
-                </article>
-            </main>
+        <div class="container">
+            <div class="row h-100">
+                <Login />
+            </div>
         </div>
-
-
     </NotAuthorized>
 </AuthorizeView>
 
 
-@code{
+@code {
     protected override Task OnInitializedAsync()
     {
         //NavManager.NavigateTo("/login");

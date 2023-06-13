@@ -1,6 +1,6 @@
-﻿@page "/Directions"
+﻿@page "/Users"
 @inject NavigationManager navigate
-@inject DirectionService ser
+@inject AuthenticationHttpClient Http
 @inject IJSRuntime js
 
 <AuthorizeView>
@@ -9,12 +9,12 @@
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
-                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddDirection/")"><i class="oi oi-plus"</i> إضافة جديد</a>
+                الموظفون
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-auto">
-                        <InputText class="form-control" @bind-Value="NameFilter" placeholder="ادخل اسم جهة للبحث..."></InputText>
+                        <InputText class="form-control" @bind-Value="NameFilter" placeholder="ادخل اسم الموظف..."></InputText>
                     </div>
                     <div class="col-auto">
                         @if (!searching)
@@ -27,20 +27,24 @@
                         }
                     </div>
                 </div>
-                @if (lst_DirectionDTO != null && lst_DirectionDTO.Count > 0)
+                @if (lst_UserDTO != null && lst_UserDTO.Count > 0)
                 {
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th><i class="fa  pull-right hidden-xs"></i>اسم الجهة</th>
+                                <th><i class="fa  pull-right hidden-xs"></i>الاسم الثلاثي</th>
+                                <th><i class="fa  pull-right hidden-xs"></i>اسم المستخدم</th>
+                                <th><i class="fa  pull-right hidden-xs"></i>الجهة التابع لها</th>
                                 <th><i class="fa  pull-right hidden-xs"></i> </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var r in lst_DirectionDTO)
+                            @foreach (var r in lst_UserDTO)
                             {
                                 <tr>
-                                    <td>@r.Name</td>
+                                    <td>@r.FullName</td>
+                                    <td>@r.UserName</td>
+                                    <td>@r.DirectionName</td>
                                     <td>
                                         <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="oi oi-pencil"></i></a>
                                         <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="oi oi-trash"></i></a>
@@ -51,7 +55,7 @@
                         </tbody>
                     </table>
                 }
-                else if (lst_DirectionDTO.Count == 0)
+                else if (lst_UserDTO.Count == 0)
                 {
                     <div class="alert alert-primary" role="alert">
                         لا توجد بيانات
@@ -76,32 +80,25 @@
 </AuthorizeView>
 
 @code {
-    List<DirectionDTO>? lst_DirectionDTO = new();
+    List<UserDTO>? lst_UserDTO = new();
     public string NameFilter { get; set; } = string.Empty;
     bool searching = false;
     protected override async Task OnInitializedAsync()
     {
-        lst_DirectionDTO = await ser.GetAll();
+        lst_UserDTO = await Http.GetUsers();
     }
 
     async Task search()
     {
         searching = true;
-        if (string.IsNullOrEmpty(NameFilter))
-        {
-            lst_DirectionDTO = await ser.GetAll();
-        }
-        else
-        {
-            lst_DirectionDTO = await ser.Search(NameFilter);
-        }
+        //if (string.IsNullOrEmpty(NameFilter))
+        //{
+        //    lst_UserDTO = await ser.GetAll();
+        //}
+        //else
+        //{
+        //    lst_UserDTO = await ser.Search(NameFilter);
+        //}
         searching = false;
     }
-
-    void AddNew()
-    {
-        navigate.NavigateTo("/AddDirection");
-    }
-
-
 }

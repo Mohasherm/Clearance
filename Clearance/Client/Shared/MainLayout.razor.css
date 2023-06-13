@@ -9,11 +9,11 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(19, 79, 194) 0%, rgb(18, 59, 139) 70%);
+    background-image: linear-gradient(180deg, rgb(44, 53, 69) 0%, rgb(31, 37, 48) 70%);
 }
 
 .top-row {
-    background-color: #f7f7f7;
+    background-color: rgb(31, 37, 48);
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;
