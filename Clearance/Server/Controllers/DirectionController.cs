@@ -1,9 +1,11 @@
 ﻿using Clearance.Server.Repo.IRepo;
 using Clearance.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clearance.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DirectionController : ControllerBase
@@ -55,6 +57,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("Post")]
         public async Task<ActionResult> Post([FromBody] DirectionDTO directionDTO)
         {
@@ -66,6 +69,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("Put/{Id}")]
         public async Task<ActionResult> Put([FromBody] DirectionDTO directionDTO, int Id)
         {
@@ -76,8 +80,8 @@ namespace Clearance.Server.Controllers
                 return BadRequest();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{Id}")]
-
         public async Task<ActionResult<bool>> Delete(int Id)
         {
             var result = await directionService.Delete(Id);

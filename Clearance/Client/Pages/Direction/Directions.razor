@@ -2,6 +2,7 @@
 @inject NavigationManager navigate
 @inject DirectionService ser
 @inject IJSRuntime js
+@attribute [Authorize(Roles ="Admin")]
 
 <AuthorizeView>
     <Authorized>

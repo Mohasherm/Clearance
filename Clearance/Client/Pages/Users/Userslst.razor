@@ -2,6 +2,7 @@
 @inject NavigationManager navigate
 @inject AuthenticationHttpClient Http
 @inject IJSRuntime js
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView>
     <Authorized>
@@ -46,8 +47,8 @@
                                     <td>@r.UserName</td>
                                     <td>@r.DirectionName</td>
                                     <td>
-                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="oi oi-pencil"></i></a>
-                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="oi oi-trash"></i></a>
+                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditUser/{r.Id}")"><i class="oi oi-pencil"></i></a>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteUser/{r.Id}")"><i class="oi oi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -91,14 +92,14 @@
     async Task search()
     {
         searching = true;
-        //if (string.IsNullOrEmpty(NameFilter))
-        //{
-        //    lst_UserDTO = await ser.GetAll();
-        //}
-        //else
-        //{
-        //    lst_UserDTO = await ser.Search(NameFilter);
-        //}
+        if (string.IsNullOrEmpty(NameFilter))
+        {
+            lst_UserDTO = await Http.GetUsers();
+        }
+        else
+        {
+            lst_UserDTO = await Http.Search(NameFilter);
+        }
         searching = false;
     }
 }

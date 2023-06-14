@@ -1,4 +1,5 @@
 ﻿using Clearance.Shared;
+using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace Clearance.Client.Authentication
@@ -114,6 +115,23 @@ namespace Clearance.Client.Authentication
                 return null;
             }
         }
+        public async Task<UserDTO?> GetUserById(string Id)
+        {
+            var response = await http.GetAsync($"api/User/GetUserById/{new Guid(Id)}");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<UserDTO>();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public async Task<List<UserDTO>?> GetUsers()
         {
@@ -186,9 +204,13 @@ namespace Clearance.Client.Authentication
                 return false;
         }
 
-        public async Task<bool> Update(UserDTO userDTO, int Id)
+        public async Task<bool> Update(UserDTO userDTO, Guid Id)
         {
-            var response = await http.PutAsJsonAsync($"api/User/Put/{Id}", userDTO);
+            if (userDTO.DirectionName is null)
+            {
+                userDTO.DirectionName = string.Empty;
+            }
+            var response = await http.PutAsJsonAsync($"api/User/PutUser/{Id}", userDTO);
 
             if (response.IsSuccessStatusCode)
             {
@@ -206,5 +228,25 @@ namespace Clearance.Client.Authentication
                 return false;
         }
 
+        public async Task<bool> Delete(Guid Id)
+        {
+            var response = await http.DeleteAsync($"api/User/Delete/{Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest || response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+
+        public async Task<List<UserDTO>?> Search(string? Name)
+        {
+            return await http.GetFromJsonAsync<List<UserDTO>>($"api/User/Search/{Name}");
+        }
     }
 }
