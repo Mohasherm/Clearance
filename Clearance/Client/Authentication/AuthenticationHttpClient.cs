@@ -1,5 +1,5 @@
 ﻿using Clearance.Shared;
-using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Clearance.Client.Authentication
@@ -26,6 +26,12 @@ namespace Clearance.Client.Authentication
         {
             try
             {
+                //var token = await tokenService.GetToken();
+
+                //if (token != null && token.Expiration > DateTime.Now)
+                //{
+                //    http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+                //}
 
                 var response = await http.PostAsJsonAsync("api/User/register", userRegisterDTO);
                 var result = await response.Content.ReadFromJsonAsync<UserRegisterResultDTO>();

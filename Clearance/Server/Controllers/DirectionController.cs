@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clearance.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DirectionController : ControllerBase
