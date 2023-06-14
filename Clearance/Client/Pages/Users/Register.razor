@@ -1,10 +1,10 @@
 ﻿@page "/register"
 @using Clearance.Client.Validation;
-
 @inject AuthenticationHttpClient Http
 @inject DirectionService ser
 @inject IJSRuntime js
 @inject HttpClient http
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView Context="aContext">
     <Authorized>

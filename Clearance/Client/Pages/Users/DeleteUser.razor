@@ -1,25 +1,37 @@
-﻿@page "/DeleteDirection/{Id:int}"
-@inject DirectionService ser
+﻿@page "/DeleteUser/{Id}"
+@inject AuthenticationHttpClient Http
 @inject NavigationManager navManager
 @inject IJSRuntime js
-@attribute [Authorize(Roles ="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>حذف الجهة</PageTitle>
+        <PageTitle>حذف الموظف</PageTitle>
 
-        @if (directionDTO != null)
+        @if (userDTO != null)
         {
             <div class="card ">
                 <div class="card-header bg-dark text-white">
-                    بيانات الجهة
+                    بيانات الموظف
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <tbody>
                             <tr>
+                                <td><strong>اسم الموظف</strong></td>
+                                <td>@userDTO.FirstName</td>
+                            </tr>
+                            <tr>
+                                <td><strong>الكنية</strong></td>
+                                <td>@userDTO.LastName</td>
+                            </tr>
+                             <tr>
+                                <td><strong>اسم الأب</strong></td>
+                                <td>@userDTO.Father</td>
+                            </tr>
+                            <tr>
                                 <td><strong>اسم الجهة</strong></td>
-                                <td>@directionDTO.Name</td>
+                                <td>@userDTO.DirectionName</td>
                             </tr>
                         </tbody>
                     </table>
@@ -30,18 +42,18 @@
                 </div>
             </div>
 
-          
+
         }
         else
         {
             <div class="alert alert-info" role="alert">
-               لا توجد بيانات 
+                لا توجد بيانات
             </div>
         }
     </Authorized>
     <NotAuthorized>
         <div class="alert alert-danger" role="alert">
-            ليس لديك صلاحية 
+            ليس لديك صلاحية
         </div>
     </NotAuthorized>
 </AuthorizeView>
@@ -49,30 +61,29 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
-    private DirectionDTO? directionDTO= new();
+    public string Id { get; set; }
+    private UserDTO? userDTO= new();
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id > 0)
+        if (!string.IsNullOrWhiteSpace(Id))
         {
-            directionDTO = await ser.GetById(Id);
+            userDTO = await Http.GetUserById(Id);
         }
         else
         {
-            await js.InvokeVoidAsync("alert", "الجهة غير صالحة");
-            navManager.NavigateTo("/Directions");
+            await js.InvokeVoidAsync("alert", "الموظف غير صالح");
+            navManager.NavigateTo("/Users");
         }
-
     }
     async void Delete()
     {
-        if (directionDTO != null)
+        if (userDTO != null)
         {
-            var result = await ser.Delete(Id);
+            var result = await Http.Delete(new Guid(Id));
             if (result)
             {
-                navManager.NavigateTo("/Directions");
+                navManager.NavigateTo("/Users");
             }
             else
             {
@@ -82,6 +93,6 @@
     }
     void Cancel()
     {
-        navManager.NavigateTo("/Directions");
+        navManager.NavigateTo("/Users");
     }
 }

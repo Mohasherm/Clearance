@@ -40,7 +40,7 @@ namespace Clearance.Server.Controllers
                                Father = u.Father,
                                FullName = u.FirstName + " " + u.Father + " " + u.LastName,
                                DirectionName = u.Direction.Name,
-                               Direction_Id= u.Direction_Id,
+                               Direction_Id = u.Direction_Id,
                                UserName = u.UserName
                            }).ToListAsync();
             if (c == null)
@@ -65,7 +65,31 @@ namespace Clearance.Server.Controllers
                                Father = u.Father,
                                FullName = u.FirstName + " " + u.Father + " " + u.LastName,
                                DirectionName = u.Direction.Name,
-                               Direction_Id= u.Direction_Id,
+                               Direction_Id = u.Direction_Id,
+                               UserName = u.UserName
+                           }).FirstOrDefaultAsync();
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+        [HttpGet]
+        [Route("GetUserById/{Id:Guid}")]
+        public async Task<ActionResult<UserDTO>> GetUserById(Guid Id)
+        {
+            var c = await (from u in db.Users
+                           where u.Id == Id
+                           select new UserDTO
+                           {
+                               Id = u.Id,
+                               FirstName = u.FirstName,
+                               LastName = u.LastName,
+                               Father = u.Father,
+                               FullName = u.FirstName + " " + u.Father + " " + u.LastName,
+                               DirectionName = u.Direction.Name,
+                               Direction_Id = u.Direction_Id,
                                UserName = u.UserName
                            }).FirstOrDefaultAsync();
             if (c == null)
@@ -105,32 +129,20 @@ namespace Clearance.Server.Controllers
                     Errors = result.Errors.Select(e => e.Description)
                 });
 
-            //await SeedRoles();
-            //result = await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            await SeedRoles();
+            result = await _userManager.AddToRoleAsync(newUser, "User");
 
             return CreatedAtAction(nameof(Register), new UserRegisterResultDTO { Succeeded = true });
         }
 
-        //private async Task SeedRoles()
-        //{
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.SuperAdmin));
+        private async Task SeedRoles()
+        {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+                await _roleManager.CreateAsync(new AppRole("Admin"));
 
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.MaintenanceAdmin))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.MaintenanceAdmin));
-
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.QulityAdmin))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.QulityAdmin));
-
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.BuyAdmin))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.BuyAdmin));
-
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.SuperVisor))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.SuperVisor));
-
-        //    if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-        //        await _roleManager.CreateAsync(new AppRole(UserRoles.User));
-        //}
+            if (!await _roleManager.RoleExistsAsync("User"))
+                await _roleManager.CreateAsync(new AppRole("User"));
+        }
 
         [HttpPost]
         [Route("login")]
@@ -238,17 +250,17 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
-        [Route("Put/{Id:Guid}")]
-        public async Task<ActionResult> Put([FromBody] UserDTO userDTO, Guid Id)
+        [Route("PutUser/{Id:Guid}")]
+        public async Task<ActionResult> PutUser([FromBody] UserDTO userDTO,Guid Id)
         {
             if (userDTO == null || userDTO.Id != Id)
                 return NotFound();
 
-            var data = await db.Users.FindAsync(Id);
+            var data = await db.Users.FindAsync(userDTO.Id);
             data.FirstName = userDTO.FirstName;
             data.LastName = userDTO.LastName;
-            data.Father= userDTO.Father;
-            data.Direction_Id= userDTO.Direction_Id;
+            data.Father = userDTO.Father;
+            data.Direction_Id = userDTO.Direction_Id;
 
             db.Entry(data).State = EntityState.Modified;
             try
@@ -263,6 +275,51 @@ namespace Clearance.Server.Controllers
             catch (DbUpdateException)
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [HttpGet("Search/{Name}")]
+        public async Task<ActionResult<List<UserDTO>>> Search(string Name)
+        {
+            var data =  await (
+            from a in db.Users
+            where a.FirstName.Contains(Name) || a.LastName.Contains(Name) 
+            || a.Father.Contains(Name)|| a.UserName.Contains(Name)
+            select new UserDTO
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Father = a.Father,
+                FullName = a.FirstName + " " + a.Father + " " + a.LastName,
+                DirectionName = a.Direction.Name,
+                Direction_Id = a.Direction_Id,
+                UserName = a.UserName
+            }
+               ).ToListAsync();
+
+            return Ok(data);
+        }
+
+
+        [HttpDelete("Delete/{Id:Guid}")]
+        public async Task<ActionResult<bool>> Delete(Guid Id)
+        {
+            var data = await db.Users.FindAsync(Id);
+            if (data == null)
+            {
+                return NotFound(false);
+            }
+            db.Remove(data);
+            try
+            {
+                await db.SaveChangesAsync();
+                return Ok(true);
+            }
+            catch (Exception)
+            {
+                return BadRequest(false);
             }
            
         }

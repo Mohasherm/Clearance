@@ -3,6 +3,7 @@
 @inject DirectionService ser
 @inject NavigationManager navManager
 @inject IJSRuntime js
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView Context="aContext">
     <Authorized>
