@@ -1,26 +1,28 @@
 ﻿using Clearance.Server.Repo.IRepo;
 using Clearance.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Clearance.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DirectionController : ControllerBase
+    public class CollageController : ControllerBase
     {
-        private readonly IDirectionService directionService;
+        private readonly ICollageService collageService;
 
-        public DirectionController(IDirectionService directionService)
+        public CollageController(ICollageService collageService)
         {
-            this.directionService = directionService;
+            this.collageService = collageService;
         }
 
         [HttpGet]
         [Route("Search/{Name}")]
-        public async Task<ActionResult<List<DirectionDTO>>> Search(string Name)
+        public async Task<ActionResult<List<CollageDTO>>> Search(string Name)
         {
-            var c = await directionService.Search(Name);
+            var c = await collageService.Search(Name);
             if (c == null)
             {
                 return NoContent();
@@ -31,9 +33,9 @@ namespace Clearance.Server.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<ActionResult<List<DirectionDTO>>> GetAll()
+        public async Task<ActionResult<List<CollageDTO>>> GetAll()
         {
-            var c = await directionService.GetAll();
+            var c = await collageService.GetAll();
             if (c == null)
             {
                 return NoContent();
@@ -44,9 +46,9 @@ namespace Clearance.Server.Controllers
 
         [HttpGet("GetById/{Id}")]
 
-        public async Task<ActionResult<DirectionDTO>> GetByID(int Id)
+        public async Task<ActionResult<CollageDTO>> GetByID(int Id)
         {
-            var c = await directionService.GetById(Id);
+            var c = await collageService.GetById(Id);
             if (c == null)
             {
                 return NoContent();
@@ -56,11 +58,10 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("Post")]
-        public async Task<ActionResult> Post([FromBody] DirectionDTO directionDTO)
+        public async Task<ActionResult> Post([FromBody] CollageDTO collageDTO)
         {
-            var data = await directionService.Insert(directionDTO);
+            var data = await collageService.Insert(collageDTO);
             if (data)
                 return Ok();
             else
@@ -68,22 +69,20 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
         [Route("Put/{Id}")]
-        public async Task<ActionResult> Put([FromBody] DirectionDTO directionDTO, int Id)
+        public async Task<ActionResult> Put([FromBody] CollageDTO collageDTO, int Id)
         {
-            var data = await directionService.Update(directionDTO, Id);
+            var data = await collageService.Update(collageDTO, Id);
             if (data)
                 return Ok();
             else
                 return BadRequest();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{Id}")]
         public async Task<ActionResult<bool>> Delete(int Id)
         {
-            var result = await directionService.Delete(Id);
+            var result = await collageService.Delete(Id);
             if (result)
             {
                 return Ok();
@@ -91,5 +90,6 @@ namespace Clearance.Server.Controllers
 
             return BadRequest();
         }
+
     }
 }

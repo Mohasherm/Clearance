@@ -12,6 +12,8 @@ namespace Clearance.Server.Data
         }
 
         public DbSet<Direction> Directions { get; set; }
+        public DbSet<Collage> Collages { get; set; }
+        public DbSet<CollageDirection> CollageDirections { get; set; }
 
     }
 }

@@ -19,5 +19,6 @@ builder.Services.AddScoped<AuthenticationHttpClient>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());
 builder.Services.AddScoped<DirectionService>();
+builder.Services.AddScoped<CollageService>();
 
 await builder.Build().RunAsync();
