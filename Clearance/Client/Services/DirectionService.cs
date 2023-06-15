@@ -19,8 +19,7 @@ namespace Clearance.Client.Services
         public async Task<List<DirectionDTO>?> GetAll()
         {
             var token = await tokenService.GetToken();
-
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
@@ -30,7 +29,7 @@ namespace Clearance.Client.Services
         {
             var token = await tokenService.GetToken();
 
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
@@ -41,7 +40,7 @@ namespace Clearance.Client.Services
         {
             var token = await tokenService.GetToken();
 
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
@@ -66,7 +65,7 @@ namespace Clearance.Client.Services
         {
             var token = await tokenService.GetToken();
 
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
@@ -88,7 +87,7 @@ namespace Clearance.Client.Services
         {
             var token = await tokenService.GetToken();
 
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
@@ -110,7 +109,7 @@ namespace Clearance.Client.Services
         {
             var token = await tokenService.GetToken();
 
-            if (token != null && token.Expiration > DateTime.Now)
+            if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
