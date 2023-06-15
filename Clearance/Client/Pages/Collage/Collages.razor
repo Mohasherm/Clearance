@@ -1,21 +1,21 @@
-﻿@page "/Directions"
+﻿@page "/Collages"
 @inject NavigationManager navigate
-@inject DirectionService ser
+@inject CollageService ser
 @inject IJSRuntime js
-@attribute [Authorize(Roles ="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>الجهات</PageTitle>
+        <PageTitle>الكليات/المعاهد</PageTitle>
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
-                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddDirection/")"><i class="oi oi-plus"</i> إضافة جديد</a>
+                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddCollage")"><i class="oi oi-plus"></i> إضافة جديد</a>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-auto">
-                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم جهة للبحث..."></input>
+                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم الكلية/المعهد للبحث..."></input>
                     </div>
                     <div class="col-auto">
                         @if (!searching)
@@ -28,31 +28,32 @@
                         }
                     </div>
                 </div>
-                @if (lst_DirectionDTO != null && lst_DirectionDTO.Count > 0)
+                @if (lst_CollageDTO != null && lst_CollageDTO.Count > 0)
                 {
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th><i class="fa  pull-right hidden-xs"></i>اسم الجهة</th>
-                                <th><i class="fa  pull-right hidden-xs"></i> </th>
+                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الموظف المسؤول في المركز</th>
+                                <th><i class="fa pull-right hidden-xs"></i> </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var r in lst_DirectionDTO)
+                            @foreach (var r in lst_CollageDTO)
                             {
                                 <tr>
                                     <td>@r.Name</td>
+                                    <td>@r.UserName</td>
                                     <td>
-                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="oi oi-pencil"></i></a>
-                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="oi oi-trash"></i></a>
+                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditCollage/{r.Id}")"><i class="oi oi-pencil"></i></a>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteCollage/{r.Id}")"><i class="oi oi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
                 }
-                else if (lst_DirectionDTO.Count == 0)
+                else if (lst_CollageDTO.Count == 0)
                 {
                     <div class="alert alert-primary" role="alert">
                         لا توجد بيانات
@@ -77,12 +78,12 @@
 </AuthorizeView>
 
 @code {
-    List<DirectionDTO>? lst_DirectionDTO = new();
+    List<CollageDTO>? lst_CollageDTO = new();
     public string NameFilter { get; set; } = string.Empty;
     bool searching = false;
     protected override async Task OnInitializedAsync()
     {
-        lst_DirectionDTO = await ser.GetAll();
+        lst_CollageDTO = await ser.GetAll();
     }
 
     async Task search()
@@ -90,14 +91,13 @@
         searching = true;
         if (string.IsNullOrEmpty(NameFilter))
         {
-            lst_DirectionDTO = await ser.GetAll();
+            lst_CollageDTO = await ser.GetAll();
         }
         else
         {
-            lst_DirectionDTO = await ser.Search(NameFilter);
+            lst_CollageDTO = await ser.Search(NameFilter);
         }
         searching = false;
     }
 
-   
 }

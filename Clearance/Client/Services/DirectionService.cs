@@ -8,9 +8,9 @@ namespace Clearance.Client.Services
     public class DirectionService
     {
         private readonly HttpClient httpClient;
-        private readonly TokenService tokenService;
+        private readonly ITokenService tokenService;
 
-        public DirectionService(HttpClient httpClient, TokenService tokenService)
+        public DirectionService(HttpClient httpClient, ITokenService tokenService)
         {
             this.httpClient = httpClient;
             this.tokenService = tokenService;

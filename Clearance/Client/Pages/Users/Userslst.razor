@@ -4,7 +4,7 @@
 @inject IJSRuntime js
 @attribute [Authorize(Roles = "Admin")]
 
-<AuthorizeView>
+<AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>الجهات</PageTitle>
 
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-auto">
-                        <InputText class="form-control" @bind-Value="NameFilter" placeholder="ادخل اسم الموظف..."></InputText>
+                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم الموظف..."></input>
                     </div>
                     <div class="col-auto">
                         @if (!searching)
