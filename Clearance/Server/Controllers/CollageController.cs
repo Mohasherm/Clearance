@@ -7,6 +7,7 @@ using System.Data;
 
 namespace Clearance.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CollageController : ControllerBase
@@ -58,6 +59,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("Post")]
         public async Task<ActionResult> Post([FromBody] CollageDTO collageDTO)
         {
@@ -69,6 +71,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("Put/{Id}")]
         public async Task<ActionResult> Put([FromBody] CollageDTO collageDTO, int Id)
         {
@@ -79,6 +82,7 @@ namespace Clearance.Server.Controllers
                 return BadRequest();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{Id}")]
         public async Task<ActionResult<bool>> Delete(int Id)
         {
