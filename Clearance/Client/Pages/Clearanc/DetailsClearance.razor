@@ -1,0 +1,114 @@
+﻿@page "/DetailsClearance/{Id:int}"
+@inject ClearanceService ser
+@inject NavigationManager navManager
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>تفاصيل براءة الذمة</PageTitle>
+
+        @if (clearanceDTO != null)
+        {
+            <div class="card ">
+                <div class="card-header bg-dark text-white">
+                    تفاصيل براءة الذمة
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><strong>اسم الطالب</strong></td>
+                                <td>@clearanceDTO.FirstName</td>
+                            </tr> 
+                            <tr>
+                                <td><strong>الكنية</strong></td>
+                                <td>@clearanceDTO.LastName</td>
+                            </tr> 
+                            <tr>
+                                <td><strong>اسم الأب</strong></td>
+                                <td>@clearanceDTO.Father</td>
+                            </tr>
+                            <tr>
+                                <td><strong>اسم الأم</strong></td>
+                                <td>@clearanceDTO.Mother</td>
+                            </tr>
+                           
+                            <tr>
+                                <td><strong>الرقم الجامعي</strong></td>
+                                <td>@clearanceDTO.UnivNum </td>
+                            </tr>
+                            <tr>
+                                <td><strong>الرقم الوطني</strong></td>
+                                <td>@clearanceDTO.NationalNum</td>
+                            </tr>
+                            <tr>
+                                <td><strong>الكلية/المعهد</strong></td>
+                                <td>@clearanceDTO.CollageName </td>
+                            </tr>
+                            <tr>
+                                <td><strong>القسم</strong></td>
+                                <td>@clearanceDTO.Department </td>
+                            </tr>
+                            <tr>
+                                <td><strong>تاريخ المراجعة</strong></td>
+                                <td>@clearanceDTO.AppointmentDate</td>
+                            </tr>  
+                            <tr>
+                                <td><strong>الموظف مدخل الطلب</strong></td>
+                                <td>@clearanceDTO.UserName</td>
+                            </tr>
+                            <tr>
+                                <td><strong>تاريخ تقديم الطلب</strong></td>
+                                <td>@clearanceDTO.OrderApplyDate</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group d-flex justify-content-center">
+                     @*   <button class="btn btn-danger mx-2" @onclick="Delete">حذف</button>*@
+                        <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                لا توجد بيانات
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            ليس لديك صلاحية
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private ClearanceDTO? clearanceDTO = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+        {
+            clearanceDTO = await ser.GetById(Id);
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", "براءة الذمة غير صالحة");
+            navManager.NavigateTo("/Clearances");
+        }
+
+    }
+  
+    void Cancel()
+    {
+        navManager.NavigateTo("/Clearances");
+    }
+}
