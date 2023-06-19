@@ -26,12 +26,12 @@ namespace Clearance.Client.Authentication
         {
             try
             {
-                //var token = await tokenService.GetToken();
+                var token = await tokenService.GetToken();
 
-                //if (token != null && token.Expiration > DateTime.Now)
-                //{
-                //    http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
-                //}
+                if (token != null && token.Expiration > DateTime.UtcNow)
+                {
+                    http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+                }
 
                 var response = await http.PostAsJsonAsync("api/User/register", userRegisterDTO);
                 var result = await response.Content.ReadFromJsonAsync<UserRegisterResultDTO>();
@@ -84,12 +84,12 @@ namespace Clearance.Client.Authentication
 
         public async Task<bool> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
-            //var token = await tokenService.GetToken();
+            var token = await tokenService.GetToken();
 
-            //if (token != null && token.Expiration > DateTime.Now)
-            //{
-            //    http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
-            //}
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
 
             var response = await http.PostAsJsonAsync("api/User/ChangePassword", changePasswordDTO);
             if (response.IsSuccessStatusCode)
@@ -106,6 +106,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<UserDTO?> GetUser(string Email)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.GetAsync($"api/User/GetUser/{Email}");
             if (response.IsSuccessStatusCode)
             {
@@ -123,6 +130,13 @@ namespace Clearance.Client.Authentication
         }
         public async Task<UserDTO?> GetUserById(string Id)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.GetAsync($"api/User/GetUserById/{new Guid(Id)}");
             if (response.IsSuccessStatusCode)
             {
@@ -141,6 +155,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<List<UserDTO>?> GetUsers()
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.GetAsync($"api/User/GetUsers");
             if (response.IsSuccessStatusCode)
             {
@@ -159,6 +180,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<IList<string>?> GetRoleForUser(Guid Id)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.GetAsync($"api/User/GetRoleForUser/{Id}");
             if (response.IsSuccessStatusCode)
             {
@@ -178,6 +206,12 @@ namespace Clearance.Client.Authentication
 
         public async Task<List<UserDTO>?> GetUserRoles(string RoleName)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
 
             var response = await http.GetAsync($"api/User/GetUserRoles/{RoleName}");
             if (response.IsSuccessStatusCode)
@@ -197,6 +231,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<bool> SetRole(UserRolesDTO userRolesDTO)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.PostAsJsonAsync("api/User/SetUserRole", userRolesDTO);
             if (response.IsSuccessStatusCode)
             {
@@ -212,6 +253,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<bool> Update(UserDTO userDTO, Guid Id)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             if (userDTO.DirectionName is null)
             {
                 userDTO.DirectionName = string.Empty;
@@ -236,6 +284,13 @@ namespace Clearance.Client.Authentication
 
         public async Task<bool> Delete(Guid Id)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
             var response = await http.DeleteAsync($"api/User/Delete/{Id}");
 
             if (response.IsSuccessStatusCode)
@@ -252,6 +307,12 @@ namespace Clearance.Client.Authentication
 
         public async Task<List<UserDTO>?> Search(string? Name)
         {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
             return await http.GetFromJsonAsync<List<UserDTO>>($"api/User/Search/{Name}");
         }
     }

@@ -1,0 +1,154 @@
+﻿@page "/Clearances"
+@inject NavigationManager navigate
+@inject ClearanceService ser
+@inject AuthenticationHttpClient http
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>الكليات/المعاهد</PageTitle>
+
+        <div class="card ">
+            <div class="card-header bg-dark text-white">
+                @if (user.User.IsInRole("User"))
+                {
+                    <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddClearance")"><i class="oi oi-plus"></i> إضافة جديد</a>
+                }
+                else
+                {
+                    <p>طلبات براءة الذمة</p>
+                }
+            </div>
+            <div class="card-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-auto">
+                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم الكلية/المعهد للبحث..."></input>
+                    </div>
+                    <div class="col-auto">
+                        @if (!searching)
+                        {
+                            <button class="btn btn-outline-info" @onclick="search">بحث</button>
+                        }
+                        else
+                        {
+                            <p>يتم البحث الآن ...</p>
+                        }
+                    </div>
+                </div>
+                @if (lst_ClearanceDTO != null && lst_ClearanceDTO.Count > 0)
+                {
+                    <table class="table table-sm table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الموظف المسؤول في المركز</th>
+                                <th><i class="fa pull-right hidden-xs"></i> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in lst_ClearanceDTO)
+                            {
+                                <tr>
+                                    <td>@r.FirstName + @r.Father + @r.LastName</td>
+                                    <td>@r.NationalNum</td>
+                                    <td>@r.UnivNum</td>
+                                    <td>@r.Department</td>
+                                    <td>@r.OrderApplyDate</td>
+                                    <td>
+                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetaisClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        @if (user.User.IsInRole("Admin"))
+                                        {
+                                            <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditClearance/{r.Id}")"><i class="oi oi-pencil"></i></a>
+                                            <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteClearance/{r.Id}")"><i class="oi oi-trash"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else if (lst_ClearanceDTO.Count == 0)
+                {
+                    <div class="alert alert-primary" role="alert">
+                        لا توجد بيانات
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            you are not authoriazed
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { set; get; }
+    AuthenticationState user;
+    List<ClearanceDTO>? lst_ClearanceDTO = new();
+    public string NameFilter { get; set; } = string.Empty;
+    bool searching = false;
+    UserDTO userDTO = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        user = await authenticationState;
+        if (user != null && user.User.Identity.IsAuthenticated)
+        {
+            var Email = user.User.Identity.Name;
+            if (user.User.IsInRole("Admin") || user.User.IsInRole("SuperVisor"))
+            {
+                lst_ClearanceDTO = await ser.GetAll();
+
+            }
+            else if (user.User.IsInRole("User"))
+            {
+                userDTO = await http.GetUser(Email);
+                lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
+            }
+        }
+    }
+
+    async Task search()
+    {
+        searching = true;
+
+        if (string.IsNullOrEmpty(NameFilter))
+        {
+            if (user.User.IsInRole("Admin") || user.User.IsInRole("SuperVisor"))
+            {
+                lst_ClearanceDTO = await ser.GetAll();
+            }
+            else if (user.User.IsInRole("User"))
+            {
+                lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
+            }
+        }
+        else
+        {
+            if (user.User.IsInRole("Admin") || user.User.IsInRole("SuperVisor"))
+            {
+                lst_ClearanceDTO = await ser.Search(NameFilter);
+            }
+            else if (user.User.IsInRole("User"))
+            {
+                lst_ClearanceDTO = await ser.Search(userDTO.Id, NameFilter);
+            }
+        }
+        searching = false;
+    }
+
+}

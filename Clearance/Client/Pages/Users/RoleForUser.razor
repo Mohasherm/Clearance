@@ -1,0 +1,91 @@
+﻿@page "/RoleForUser"
+@inject AuthenticationHttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>صلاحيات المستخدمين</PageTitle>
+                <button class="btn rounded btn-outline-success mb-2" @onclick="AddNew">إضافة صلاحية</button>
+         <div class="card ">
+            <div class="card-header bg-dark text-white">
+                 <select @onchange="Search" class="form-select">
+                        <option value="">إختر مستخدم</option>
+                        @foreach (var user in lst_Users)
+                        {
+                            <option value="@user.Id">@user.UserName</option>
+                        }
+                    </select>
+            </div>
+            <div class="card-body">
+                @if (lst_roles != null && lst_roles.Count > 0)
+                {
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الصلاحيات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in lst_roles)
+                            {
+                                <tr>
+                                    <td>@r</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            ليس لديك صلاحية
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<UserDTO>? lst_Users { get; set; } = new();
+    private IList<string>? lst_roles { get; set; }
+    private Guid userID;
+    protected override async Task OnInitializedAsync()
+    {
+        lst_Users = await Http.GetUsers();
+    }
+
+    async void Search(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(e.Value.ToString()))
+        {
+            userID = new Guid(e.Value.ToString());
+            lst_roles = await Http.GetRoleForUser(userID);
+            StateHasChanged();
+        }
+        else
+        {
+            lst_roles = null;
+            await js.InvokeVoidAsync("alert", "إختر مستخدم");
+        }
+    }
+
+    async void AddNew()
+    {
+        if (!userID.Equals(new Guid("00000000-0000-0000-0000-000000000000")))
+        {
+            NavigationManager.NavigateTo($"/AddRole/{userID.ToString()}");
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert","إختر مستخدم");
+        }
+    }
+}
