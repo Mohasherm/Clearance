@@ -7,7 +7,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>الكليات/المعاهد</PageTitle>
+        <PageTitle>طلبات براءة الذمة</PageTitle>
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
@@ -59,7 +59,7 @@
                                     <td>@r.Department</td>
                                     <td>@r.OrderApplyDate</td>
                                     <td>
-                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetaisClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
                                         @if (user.User.IsInRole("Admin"))
                                         {
                                             <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditClearance/{r.Id}")"><i class="oi oi-pencil"></i></a>

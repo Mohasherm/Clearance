@@ -83,7 +83,7 @@ namespace Clearance.Server.Controllers
             return Ok(c);
         }
 
-        [Authorize(Roles = "Admin")]
+    
         [HttpGet("GetById/{Id}")]
         public async Task<ActionResult<ClearanceDTO>> GetByID(int Id)
         {
