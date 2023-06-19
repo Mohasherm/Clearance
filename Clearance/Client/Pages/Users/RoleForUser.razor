@@ -2,6 +2,8 @@
 @inject AuthenticationHttpClient Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
+@attribute [Authorize(Roles = "Admin")]
+
 <AuthorizeView>
     <Authorized>
         <PageTitle>صلاحيات المستخدمين</PageTitle>

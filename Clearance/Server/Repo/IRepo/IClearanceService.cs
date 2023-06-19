@@ -8,8 +8,8 @@ namespace Clearance.Server.Repo.IRepo
         Task<List<ClearanceDTO>> GetAllByUserId(Guid Id);
         Task<List<ClearanceDTO>> GetAllByState(string State);
         Task<ClearanceDTO?> GetById(int id);
-        Task<List<ClearanceDTO>> Search(Guid Id,string? Name);
-        Task<List<ClearanceDTO>> Search(string? Name);
+        Task<List<ClearanceDTO>> Search(Guid Id,string Name);
+        Task<List<ClearanceDTO>> Search(string Name);
         Task<bool> Insert(ClearanceDTO clearanceDTO);
 
         Task<bool> Update(ClearanceDTO clearanceDTO, int Id);

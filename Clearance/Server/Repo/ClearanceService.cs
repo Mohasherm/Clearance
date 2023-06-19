@@ -174,7 +174,7 @@ namespace Clearance.Server.Repo
             }
         }
 
-        public async Task<List<ClearanceDTO>> Search(string? Name)
+        public async Task<List<ClearanceDTO>> Search(string Name)
         {
             return await (
            from a in db.Clearances
@@ -182,12 +182,12 @@ namespace Clearance.Server.Repo
                  a.LastName.Contains(Name) ||
                  a.Father.Contains(Name) ||
                  a.Mother.Contains(Name) ||
-                 a.UnivNum.ToString().Contains(Name) ||
-                 a.NationalNum.ToString().Contains(Name) ||
+                 a.UnivNum.Contains(Name) ||
+                 a.NationalNum.Contains(Name) ||
                  a.Collage.Name.Contains(Name) ||
                  a.Department.Contains(Name) ||
-                 a.Mobile.ToString().Contains(Name) ||
-                 a.State.Contains(Name) 
+                 a.Mobile.Contains(Name) ||
+                 a.State.Contains(Name)
            select new ClearanceDTO
            {
                Id = a.Id,
@@ -211,7 +211,7 @@ namespace Clearance.Server.Repo
               ).ToListAsync();
         }
 
-        public async Task<List<ClearanceDTO>> Search(Guid Id, string? Name)
+        public async Task<List<ClearanceDTO>> Search(Guid Id, string Name)
         {
             return await(
             from a in db.Clearances
@@ -219,12 +219,14 @@ namespace Clearance.Server.Repo
                   a.LastName.Contains(Name) ||
                   a.Father.Contains(Name) ||
                   a.Mother.Contains(Name) ||
-                  a.UnivNum.ToString().Contains(Name) ||
-                  a.NationalNum.ToString().Contains(Name) ||
+                  a.UnivNum.Contains(Name) ||
+                  a.NationalNum.Contains(Name) ||
                   a.Collage.Name.Contains(Name) ||
                   a.Department.Contains(Name) ||
-                  a.Mobile.ToString().Contains(Name) ||
-                  a.State.Contains(Name)) && a.UserId == Id
+                  a.Mobile.Contains(Name) ||
+                  a.State.Contains(Name)
+                  ) 
+                  && a.UserId == Id
             select new ClearanceDTO
             {
                 Id = a.Id,
