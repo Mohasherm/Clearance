@@ -42,7 +42,7 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
-            return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByState/{Id}");
+            return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByUserId/{Id}");
         }
 
         public async Task<ClearanceDTO?> GetById(int Id)
@@ -69,7 +69,7 @@ namespace Clearance.Client.Services
             }
         }
 
-        public async Task<List<ClearanceDTO>?> Search(string? Name)
+        public async Task<List<ClearanceDTO>?> Search(string Name)
         {
             var token = await tokenService.GetToken();
 
@@ -80,7 +80,7 @@ namespace Clearance.Client.Services
             return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/Search/{Name}");
         }
 
-         public async Task<List<ClearanceDTO>?> Search(Guid Id,string? Name)
+         public async Task<List<ClearanceDTO>?> Search(Guid Id,string Name)
         {
             var token = await tokenService.GetToken();
 

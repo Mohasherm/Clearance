@@ -9,8 +9,8 @@ namespace Clearance.Server.Data
         public string LastName { get; set; }
         public string Father { get; set; }
         public string Mother { get; set; }
-        public int UnivNum { get; set; }
-        public int NationalNum { get; set; }
+        public string UnivNum { get; set; }
+        public string NationalNum { get; set; }
         public int? CollageId { get; set; }
         public string Department { get; set; }
         public string Mobile { get; set; }

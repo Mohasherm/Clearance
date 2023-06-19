@@ -41,16 +41,19 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
-                                <th><i class="fa pull-right hidden-xs"></i>الموظف المسؤول في المركز</th>
-                                <th><i class="fa pull-right hidden-xs"></i> </th>
+                                <th><i class="fa pull-right hidden-xs"></i>اسم الطالب</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الرقم الوطني</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الرقم الجامعي</th>
+                                <th><i class="fa pull-right hidden-xs"></i>القسم / الاختصاص</th>
+                                <th><i class="fa pull-right hidden-xs"></i>تاريخ ووقت تقديم الطلب</th>
+                                <th><i class="fa pull-right hidden-xs"></i></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var r in lst_ClearanceDTO)
                             {
                                 <tr>
-                                    <td>@r.FirstName + @r.Father + @r.LastName</td>
+                                    <td>@r.FirstName  @r.Father  @r.LastName</td>
                                     <td>@r.NationalNum</td>
                                     <td>@r.UnivNum</td>
                                     <td>@r.Department</td>
