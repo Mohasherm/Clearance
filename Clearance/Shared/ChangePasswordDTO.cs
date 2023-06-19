@@ -10,15 +10,21 @@ namespace Clearance.Shared
     public class ChangePasswordDTO
     {
         public string Email { get; set; } = string.Empty;
-        [Required]
+
+
+        [Required(ErrorMessage = "يرجى إدخال كلمة المرور الحالية")]
         [DataType(DataType.Password)]
         public string CurrentPassword { get; set; } = string.Empty;
-        [Required]
+
+
+        [Required(ErrorMessage = "يرجى إدخال كلمة المرور الجديدة")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; } = string.Empty;
-        [Required]
+
+
+        [Required(ErrorMessage = "يرجى إدخال تأكيد كلمة المرور الجديدة")]
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "New password not match")]
+        [Compare("NewPassword", ErrorMessage = "كلمة المرور الجديدة غير متطابقة")]
         public string ConfirmNewPassword { get; set; } = string.Empty;
     }
 }

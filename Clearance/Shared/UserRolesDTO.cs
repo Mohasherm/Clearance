@@ -10,6 +10,8 @@ namespace Clearance.Shared
     public class UserRolesDTO
     {
         public Guid User_Id { get; set; }
+
+
         [Required]
         public string RoleName { get; set; }
     }

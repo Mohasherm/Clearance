@@ -5,10 +5,16 @@ namespace Clearance.Shared
     public class CollageDTO
     {
         public int Id { get; set; }
-        [Required]
+
+
+        [Required(ErrorMessage = "يرجى إدخال اسم المركز")]
         public string Name { get; set; }
-        [Required]
+
+
+        [Required(ErrorMessage = "يرجى اختيار مسؤول المركز")]
         public Guid? UserId { get; set; }
+
+
         public string? UserName { get; set; }
     }
 }
