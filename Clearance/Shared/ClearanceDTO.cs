@@ -14,10 +14,12 @@ namespace Clearance.Shared
         [Required]
         public string Mother { get; set; } = string.Empty;
         [Required]
-        public int UnivNum { get; set; }
+        [MinLength(3)]
+        [RegularExpression(@"^([0-9]*)$", ErrorMessage = "الرقم الجامعي غير صالح")]
+        public string UnivNum { get; set; }
         [Required]
-        [Range(0, int.MaxValue)]
-        public int NationalNum { get; set; }
+        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "الرقم الوطني غير صالح")]
+        public string NationalNum { get; set; }
         [Required]
         public int? CollageId { get; set; }
         public string CollageName { get; set; } = string.Empty;

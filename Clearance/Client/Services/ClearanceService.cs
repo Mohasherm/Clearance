@@ -42,7 +42,7 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
-            return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByState/{Id}");
+            return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByUserId/{Id}");
         }
 
         public async Task<ClearanceDTO?> GetById(int Id)
