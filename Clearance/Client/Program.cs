@@ -21,5 +21,6 @@ builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.Get
 builder.Services.AddScoped<DirectionService>();
 builder.Services.AddScoped<CollageService>();
 builder.Services.AddScoped<CollageDirectionService>();
+builder.Services.AddScoped<ClearanceService>();
 
 await builder.Build().RunAsync();

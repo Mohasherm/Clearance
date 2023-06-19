@@ -60,6 +60,20 @@ namespace Clearance.Server.Repo
                   ).FirstOrDefaultAsync();
         }
 
+        public async Task<CollageDTO?> GetByUser(Guid Id)
+        {
+            return await(
+                from a in db.Collages
+                select new CollageDTO
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    UserId = (Guid)a.UserId,
+                    UserName = a.AppUser.FirstName + " " + a.AppUser.LastName
+                }
+                   ).FirstOrDefaultAsync(x => x.UserId == Id);
+        }
+
         public async Task<bool> Insert(CollageDTO directionDTO)
         {
             await db.Collages.AddAsync(new Collage

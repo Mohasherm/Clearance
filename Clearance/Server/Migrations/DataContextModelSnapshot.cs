@@ -133,6 +133,76 @@ namespace Clearance.Server.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Clearance.Server.Data.Clearance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CollageId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Father")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mother")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NationalNum")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderApplyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("OrderRecieveDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnivNum")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollageId");
+
+                    b.HasIndex("NationalNum")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Clearances");
+                });
+
             modelBuilder.Entity("Clearance.Server.Data.Collage", b =>
                 {
                     b.Property<int>("Id")
@@ -305,6 +375,23 @@ namespace Clearance.Server.Migrations
                         .HasForeignKey("Direction_Id");
 
                     b.Navigation("Direction");
+                });
+
+            modelBuilder.Entity("Clearance.Server.Data.Clearance", b =>
+                {
+                    b.HasOne("Clearance.Server.Data.Collage", "Collage")
+                        .WithMany()
+                        .HasForeignKey("CollageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clearance.Server.Data.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Collage");
                 });
 
             modelBuilder.Entity("Clearance.Server.Data.Collage", b =>

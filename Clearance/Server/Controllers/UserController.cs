@@ -1,6 +1,7 @@
 ﻿using Clearance.Server.Data;
 using Clearance.Server.Repo.IRepo;
 using Clearance.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace Clearance.Server.Controllers
 
         [HttpGet]
         [Route("GetUsers")]
+        [Authorize]
         public async Task<ActionResult<List<UserDTO>>> GetUsers()
         {
             var c = await (from u in db.Users
@@ -53,6 +55,7 @@ namespace Clearance.Server.Controllers
 
         [HttpGet]
         [Route("GetUser/{Email}")]
+        [Authorize]
         public async Task<ActionResult<UserDTO>> GetUser(string Email)
         {
             var c = await (from u in db.Users
@@ -66,7 +69,7 @@ namespace Clearance.Server.Controllers
                                FullName = u.FirstName + " " + u.Father + " " + u.LastName,
                                DirectionName = u.Direction.Name,
                                Direction_Id = u.Direction_Id,
-                               UserName = u.UserName
+                               UserName = u.UserName,
                            }).FirstOrDefaultAsync();
             if (c == null)
             {
@@ -77,6 +80,7 @@ namespace Clearance.Server.Controllers
         }
         [HttpGet]
         [Route("GetUserById/{Id:Guid}")]
+        [Authorize]
         public async Task<ActionResult<UserDTO>> GetUserById(Guid Id)
         {
             var c = await (from u in db.Users
@@ -105,6 +109,7 @@ namespace Clearance.Server.Controllers
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO userRegisterDTO)
         {
             IdentityResult result;
@@ -139,6 +144,9 @@ namespace Clearance.Server.Controllers
         {
             if (!await _roleManager.RoleExistsAsync("Admin"))
                 await _roleManager.CreateAsync(new AppRole("Admin"));
+
+            if (!await _roleManager.RoleExistsAsync("SuperVisor"))
+                await _roleManager.CreateAsync(new AppRole("SuperVisor"));
 
             if (!await _roleManager.RoleExistsAsync("User"))
                 await _roleManager.CreateAsync(new AppRole("User"));
@@ -178,6 +186,7 @@ namespace Clearance.Server.Controllers
 
         [HttpPost]
         [Route("ChangePassword")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
         {
@@ -194,6 +203,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpGet("GetRoleForUser/{Id:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IList<string>>> GetRoleForUser(Guid Id)
         {
             var user = await db.Users.FirstOrDefaultAsync(x => x.Id == Id);
@@ -211,6 +221,7 @@ namespace Clearance.Server.Controllers
 
 
         [HttpGet("GetUserRoles/{RoleName:alpha}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserDTO>>> GetUserRoles(string RoleName)
         {
             var Roles = await _userManager.GetUsersInRoleAsync(RoleName);
@@ -234,6 +245,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("SetUserRole")]
         public async Task<IActionResult> SetUserRole([FromBody] UserRolesDTO userRolesDTO)
         {
@@ -250,8 +262,9 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("PutUser/{Id:Guid}")]
-        public async Task<ActionResult> PutUser([FromBody] UserDTO userDTO,Guid Id)
+        public async Task<ActionResult> PutUser([FromBody] UserDTO userDTO, Guid Id)
         {
             if (userDTO == null || userDTO.Id != Id)
                 return NotFound();
@@ -279,13 +292,14 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [HttpGet("Search/{Name}")]
         public async Task<ActionResult<List<UserDTO>>> Search(string Name)
         {
-            var data =  await (
+            var data = await (
             from a in db.Users
-            where a.FirstName.Contains(Name) || a.LastName.Contains(Name) 
-            || a.Father.Contains(Name)|| a.UserName.Contains(Name)
+            where a.FirstName.Contains(Name) || a.LastName.Contains(Name)
+            || a.Father.Contains(Name) || a.UserName.Contains(Name)
             select new UserDTO
             {
                 Id = a.Id,
@@ -303,6 +317,7 @@ namespace Clearance.Server.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{Id:Guid}")]
         public async Task<ActionResult<bool>> Delete(Guid Id)
         {
@@ -321,7 +336,7 @@ namespace Clearance.Server.Controllers
             {
                 return BadRequest(false);
             }
-           
+
         }
     }
 }

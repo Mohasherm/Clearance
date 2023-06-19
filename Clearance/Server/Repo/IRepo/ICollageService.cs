@@ -5,6 +5,7 @@ namespace Clearance.Server.Repo.IRepo
     public interface ICollageService
     {
         Task<CollageDTO?> GetById(int id);
+        Task<CollageDTO?> GetByUser(Guid Id);
         Task<List<CollageDTO>> GetAll();
         Task<List<CollageDTO>> Search(string? Name);
         Task<bool> Insert(CollageDTO directionDTO);

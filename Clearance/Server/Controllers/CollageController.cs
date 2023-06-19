@@ -46,7 +46,6 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpGet("GetById/{Id}")]
-
         public async Task<ActionResult<CollageDTO>> GetByID(int Id)
         {
             var c = await collageService.GetById(Id);
@@ -57,6 +56,19 @@ namespace Clearance.Server.Controllers
 
             return Ok(c);
         }
+
+        [HttpGet("GetByUser/{Id:Guid}")]
+        public async Task<ActionResult<CollageDTO>> GetByUser(Guid Id)
+        {
+            var c = await collageService.GetByUser(Id);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin")]

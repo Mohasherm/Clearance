@@ -1,0 +1,132 @@
+﻿@page "/AddClearance"
+@inject ClearanceService ser
+@inject CollageService colSer
+@inject AuthenticationHttpClient http
+@inject NavigationManager navManager
+@inject IJSRuntime js
+@attribute [Authorize(Roles = "User")]
+
+
+<AuthorizeView Context="aContext">
+    <Authorized>
+        <PageTitle>براءة ذمة جديدة</PageTitle>
+        @if (clearanceDTO is not null && collageDTO is not null)
+        {
+            <div class="card ">
+                <div class="card-header bg-dark text-white">
+                    براءة ذمة جديدة
+                </div>
+                <div class="card-body">
+                    <EditForm Model="clearanceDTO" OnValidSubmit="Save">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="form-group">
+                            <label for="FirstName">اسم الطالب</label>
+                            <InputText id="FirstName" class="form-control mb-2" @bind-Value="clearanceDTO.FirstName" placeholder="اسم الطالب"></InputText>
+                            <label for="LastName">الكنية</label>
+                            <InputText id="LastName" class="form-control mb-2" @bind-Value="clearanceDTO.LastName" placeholder="الكنية"></InputText>
+                            <label for="Father">اسم الأب</label>
+                            <InputText id="Father" class="form-control mb-2" @bind-Value="clearanceDTO.Father" placeholder="اسم الأب"></InputText>
+                            <label for="Mother">اسم الأم</label>
+                            <InputText id="Mother" class="form-control mb-2" @bind-Value="clearanceDTO.Mother" placeholder="اسم الأم"></InputText>
+                            <label for="UnivNum">الرقم الجامعي</label>
+                            <input id="UnivNum" class="form-control mb-2" @bind-value="clearanceDTO.UnivNum" placeholder="الرقم الجامعي"></input>
+                            <label for="NationalNum">الرقم الوطني</label>
+                            <input id="NationalNum" class="form-control mb-2" @bind-value="clearanceDTO.NationalNum" placeholder="الرقم الوطني"></input>
+                            <label for="CollageId">كلية / معهد الطالب</label>
+                            <input readonly id="CollageId" class="form-control mb-2" @bind-value="collageDTO.Name" placeholder="كلية / معهد الطالب"></input>
+                            <label for="Department">القسم / الاختصاص</label>
+                            <InputText id="Department" class="form-control mb-2" @bind-Value="clearanceDTO.Department" placeholder="القسم / الاختصاص"></InputText>
+                            <label for="UserId">الموظف مدخل البيانات</label>
+                            <input readonly id="UserId" class="form-control mb-2" @bind-value="userDTO.FullName" placeholder="الموظف مدخل البيانات"></input>
+                            <label for="Mobile">رقم الموبايل</label>
+                            <InputText id="Mobile" class="form-control mb-2" @bind-Value="clearanceDTO.Mobile" placeholder="09..."></InputText>
+
+                            @if (Id > 0)
+                            {
+                                <label for="AppointmentDate">تاريخ المراجعة</label>
+                                <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.AppointmentDate" placeholder="الموظف مدخل البيانات"></input>
+                                <label for="AppointmentDate">تاريخ المراجعة</label>
+                                <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.AppointmentDate" placeholder="الموظف مدخل البيانات"></input>
+                            }
+                            <div class="form-group d-flex justify-content-center">
+                                <button class="btn btn-success mx-2" type="submit">حفظ</button>
+                                <button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>
+                            </div>
+                        </div>
+
+                    </EditForm>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            you are not authoriazed
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { set; get; }
+    AuthenticationState user;
+
+    private ClearanceDTO? clearanceDTO;
+    private UserDTO userDTO ;
+    private CollageDTO collageDTO ;
+
+    protected string title = "";
+    bool adding;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clearanceDTO = new();
+        user = await authenticationState;
+        var Email = user.User.Identity.Name;
+        userDTO = await http.GetUser(Email);
+        collageDTO = await colSer.GetByUser(userDTO.Id);
+        if (collageDTO is null)
+        {
+            await js.InvokeVoidAsync("alert", "هذا المستخدم غير مسؤول عن اي مركز. الرجاء تعيين المستخدم كمسؤول مركز");
+            navManager.NavigateTo("/Clearances");
+        }
+        else
+        {
+            clearanceDTO.UserId = userDTO.Id;
+            clearanceDTO.CollageId = collageDTO.Id;
+        }
+    }
+
+    async void Save()
+    {
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع أو تعديل أي حقل لاحقاً");
+        if (confirmed)
+        {
+            bool result = false;
+
+            clearanceDTO.AppointmentDate = DateTime.Now.AddDays(7);
+            clearanceDTO.OrderApplyDate = DateTime.Now;
+            clearanceDTO.OrderRecieveDate = null;
+            clearanceDTO.State = "قيد المعالجة";
+            result = await ser.Insert(clearanceDTO);
+
+            if (result)
+            {
+                navManager.NavigateTo("/Clearances");
+            }
+            else
+            {
+                await js.InvokeVoidAsync("alert", "حدث خطأ عند الحفظ");
+            }
+        }
+    }
+
+    async void Cancel()
+    {
+        navManager.NavigateTo("/Clearances");
+    }
+}

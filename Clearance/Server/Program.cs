@@ -17,6 +17,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IDirectionService, DirectionService>();
 builder.Services.AddScoped<ICollageService, CollageService>();
 builder.Services.AddScoped<ICollageDirectionService, CollageDirectionService>();
+builder.Services.AddScoped<IClearanceService, ClearanceService>();
 
 builder.Services.AddTransient<IClaimsService, ClaimsService>();
 builder.Services.AddTransient<IJwtTokenService, JwtTokenService>();
