@@ -251,6 +251,28 @@ namespace Clearance.Client.Authentication
                 return false;
         }
 
+        public async Task<bool> DeleteRole(Guid UserId, string role)
+        {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+
+            var response = await http.DeleteAsync($"api/User/DeleteUserRole/{UserId}/{role}");
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+
         public async Task<bool> Update(UserDTO userDTO, Guid Id)
         {
             var token = await tokenService.GetToken();

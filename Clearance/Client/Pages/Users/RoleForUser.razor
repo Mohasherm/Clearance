@@ -7,16 +7,16 @@
 <AuthorizeView>
     <Authorized>
         <PageTitle>صلاحيات المستخدمين</PageTitle>
-                <button class="btn rounded btn-outline-success mb-2" @onclick="AddNew">إضافة صلاحية</button>
-         <div class="card ">
+        <button class="btn rounded btn-outline-success mb-2" @onclick="AddNew">إضافة صلاحية</button>
+        <div class="card ">
             <div class="card-header bg-dark text-white">
-                 <select @onchange="Search" class="form-select">
-                        <option value="">إختر مستخدم</option>
-                        @foreach (var user in lst_Users)
-                        {
-                            <option value="@user.Id">@user.UserName</option>
-                        }
-                    </select>
+                <select @onchange="Search" class="form-select">
+                    <option value="">إختر مستخدم</option>
+                    @foreach (var user in lst_Users)
+                    {
+                        <option value="@user.Id">@user.UserName</option>
+                    }
+                </select>
             </div>
             <div class="card-body">
                 @if (lst_roles != null && lst_roles.Count > 0)
@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th><i class="fa pull-right hidden-xs"></i>الصلاحيات</th>
+                                <th><i class="fa pull-right hidden-xs"></i></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,9 @@
                             {
                                 <tr>
                                     <td>@r</td>
+                                    <td>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" @onclick="(() => DeleteRole(r))"><i class="oi oi-trash"></i></a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -87,7 +91,14 @@
         }
         else
         {
-            await js.InvokeVoidAsync("alert","إختر مستخدم");
+            await js.InvokeVoidAsync("alert", "إختر مستخدم");
         }
+    }
+
+    async void DeleteRole(string role)
+    {
+        await Http.DeleteRole(userID, role);
+        lst_roles = await Http.GetRoleForUser(userID);
+        StateHasChanged();
     }
 }
