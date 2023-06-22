@@ -261,6 +261,20 @@ namespace Clearance.Server.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteUserRole/{UserId:Guid}/{role}")]
+        public async Task<ActionResult<bool>> DeleteUserRole(Guid UserId,string role)
+        {
+            var user = await db.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            await _userManager.RemoveFromRoleAsync(user, role);
+            return Ok(true);
+        }
+
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [Route("PutUser/{Id:Guid}")]

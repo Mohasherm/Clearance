@@ -1,24 +1,17 @@
-﻿@page "/Clearances"
+﻿@page "/ClearancesNotDone"
 @inject NavigationManager navigate
 @inject ClearanceService ser
 @inject AuthenticationHttpClient http
 @inject IJSRuntime js
-@attribute [Authorize]
+@attribute [Authorize(Roles = "SuperVisor")]
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>طلبات براءة الذمة</PageTitle>
+        <PageTitle>طلبات براءة الذمة الغير المنتهية</PageTitle>
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
-                @if (user.User.IsInRole("User"))
-                {
-                    <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddClearance")"><i class="oi oi-plus"></i> إضافة جديد</a>
-                }
-                else
-                {
-                    <p class="m-0">طلبات براءة الذمة</p>
-                }
+                <p class="m-0">طلبات براءة الذمة الغير المنتهية</p>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
@@ -41,6 +34,7 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
                                 <th><i class="fa pull-right hidden-xs"></i>اسم الطالب</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الوطني</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الجامعي</th>
@@ -53,18 +47,14 @@
                             @foreach (var r in lst_ClearanceDTO)
                             {
                                 <tr>
+                                    <td>@r.CollageName</td>
                                     <td>@r.FirstName  @r.Father  @r.LastName</td>
                                     <td>@r.NationalNum</td>
                                     <td>@r.UnivNum</td>
                                     <td>@r.Department</td>
                                     <td>@r.OrderApplyDate</td>
                                     <td>
-                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
-                                        @if (user.User.IsInRole("Admin"))
-                                        {
-                                            <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditClearance/{r.Id}")"><i class="oi oi-pencil"></i></a>
-                                            <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteClearance/{r.Id}")"><i class="oi oi-trash"></i></a>
-                                        }
+                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailClearanceSuperVisor/{r.Id}")"><i class="oi oi-menu"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -112,20 +102,8 @@
         if (user != null && user.User.Identity.IsAuthenticated)
         {
             var Email = user.User.Identity.Name;
-            if (user.User.IsInRole("Admin"))
-            {
-                lst_ClearanceDTO = await ser.GetAll();
+            lst_ClearanceDTO = await ser.GetAllByState("غير بريء الذمة");
 
-            }
-            else if (user.User.IsInRole("SuperVisor"))
-            {
-                lst_ClearanceDTO = await ser.GetAllByState("قيد المعالجة");
-            }
-            else if (user.User.IsInRole("User"))
-            {
-                userDTO = await http.GetUser(Email);
-                lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
-            }
         }
     }
 
@@ -135,35 +113,14 @@
 
         if (string.IsNullOrEmpty(NameFilter))
         {
-            if (user.User.IsInRole("Admin"))
-            {
-                lst_ClearanceDTO = await ser.GetAll();
-            }
-            else if (user.User.IsInRole("SuperVisor"))
-            {
-                lst_ClearanceDTO = await ser.GetAllByState("قيد المعالجة");
-            }
-            else if (user.User.IsInRole("User"))
-            {
-                lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
-            }
+            lst_ClearanceDTO = await ser.GetAllByState("غير بريء الذمة");
         }
         else
         {
-            if (user.User.IsInRole("Admin"))
-            {
-                lst_ClearanceDTO = await ser.Search(NameFilter);
-            }
-            else if (user.User.IsInRole("SuperVisor"))
-            {
-                lst_ClearanceDTO = await ser.GetAllByState("قيد المعالجة",NameFilter);
-            }
-            else if (user.User.IsInRole("User"))
-            {
-                lst_ClearanceDTO = await ser.Search(userDTO.Id, NameFilter);
-            }
+            lst_ClearanceDTO = await ser.GetAllByState("غير بريء الذمة", NameFilter);
         }
         searching = false;
     }
 
 }
+

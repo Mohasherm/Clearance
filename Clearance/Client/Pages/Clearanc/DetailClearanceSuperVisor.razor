@@ -1,8 +1,8 @@
-﻿@page "/DetailsClearance/{Id:int}"
+﻿@page "/DetailClearanceSuperVisor/{Id:int}"
 @inject ClearanceService ser
 @inject NavigationManager navManager
 @inject IJSRuntime js
-@attribute [Authorize]
+@attribute [Authorize(Roles = "SuperVisor")]
 
 <AuthorizeView>
     <Authorized>
@@ -65,17 +65,20 @@
                         </tbody>
                     </table>
                     <div class="form-group d-flex justify-content-center">
-                        @if (context.User.IsInRole("SuperVisor"))
+                        @if (clearanceDTO.State.Contains("غير بريء الذمة"))
                         {
                             <button class="btn btn-outline-primary mx-2" @onclick="Done">بريء الذمة</button>
-                            <button class="btn btn-outline-warning mx-2" @onclick="NotDone">غير بريء الذمة - مراجعة</button>
+                            <button class="btn btn-outline-dark" @onclick="@(()=>navManager.NavigateTo("ClearancesNotDone"))">رجوع</button>
+
                         }
-                        <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
+                        else
+                        {
+                            <button class="btn btn-outline-dark" @onclick="@(()=>navManager.NavigateTo("ClearancesDone"))">رجوع</button>
+                        }
+
                     </div>
                 </div>
             </div>
-
-
         }
         else
         {
@@ -130,22 +133,4 @@
         }
     }
 
-    async void NotDone()
-    {
-        clearanceDTO.State = "غير بريء الذمة";
-        var result = await ser.Update(clearanceDTO, Id);
-        if (result)
-        {
-            navManager.NavigateTo("/Clearances");
-        }
-        else
-        {
-            await js.InvokeVoidAsync("alert", "حدث خطأ");
-        }
-    }
-
-    void Cancel()
-    {
-        navManager.NavigateTo("/Clearances");
-    }
 }

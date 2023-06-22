@@ -87,6 +87,44 @@ namespace Clearance.Server.Repo
                   ).ToListAsync();
         }
 
+        public async Task<List<ClearanceDTO>> GetAllByState(string State, string Name)
+        {
+            return await(
+              from a in db.Clearances
+              where a.State == State && (a.FirstName.Contains(Name) ||
+                 a.LastName.Contains(Name) ||
+                 a.Father.Contains(Name) ||
+                 a.Mother.Contains(Name) ||
+                 a.UnivNum.Contains(Name) ||
+                 a.NationalNum.Contains(Name) ||
+                 a.Collage.Name.Contains(Name) ||
+                 a.Department.Contains(Name) ||
+                 a.Mobile.Contains(Name) ||
+                 a.State.Contains(Name)
+              )
+              select new ClearanceDTO
+              {
+                  Id = a.Id,
+                  FirstName = a.FirstName,
+                  LastName = a.LastName,
+                  Father = a.Father,
+                  Mother = a.Mother,
+                  UnivNum = a.UnivNum,
+                  NationalNum = a.NationalNum,
+                  CollageId = a.CollageId,
+                  CollageName = a.Collage.Name,
+                  Department = a.Department,
+                  Mobile = a.Mobile,
+                  AppointmentDate = a.AppointmentDate,
+                  UserId = a.UserId,
+                  UserName = a.AppUser.FirstName + " " + a.AppUser.LastName,
+                  OrderApplyDate = a.OrderApplyDate,
+                  State = a.State,
+                  OrderRecieveDate = a.OrderRecieveDate
+              }
+                 ).ToListAsync();
+        }
+
         public async Task<List<ClearanceDTO>> GetAllByUserId(Guid Id)
         {
             return await (
@@ -263,6 +301,8 @@ namespace Clearance.Server.Repo
             data.NationalNum = clearanceDTO.NationalNum;
             data.Department = clearanceDTO.Department;
             data.Mobile = clearanceDTO.Mobile;
+            data.State = clearanceDTO.State;
+            data.OrderRecieveDate = clearanceDTO.OrderRecieveDate;
             db.Entry(data).State = EntityState.Modified;
 
             try

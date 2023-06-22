@@ -7,6 +7,7 @@ namespace Clearance.Server.Repo.IRepo
         Task<List<ClearanceDTO>> GetAll();
         Task<List<ClearanceDTO>> GetAllByUserId(Guid Id);
         Task<List<ClearanceDTO>> GetAllByState(string State);
+        Task<List<ClearanceDTO>> GetAllByState(string State , string Name);
         Task<ClearanceDTO?> GetById(int id);
         Task<List<ClearanceDTO>> Search(Guid Id,string Name);
         Task<List<ClearanceDTO>> Search(string Name);
