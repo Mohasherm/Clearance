@@ -35,6 +35,17 @@ namespace Clearance.Client.Services
             }
             return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByState/{State}");
         }
+
+        public async Task<List<ClearanceDTO>?> GetAllByState(string State,string Name)
+        {
+            var token = await tokenService.GetToken();
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            return await httpClient.GetFromJsonAsync<List<ClearanceDTO>>($"api/Clearance/GetAllByState/{State}/{Name}");
+        }
+
         public async Task<List<ClearanceDTO>?> GetAllByUserId(Guid Id)
         {
             var token = await tokenService.GetToken();

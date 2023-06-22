@@ -14,9 +14,9 @@
         <span class="oi oi-home" aria-hidden="true"></span> الرئيسية
         </NavLink>
         </li>*@
+       
         @if (user.User.IsInRole("Admin"))
         {
-
 
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="Directions">
@@ -73,12 +73,25 @@
                 </NavLink>
             </li>
         }
+
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="Clearances">
                 <span class="oi oi-bookmark" aria-hidden="true"></span> براءة الذمة
             </NavLink>
         </li>
-
+        @if (user.User.IsInRole("SuperVisor"))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="ClearancesDone">
+                    <span class="oi oi-cloud-download" aria-hidden="true"></span> الطلبات المنتهية
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="ClearancesNotDone">
+                    <span class="oi oi-cloud-upload" aria-hidden="true"></span> الطلبات الغير المنتهية
+                </NavLink>
+            </li>
+        }
     </ul>
 </div>
 

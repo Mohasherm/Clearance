@@ -70,6 +70,20 @@ namespace Clearance.Server.Controllers
             return Ok(c);
         }
 
+
+        [HttpGet]
+        [Route("GetAllByState/{state}/{Name}")]
+        public async Task<ActionResult<List<ClearanceDTO>>> GetAllByState(string State,string Name)
+        {
+            var c = await clearanceService.GetAllByState(State,Name);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
         [HttpGet]
         [Route("GetAllByUserId/{Id:Guid}")]
         public async Task<ActionResult<List<ClearanceDTO>>> GetAllByUserId(Guid Id)
@@ -108,7 +122,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperVisor")]
         [Route("Put/{Id}")]
         public async Task<ActionResult> Put([FromBody] ClearanceDTO clearanceDTO, int Id)
         {
