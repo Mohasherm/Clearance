@@ -9,11 +9,11 @@ namespace Clearance.Shared
 {
     public class UserLoginDTO
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="الرجاء إدخال الإيميل")]
+        [EmailAddress(ErrorMessage = "أدخل إيميل صحيح")]
         public string? Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء إدخال كلمة المرور")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
     }

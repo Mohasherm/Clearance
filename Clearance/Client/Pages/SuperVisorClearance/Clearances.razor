@@ -1,9 +1,9 @@
-﻿@page "/Clearances"
+﻿@page "/SuperVisorClearances"
 @inject NavigationManager navigate
 @inject ClearanceService ser
 @inject AuthenticationHttpClient http
 @inject IJSRuntime js
-@attribute [Authorize(Roles = "User")]
+@attribute [Authorize(Roles = "SuperVisor")]
 
 <AuthorizeView>
     <Authorized>
@@ -11,7 +11,7 @@
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
-                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddClearance")"><i class="oi oi-plus"></i> إضافة جديد</a>
+                <p class="m-0">طلبات براءة الذمة</p>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
@@ -34,6 +34,7 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الكلية / المعهد</th>
                                 <th><i class="fa pull-right hidden-xs"></i>اسم الطالب</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الوطني</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الجامعي</th>
@@ -46,13 +47,14 @@
                             @foreach (var r in lst_ClearanceDTO)
                             {
                                 <tr>
-                                    <td>@r.FirstName  @r.Father  @r.LastName</td>
+                                    <td>@r.CollageName</td>
+                                    <td>@r.StudentName</td>
                                     <td>@r.NationalNum</td>
                                     <td>@r.UnivNum</td>
                                     <td>@r.Department</td>
                                     <td>@r.OrderApplyDate</td>
                                     <td>
-                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/SVDetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -87,7 +89,7 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { set; get; }
     AuthenticationState user;
-    List<ClearanceDTO>? lst_ClearanceDTO = new();
+    List<ClearanceDirectionsDTO>? lst_ClearanceDTO = new();
     public string NameFilter { get; set; } = string.Empty;
     bool searching = false;
     UserDTO userDTO = new();
@@ -101,7 +103,7 @@
         {
             var Email = user.User.Identity.Name;
             userDTO = await http.GetUser(Email);
-            lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
+            lst_ClearanceDTO = await ser.GetAllByDirection(userDTO.Id);
         }
     }
 
@@ -111,11 +113,11 @@
 
         if (string.IsNullOrEmpty(NameFilter))
         {
-            lst_ClearanceDTO = await ser.GetAllByUserId(userDTO.Id);
+            lst_ClearanceDTO = await ser.GetAllByDirection(userDTO.Id);
         }
         else
         {
-            lst_ClearanceDTO = await ser.Search(userDTO.Id, NameFilter);
+            lst_ClearanceDTO = await ser.SearchbyDirection(userDTO.Id, NameFilter);
         }
         searching = false;
     }

@@ -1,4 +1,4 @@
-﻿@page "/DetailClearanceSuperVisor/{Id:int}"
+﻿@page "/SVDetailsClearance/{Id:int}"
 @inject ClearanceService ser
 @inject NavigationManager navManager
 @inject IJSRuntime js
@@ -19,19 +19,7 @@
                         <tbody>
                             <tr>
                                 <td><strong>اسم الطالب</strong></td>
-                                <td>@clearanceDTO.FirstName</td>
-                            </tr>
-                            <tr>
-                                <td><strong>الكنية</strong></td>
-                                <td>@clearanceDTO.LastName</td>
-                            </tr>
-                            <tr>
-                                <td><strong>اسم الأب</strong></td>
-                                <td>@clearanceDTO.Father</td>
-                            </tr>
-                            <tr>
-                                <td><strong>اسم الأم</strong></td>
-                                <td>@clearanceDTO.Mother</td>
+                                <td>@clearanceDTO.StudentName</td>
                             </tr>
 
                             <tr>
@@ -51,34 +39,23 @@
                                 <td>@clearanceDTO.Department </td>
                             </tr>
                             <tr>
-                                <td><strong>تاريخ المراجعة</strong></td>
-                                <td>@clearanceDTO.AppointmentDate</td>
-                            </tr>
-                            <tr>
-                                <td><strong>الموظف مدخل الطلب</strong></td>
-                                <td>@clearanceDTO.UserName</td>
-                            </tr>
-                            <tr>
                                 <td><strong>تاريخ تقديم الطلب</strong></td>
                                 <td>@clearanceDTO.OrderApplyDate</td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="form-group d-flex justify-content-center">
-                        @if (clearanceDTO.State.Contains("غير بريء الذمة"))
+                        @if (clearanceDTO.State is null)
                         {
                             <button class="btn btn-outline-primary mx-2" @onclick="Done">بريء الذمة</button>
-                            <button class="btn btn-outline-dark" @onclick="@(()=>navManager.NavigateTo("ClearancesNotDone"))">رجوع</button>
-
+                            <button class="btn btn-outline-warning mx-2" @onclick="NotDone">غير بريء الذمة - مراجعة</button>
                         }
-                        else
-                        {
-                            <button class="btn btn-outline-dark" @onclick="@(()=>navManager.NavigateTo("ClearancesDone"))">رجوع</button>
-                        }
-
+                        <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
                     </div>
                 </div>
             </div>
+
+
         }
         else
         {
@@ -98,18 +75,18 @@
 @code {
     [Parameter]
     public int Id { get; set; }
-    private ClearanceDTO? clearanceDTO = new();
+    private ClearanceDirectionsDTO? clearanceDTO = new();
 
     protected override async Task OnParametersSetAsync()
     {
         if (Id > 0)
         {
-            clearanceDTO = await ser.GetById(Id);
+            clearanceDTO = await ser.GetByDirectionId(Id);
         }
         else
         {
             await js.InvokeVoidAsync("alert", "براءة الذمة غير صالحة");
-            navManager.NavigateTo("/Clearances");
+            navManager.NavigateTo("/SuperVisorClearances");
         }
 
     }
@@ -119,12 +96,13 @@
         bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع عن هذا الإجراء لاحقاً");
         if (confirmed)
         {
-            clearanceDTO.State = "بريء الذمة";
-            clearanceDTO.OrderRecieveDate = DateTime.Now;
-            var result = await ser.Update(clearanceDTO, Id);
+            clearanceDTO.State = true;
+
+            var result = await ser.UpdateDirection(clearanceDTO, Id);
+
             if (result)
             {
-                navManager.NavigateTo("/Clearances");
+                navManager.NavigateTo("/SuperVisorClearances");
             }
             else
             {
@@ -133,4 +111,23 @@
         }
     }
 
+    async void NotDone()
+    {
+        clearanceDTO.State = false;
+
+        var result = await ser.UpdateDirection(clearanceDTO, Id);
+        if (result)
+        {
+            navManager.NavigateTo("/SuperVisorClearances");
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", "حدث خطأ");
+        }
+    }
+
+    void Cancel()
+    {
+        navManager.NavigateTo("/SuperVisorClearances");
+    }
 }

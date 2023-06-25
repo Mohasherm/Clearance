@@ -11,7 +11,7 @@
 
             <main>
                 <div class="top-row px-4">
-                    <p class="text-white">مرحباً بك @context.User.Identity.Name</p>
+                    <p class="text-white my-0 mx-4">مرحباً بك @context.User.Identity.Name  </p>
                     <a class="text-white" href="/ChangePassword" title="تغيير كلمة المرور" data-toggle="tooltip"><i class="oi oi-lock-locked"></i></a>
                     <a class="text-white" href="/logout" title="تسجيل الخروج" data-toggle="tooltip"><i class="oi oi-account-logout"></i></a>
                 </div>
@@ -31,11 +31,3 @@
     </NotAuthorized>
 </AuthorizeView>
 
-
-@code {
-    protected override Task OnInitializedAsync()
-    {
-        //NavManager.NavigateTo("/login");
-        return base.OnInitializedAsync();
-    }
-}

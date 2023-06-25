@@ -4,6 +4,7 @@ using Clearance.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clearance.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230625081218_m5")]
+    partial class m5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,9 +154,6 @@ namespace Clearance.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Done")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Father")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -226,10 +225,6 @@ namespace Clearance.Server.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClearanceId");
-
-                    b.HasIndex("DirectionId");
 
                     b.ToTable("ClearanceDirections");
                 });
@@ -423,25 +418,6 @@ namespace Clearance.Server.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Collage");
-                });
-
-            modelBuilder.Entity("Clearance.Server.Data.ClearanceDirection", b =>
-                {
-                    b.HasOne("Clearance.Server.Data.Clearance", "Clearance")
-                        .WithMany()
-                        .HasForeignKey("ClearanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Clearance.Server.Data.Direction", "Direction")
-                        .WithMany()
-                        .HasForeignKey("DirectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clearance");
-
-                    b.Navigation("Direction");
                 });
 
             modelBuilder.Entity("Clearance.Server.Data.Collage", b =>

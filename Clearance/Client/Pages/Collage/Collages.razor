@@ -6,7 +6,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>الكليات/المعاهد</PageTitle>
+        <PageTitle>المراكز</PageTitle>
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-auto">
-                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم الكلية/المعهد للبحث..."></input>
+                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم المركز للبحث..."></input>
                     </div>
                     <div class="col-auto">
                         @if (!searching)
@@ -33,7 +33,7 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
+                                <th><i class="fa pull-right hidden-xs"></i>المركز</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الموظف المسؤول في المركز</th>
                                 <th><i class="fa pull-right hidden-xs"></i> </th>
                             </tr>
@@ -63,7 +63,7 @@
                 {
                     <div class="d-flex justify-content-center">
                         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                            <span class="sr-only">Loading...</span>
+                            <span class="sr-only"></span>
                         </div>
                     </div>
                 }

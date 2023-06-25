@@ -1,17 +1,17 @@
-﻿@page "/ClearancesDone"
+﻿@page "/AdminClearances"
 @inject NavigationManager navigate
 @inject ClearanceService ser
 @inject AuthenticationHttpClient http
 @inject IJSRuntime js
-@attribute [Authorize(Roles = "SuperVisor")]
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>طلبات براءة الذمة المنتهية</PageTitle>
+        <PageTitle>طلبات براءة الذمة</PageTitle>
 
         <div class="card ">
             <div class="card-header bg-dark text-white">
-                <p class="m-0">طلبات براءة الذمة المنتهية</p>
+                <p class="m-0">طلبات براءة الذمة</p>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
@@ -34,12 +34,14 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th><i class="fa pull-right hidden-xs"></i>الكلية/المعهد</th>
                                 <th><i class="fa pull-right hidden-xs"></i>اسم الطالب</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الوطني</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الرقم الجامعي</th>
                                 <th><i class="fa pull-right hidden-xs"></i>القسم / الاختصاص</th>
                                 <th><i class="fa pull-right hidden-xs"></i>تاريخ ووقت تقديم الطلب</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الحالة</th>
+                                @*<th><i class="fa pull-right hidden-xs"></i>تاريخ ووقت  الانتهاء</th>*@
+                                @*<th><i class="fa pull-right hidden-xs"></i>تم استلامه من قبل الطالب</th>*@
                                 <th><i class="fa pull-right hidden-xs"></i></th>
                             </tr>
                         </thead>
@@ -47,14 +49,27 @@
                             @foreach (var r in lst_ClearanceDTO)
                             {
                                 <tr>
-                                    <td>@r.CollageName</td>
                                     <td>@r.FirstName  @r.Father  @r.LastName</td>
                                     <td>@r.NationalNum</td>
                                     <td>@r.UnivNum</td>
                                     <td>@r.Department</td>
                                     <td>@r.OrderApplyDate</td>
+                                    <td>@r.State</td>
+                                    @*<td>@r.OrderRecieveDate</td>*@
+                                   @* <td>
+                                        @if (r.Done)
+                                        {
+                                            <p class="m-0">تم</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="m-0">غير مستلم</p>
+                                        }
+                                    </td>*@
                                     <td>
-                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailClearanceSuperVisor/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/AdminDetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditClearance/{r.Id}")"><i class="oi oi-pencil"></i></a>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteClearance/{r.Id}")"><i class="oi oi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -102,8 +117,7 @@
         if (user != null && user.User.Identity.IsAuthenticated)
         {
             var Email = user.User.Identity.Name;
-            lst_ClearanceDTO = await ser.GetAllByState("بريء الذمة");
-
+            lst_ClearanceDTO = await ser.GetAll();
         }
     }
 
@@ -113,11 +127,11 @@
 
         if (string.IsNullOrEmpty(NameFilter))
         {
-            lst_ClearanceDTO = await ser.GetAllByState("بريء الذمة");
+            lst_ClearanceDTO = await ser.GetAll();
         }
         else
         {
-            lst_ClearanceDTO = await ser.GetAllByState("بريء الذمة", NameFilter);
+            lst_ClearanceDTO = await ser.Search(NameFilter);
         }
         searching = false;
     }

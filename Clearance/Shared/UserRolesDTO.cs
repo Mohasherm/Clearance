@@ -10,7 +10,7 @@ namespace Clearance.Shared
     public class UserRolesDTO
     {
         public Guid User_Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="الرجاء إختيار اسم الصلاحية")]
         public string RoleName { get; set; }
     }
 }

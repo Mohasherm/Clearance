@@ -6,14 +6,22 @@ namespace Clearance.Server.Repo.IRepo
     {
         Task<List<ClearanceDTO>> GetAll();
         Task<List<ClearanceDTO>> GetAllByUserId(Guid Id);
-        Task<List<ClearanceDTO>> GetAllByState(string State);
-        Task<List<ClearanceDTO>> GetAllByState(string State , string Name);
+        Task<List<ClearanceDirectionsDTO>> GetAllByDirection(Guid Id);
+        Task<List<ClearanceDirectionsDTO>> GetAllByDirectionState(Guid Id,bool state);
+       
         Task<ClearanceDTO?> GetById(int id);
+        Task<ClearanceDirectionsDTO?> GetByDirectionId(int id);
+         Task<List<ClearanceDirectionsDTO>?> GetByclId(int id);
+
         Task<List<ClearanceDTO>> Search(Guid Id,string Name);
         Task<List<ClearanceDTO>> Search(string Name);
+        Task<List<ClearanceDirectionsDTO>> SearchbyDirection(Guid Id,string Name);
+        Task<List<ClearanceDirectionsDTO>> SearchbyDirectionState(Guid Id,string Name,bool state);
+
         Task<bool> Insert(ClearanceDTO clearanceDTO);
 
         Task<bool> Update(ClearanceDTO clearanceDTO, int Id);
+        Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id);
 
         Task<bool> Delete(int id);
     }

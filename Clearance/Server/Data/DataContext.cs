@@ -23,6 +23,7 @@ namespace Clearance.Server.Data
         public DbSet<Collage> Collages { get; set; }
         public DbSet<CollageDirection> CollageDirections { get; set; }
         public DbSet<Clearance> Clearances{ get; set; }
+        public DbSet<ClearanceDirection> ClearanceDirections { get; set; }
 
     }
 }

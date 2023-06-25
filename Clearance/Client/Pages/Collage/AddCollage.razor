@@ -20,8 +20,8 @@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <div class="form-group">
-                        <label for="name">اسم الكلية/المعهد</label>
-                        <InputText id="name" class="form-control mb-2" @bind-Value="collageDTO.Name" placeholder="اسم الجهة"></InputText>
+                        <label for="name">اسم المركز</label>
+                        <InputText id="name" class="form-control mb-2" @bind-Value="collageDTO.Name" placeholder="اسم المركز"></InputText>
                         @if (lst_userDTO != null)
                         {
                             <div class="mb-3">
@@ -143,14 +143,14 @@
     {
         if (Id > 0)
         {
-            title = "تعديل كلية/معهد";
+            title = "تعديل المركز";
             collageDTO = await ser.GetById(Id);
             lst_CollageDirectionDTO = await cdSer.GetAll(Id);
             lst_DirectionDTO = await dSer.GetAll();
         }
         else
         {
-            title = "إَضافة كلية/معهد";
+            title = "إَضافة مركز";
         }
         lst_userDTO = await http.GetUsers();
     }

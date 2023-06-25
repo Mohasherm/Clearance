@@ -9,20 +9,20 @@ namespace Clearance.Shared
 {
     public class UserRegisterDTO
     {
-        [Required]
+        [Required(ErrorMessage ="الرجاء إدخال اسم الموظف")]
         public string FirstName { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "الرجاء إدخال كنية الموظف")]
         public string LastName { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "الرجاء إدخال اسم الأب")]
         public string Father { get; set; } = string.Empty;
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "الرجاء إدخال الإيميل")]
+        [EmailAddress(ErrorMessage = "الرجاء إدخال إيميل صحيح")]
         public string? Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "الرجاء إدخال كلمة المرور")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "password not match")]
+        [Compare("Password", ErrorMessage = "كلمة المرور غير متطابقة")]
         public string? ConfirmPassword { get; set; }
         public int? Direction_Id { get; set; }
     }

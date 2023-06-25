@@ -32,7 +32,20 @@
                             @foreach (var r in lst_roles)
                             {
                                 <tr>
-                                    <td>@r</td>
+                                    <td>
+                                        @if (r.Equals("Admin"))
+                                        {
+                                            <p class="m-0">مدير</p>
+                                        }
+                                        else @if (r.Equals("SuperVisor"))
+                                        {
+                                            <p class="m-0">موظف جهة</p>
+                                        }
+                                        else @if (r.Equals("User"))
+                                        {
+                                            <p class="m-0">مسؤول مركز</p>
+                                        }
+                                    </td>
                                     <td>
                                         <a class="btn btn-danger" title="حذف" data-toggle="tooltip" @onclick="(() => DeleteRole(r))"><i class="oi oi-trash"></i></a>
                                     </td>
@@ -44,8 +57,8 @@
                 else
                 {
                     <div class="d-flex justify-content-center">
-                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                            <span class="sr-only"></span>
+                        <div class="alert alert-info" role="alert">
+                            الرجاء اختيار مستخدم لعرض الصلاحيات
                         </div>
                     </div>
                 }
