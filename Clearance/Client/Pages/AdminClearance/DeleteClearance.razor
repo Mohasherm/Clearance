@@ -25,23 +25,23 @@
                                 <td><strong>الكلية/المعهد</strong></td>
                                 <td>@clearanceDTO.CollageName </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td><strong>القسم</strong></td>
                                 <td>@clearanceDTO.Department </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td><strong>الرقم الجامعي</strong></td>
                                 <td>@clearanceDTO.UnivNum </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td><strong>الرقم الوطني</strong></td>
                                 <td>@clearanceDTO.NationalNum</td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td><strong>الحالة</strong></td>
                                 <td>@clearanceDTO.State</td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td><strong>تاريخ تقديم الطلب</strong></td>
                                 <td>@clearanceDTO.OrderApplyDate</td>
                             </tr>
@@ -74,7 +74,7 @@
 @code {
     [Parameter]
     public int Id { get; set; }
-    private ClearanceDTO? clearanceDTO= new();
+    private ClearanceDTO? clearanceDTO = new();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -85,7 +85,7 @@
         else
         {
             await js.InvokeVoidAsync("alert", "براءة الذمة غير صالحة");
-            navManager.NavigateTo("/Clearances");
+            navManager.NavigateTo("/AdminClearances");
         }
 
     }
@@ -96,7 +96,7 @@
             var result = await ser.Delete(Id);
             if (result)
             {
-                navManager.NavigateTo("/Clearances");
+                navManager.NavigateTo("/AdminClearances");
             }
             else
             {
@@ -106,6 +106,6 @@
     }
     void Cancel()
     {
-        navManager.NavigateTo("/Clearances");
+        navManager.NavigateTo("/AdminClearances");
     }
 }

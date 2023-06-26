@@ -11,16 +11,12 @@ namespace Clearance.Shared
     {
         public Guid Id { get; set; }
 
-
-        [Required(ErrorMessage = "يرجى إدخال الاسم")]
+        [Required(ErrorMessage = "الرجاء إدخال اسم الموظف")]
         public string FirstName { get; set; } = string.Empty;
-
-
-        [Required(ErrorMessage = "يرجى إدخال الكنية")]
+        [Required(ErrorMessage = "الرجاء إدخال كنية الموظف")]
         public string LastName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "الرجاء إدخال اسم الأب")]
 
-
-        [Required(ErrorMessage = "يرجى إدخال اسم الأب")]
         public string Father { get; set; } = string.Empty;
 
 

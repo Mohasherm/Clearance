@@ -20,8 +20,8 @@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <div class="form-group">
-                        <label for="name">اسم الكلية/المعهد</label>
-                        <InputText id="name" class="form-control mb-2" @bind-Value="collageDTO.Name" placeholder="اسم الجهة"></InputText>
+                        <label for="name">اسم المركز</label>
+                        <InputText id="name" class="form-control mb-2" @bind-Value="collageDTO.Name" placeholder="اسم المركز"></InputText>
                         @if (lst_userDTO != null)
                         {
                             <div class="mb-3">
@@ -46,7 +46,6 @@
                                     <div class="row g-3 mb-3">
                                         <div class="col-auto">
                                             <InputSelect class="form-select" @bind-Value="collageDirectionDTO.DirectionId">
-                                                <option selected value="">اختر الجهة....</option>
                                                 @foreach (var item in lst_DirectionDTO)
                                                 {
                                                     <option value="@item.Id">@item.Name</option>
@@ -82,8 +81,8 @@
                                                     <tr>
                                                         <td>@r.DirectionName</td>
                                                         <td>
-                                                            <a class="btn btn-danger" title="حذف" data-toggle="tooltip" 
-                                                            @onclick="(() => DeleteDir(r.Id))"><i class="oi oi-trash"></i></a>
+                                                            <a class="btn btn-danger" title="حذف" data-toggle="tooltip"
+                                                   @onclick="(() => DeleteDir(r.Id))"><i class="oi oi-trash"></i></a>
                                                         </td>
                                                     </tr>
                                                 }
@@ -143,14 +142,14 @@
     {
         if (Id > 0)
         {
-            title = "تعديل كلية/معهد";
+            title = "تعديل المركز";
             collageDTO = await ser.GetById(Id);
             lst_CollageDirectionDTO = await cdSer.GetAll(Id);
             lst_DirectionDTO = await dSer.GetAll();
         }
         else
         {
-            title = "إَضافة كلية/معهد";
+            title = "إَضافة مركز";
         }
         lst_userDTO = await http.GetUsers();
     }
@@ -182,21 +181,29 @@
     {
         if (collageDirectionDTO.DirectionId == 0)
         {
-            await js.InvokeVoidAsync("alert","اختر جهة");
+            await js.InvokeVoidAsync("alert", "اختر جهة");
         }
-        adding = true;
-        collageDirectionDTO.CollageId = Id;
-        collageDirectionDTO.DirectionName = string.Empty;
-        var result = await cdSer.Insert(collageDirectionDTO);
-        if (!result)
+        else if (lst_CollageDirectionDTO.Where(x => x.CollageId == Id && x.DirectionId == collageDirectionDTO.DirectionId).Any())
         {
-            await js.InvokeVoidAsync("alert","حدث خطأ عند الإضافة");
-            return;
+            await js.InvokeVoidAsync("alert", "تم إضافة الجهة سابقاً");
         }
-        lst_CollageDirectionDTO = await cdSer.GetAll(Id);
-        adding = false;
-        StateHasChanged();
+        else
+        {
+            adding = true;
+            collageDirectionDTO.CollageId = Id;
+            collageDirectionDTO.DirectionName = string.Empty;
+            var result = await cdSer.Insert(collageDirectionDTO);
+            if (!result)
+            {
+                await js.InvokeVoidAsync("alert", "حدث خطأ عند الإضافة");
+                return;
+            }
+            lst_CollageDirectionDTO = await cdSer.GetAll(Id);
+            adding = false;
+            StateHasChanged();
+        }
     }
+
     async void DeleteDir(int dirId)
     {
         var result = await cdSer.Delete(dirId);

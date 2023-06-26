@@ -32,9 +32,35 @@ namespace Clearance.Server.Controllers
 
         [HttpGet]
         [Route("Search/{Id:Guid}/{Name}")]
-        public async Task<ActionResult<List<ClearanceDTO>>> Search(Guid Id,string Name)
+        public async Task<ActionResult<List<ClearanceDTO>>> Search(Guid Id, string Name)
         {
-            var c = await clearanceService.Search(Id,Name);
+            var c = await clearanceService.Search(Id, Name);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
+        [HttpGet]
+        [Route("SearchbyDirection/{Id:Guid}/{Name}")]
+        public async Task<ActionResult<List<ClearanceDirectionsDTO>>> SearchbyDirection(Guid Id, string Name)
+        {
+            var c = await clearanceService.SearchbyDirection(Id, Name);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
+        [HttpGet]
+        [Route("SearchbyDirectionState/{Id:Guid}/{Name}/{state:bool}")]
+        public async Task<ActionResult<List<ClearanceDirectionsDTO>>> SearchbyDirectionState(Guid Id, string Name,bool state)
+        {
+            var c = await clearanceService.SearchbyDirectionState(Id, Name,state);
             if (c == null)
             {
                 return NoContent();
@@ -57,33 +83,7 @@ namespace Clearance.Server.Controllers
             return Ok(c);
         }
 
-        [HttpGet]
-        [Route("GetAllByState/{state}")]
-        public async Task<ActionResult<List<ClearanceDTO>>> GetAllByState(string State)
-        {
-            var c = await clearanceService.GetAllByState(State);
-            if (c == null)
-            {
-                return NoContent();
-            }
-
-            return Ok(c);
-        }
-
-
-        [HttpGet]
-        [Route("GetAllByState/{state}/{Name}")]
-        public async Task<ActionResult<List<ClearanceDTO>>> GetAllByState(string State,string Name)
-        {
-            var c = await clearanceService.GetAllByState(State,Name);
-            if (c == null)
-            {
-                return NoContent();
-            }
-
-            return Ok(c);
-        }
-
+       
         [HttpGet]
         [Route("GetAllByUserId/{Id:Guid}")]
         public async Task<ActionResult<List<ClearanceDTO>>> GetAllByUserId(Guid Id)
@@ -97,7 +97,46 @@ namespace Clearance.Server.Controllers
             return Ok(c);
         }
 
-    
+        [HttpGet]
+        [Route("GetAllByDirection/{Id:Guid}")]
+        public async Task<ActionResult<List<ClearanceDirectionsDTO>>> GetAllByDirection(Guid Id)
+        {
+            var c = await clearanceService.GetAllByDirection(Id);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
+        [HttpGet]
+        [Route("GetByclId/{Id}")]
+        public async Task<ActionResult<List<ClearanceDirectionsDTO>>> GetByclId(int Id)
+        {
+            var c = await clearanceService.GetByclId(Id);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
+        [HttpGet]
+        [Route("GetAllByDirectionState/{Id:Guid}/{state:bool}")]
+        public async Task<ActionResult<List<ClearanceDirectionsDTO>>> GetAllByDirectionState(Guid Id,bool state)
+        {
+            var c = await clearanceService.GetAllByDirectionState(Id,state);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
+
         [HttpGet("GetById/{Id}")]
         public async Task<ActionResult<ClearanceDTO>> GetByID(int Id)
         {
@@ -109,6 +148,19 @@ namespace Clearance.Server.Controllers
 
             return Ok(c);
         }
+
+        [HttpGet("GetByDirectionId/{Id}")]
+        public async Task<ActionResult<ClearanceDirectionsDTO>> GetByDirectionId(int Id)
+        {
+            var c = await clearanceService.GetByDirectionId(Id);
+            if (c == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(c);
+        }
+
 
         [HttpPost]
         [Route("Post")]
@@ -127,6 +179,18 @@ namespace Clearance.Server.Controllers
         public async Task<ActionResult> Put([FromBody] ClearanceDTO clearanceDTO, int Id)
         {
             var data = await clearanceService.Update(clearanceDTO, Id);
+            if (data)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin,SuperVisor")]
+        [Route("PutDirection/{Id}")]
+        public async Task<ActionResult> PutDirection([FromBody] ClearanceDirectionsDTO clearanceDirectionsDTO, int Id)
+        {
+            var data = await clearanceService.UpdateDirection( clearanceDirectionsDTO, Id);
             if (data)
                 return Ok();
             else

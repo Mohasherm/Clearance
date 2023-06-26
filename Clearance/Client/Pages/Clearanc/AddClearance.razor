@@ -72,7 +72,6 @@
     private UserDTO userDTO ;
     private CollageDTO collageDTO ;
 
-    protected string title = "";
     bool adding;
 
     protected override async Task OnInitializedAsync()
@@ -101,7 +100,7 @@
         {
             bool result = false;
 
-            clearanceDTO.AppointmentDate = DateTime.Now.AddDays(7);
+            clearanceDTO.AppointmentDate = DateTime.Now.AddDays(5);
             clearanceDTO.OrderApplyDate = DateTime.Now;
             clearanceDTO.OrderRecieveDate = null;
             clearanceDTO.State = "قيد المعالجة";

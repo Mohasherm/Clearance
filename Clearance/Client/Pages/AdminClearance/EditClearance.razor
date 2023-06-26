@@ -39,7 +39,7 @@
                             <label for="Mobile">رقم الموبايل</label>
                             <InputText id="Mobile" class="form-control mb-2" @bind-Value="clearanceDTO.Mobile" placeholder="09..."></InputText>
 
-                            <label for="AppointmentDate">تاريخ تقديم الطلب</label>
+                            <label for="AppointmentDate">تاريخ المراجعة</label>
                             <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.AppointmentDate" placeholder="الموظف مدخل البيانات"></input>
                             <label for="AppointmentDate">تاريخ تقديم الطلب</label>
                             <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.OrderApplyDate" placeholder="الموظف مدخل البيانات"></input>
@@ -97,7 +97,7 @@
 
         if (result)
         {
-            navManager.NavigateTo("/Clearances");
+            navManager.NavigateTo("/AdminClearances");
         }
         else
         {
@@ -108,6 +108,6 @@
 
     async void Cancel()
     {
-        navManager.NavigateTo("/Clearances");
+        navManager.NavigateTo("/AdminClearances");
     }
 }

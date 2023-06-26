@@ -11,8 +11,8 @@ namespace Clearance.Shared
     {
         public Guid User_Id { get; set; }
 
+        [Required(ErrorMessage ="الرجاء إختيار اسم الصلاحية")]
 
-        [Required]
         public string RoleName { get; set; }
     }
 }

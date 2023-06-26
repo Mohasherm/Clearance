@@ -69,26 +69,41 @@
 
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="Collages">
-                    <span class="oi oi-home" aria-hidden="true"></span> الكليات/المعاهد
+                    <span class="oi oi-home" aria-hidden="true"></span> المراكز
+                </NavLink>
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="AdminClearances">
+                    <span class="oi oi-bookmark" aria-hidden="true"></span> طلبات براءة الذمة
                 </NavLink>
             </li>
         }
-
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Clearances">
-                <span class="oi oi-bookmark" aria-hidden="true"></span> براءة الذمة
-            </NavLink>
-        </li>
+        
         @if (user.User.IsInRole("SuperVisor"))
         {
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="ClearancesDone">
+                <NavLink class="nav-link" href="SuperVisorClearances">
+                    <span class="oi oi-bookmark" aria-hidden="true"></span> طلبات براءة الذمة
+                </NavLink>
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="SuperVisorClearancesDone">
                     <span class="oi oi-cloud-download" aria-hidden="true"></span> الطلبات المنتهية
                 </NavLink>
             </li>
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="ClearancesNotDone">
+                <NavLink class="nav-link" href="SuperVisorClearancesNotDone">
                     <span class="oi oi-cloud-upload" aria-hidden="true"></span> الطلبات الغير المنتهية
+                </NavLink>
+            </li>
+        }
+        @if (user.User.IsInRole("User"))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Clearances">
+                    <span class="oi oi-bookmark" aria-hidden="true"></span> براءة الذمة
                 </NavLink>
             </li>
         }

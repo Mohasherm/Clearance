@@ -13,9 +13,10 @@ namespace Clearance.Server.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Clearance>()
-                .HasIndex(c => c.NationalNum)
-                .IsUnique(true);    
+            builder.Entity<Clearance>().HasIndex(c => c.NationalNum).IsUnique(true);    
+
+            builder.Entity<Direction>().HasIndex(c => c.Name).IsUnique(true);    
+
             base.OnModelCreating(builder);
         }
 
@@ -23,6 +24,7 @@ namespace Clearance.Server.Data
         public DbSet<Collage> Collages { get; set; }
         public DbSet<CollageDirection> CollageDirections { get; set; }
         public DbSet<Clearance> Clearances{ get; set; }
+        public DbSet<ClearanceDirection> ClearanceDirections { get; set; }
 
     }
 }

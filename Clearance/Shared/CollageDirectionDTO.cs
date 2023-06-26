@@ -8,9 +8,8 @@ namespace Clearance.Shared
 
 
         public int CollageId { get; set; }
-        
-        
-        [Required]
+
+        [Required(ErrorMessage ="الرجاء إختيار الجهة")]
         public int DirectionId { get; set; }
 
         public string DirectionName { get; set; } = string.Empty;
