@@ -9,6 +9,7 @@ namespace Clearance.Shared
 {
     public class UserRegisterDTO
     {
+
         [Required(ErrorMessage ="الرجاء إدخال اسم الموظف")]
         public string FirstName { get; set; } = string.Empty;
         [Required(ErrorMessage = "الرجاء إدخال كنية الموظف")]
@@ -22,11 +23,17 @@ namespace Clearance.Shared
         [Required(ErrorMessage ="الرجاء إدخال اسم المستخدم")]
         public string? empUserName { get; set; }
         [Required(ErrorMessage = "الرجاء إدخال كلمة المرور")]
+
         [DataType(DataType.Password)]
         public string? Password { get; set; }
+
+
+        [Required(ErrorMessage = "يرجى إدخال تأكيد كلمة المرور")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "كلمة المرور غير متطابقة")]
         public string? ConfirmPassword { get; set; }
+
+
         public int? Direction_Id { get; set; }
     }
 }

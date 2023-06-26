@@ -7,8 +7,11 @@ namespace Clearance.Shared
         public int Id { get; set; }
         [Required(ErrorMessage = "الرجاء إدخال اسم المركز")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "الرجاء إختيار مسؤول المركز")]
+     
+        [Required(ErrorMessage = "يرجى اختيار مسؤول المركز")]
         public Guid? UserId { get; set; }
+
+
         public string? UserName { get; set; }
     }
 }

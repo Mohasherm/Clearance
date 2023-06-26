@@ -12,6 +12,7 @@ namespace Clearance.Shared
         public int Id { get; set; }
 
         [Required(ErrorMessage = "الرجاء إدخال اسم الجهة")]
+
         public string Name { get; set; }
     }
 }
