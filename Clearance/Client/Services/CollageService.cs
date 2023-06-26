@@ -1,5 +1,6 @@
 ﻿using Clearance.Client.Authentication;
 using Clearance.Shared;
+using Microsoft.AspNetCore.Components;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -9,11 +10,13 @@ namespace Clearance.Client.Services
     {
         private readonly HttpClient httpClient;
         private readonly ITokenService tokenService;
+        private readonly NavigationManager navigationManager;
 
-        public CollageService(HttpClient httpClient,ITokenService tokenService)
+        public CollageService(HttpClient httpClient,ITokenService tokenService,NavigationManager navigationManager)
         {
             this.httpClient = httpClient;
             this.tokenService = tokenService;
+            this.navigationManager = navigationManager;
         }
 
         public async Task<List<CollageDTO>?> GetAll()
@@ -23,6 +26,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             return await httpClient.GetFromJsonAsync<List<CollageDTO>>("api/Collage/GetAll");
         }
@@ -34,6 +41,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
             return await httpClient.GetFromJsonAsync<List<CollageDTO>>($"api/Collage/Search/{Name}");
         }
 
@@ -44,6 +55,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             var response = await httpClient.GetAsync($"api/Collage/GetById/{Id}");
             if (response.IsSuccessStatusCode)
@@ -68,6 +83,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             var response = await httpClient.GetAsync($"api/Collage/GetByUser/{Id}");
             if (response.IsSuccessStatusCode)
@@ -94,6 +113,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
 
             var response = await httpClient.PostAsJsonAsync("api/Collage/Post/", collageDTO);
             if (response.IsSuccessStatusCode)
@@ -116,6 +139,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
             var response = await httpClient.PutAsJsonAsync($"api/Collage/Put/{Id}", collageDTO);
 
             if (response.IsSuccessStatusCode)
@@ -137,6 +164,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             var response = await httpClient.DeleteAsync($"api/Collage/Delete/{Id}");
 

@@ -1,5 +1,6 @@
 ﻿using Clearance.Client.Authentication;
 using Clearance.Shared;
+using Microsoft.AspNetCore.Components;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -9,11 +10,13 @@ namespace Clearance.Client.Services
     {
         private readonly HttpClient httpClient;
         private readonly ITokenService tokenService;
+        private readonly NavigationManager navigationManager;
 
-        public DirectionService(HttpClient httpClient, ITokenService tokenService)
+        public DirectionService(HttpClient httpClient, ITokenService tokenService,NavigationManager navigationManager)
         {
             this.httpClient = httpClient;
             this.tokenService = tokenService;
+            this.navigationManager = navigationManager;
         }
 
         public async Task<List<DirectionDTO>?> GetAll()
@@ -22,6 +25,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login",true);
             }
             return await httpClient.GetFromJsonAsync<List<DirectionDTO>>("api/Direction/GetAll");
         }
@@ -33,6 +40,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
             return await httpClient.GetFromJsonAsync<List<DirectionDTO>>($"api/Direction/Search/{Name}");
         }
 
@@ -43,6 +54,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             var response = await httpClient.GetAsync($"api/Direction/GetById/{Id}");
             if (response.IsSuccessStatusCode)
@@ -69,6 +84,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
 
             var response = await httpClient.PostAsJsonAsync("api/Direction/Post/", directionDTO);
             if (response.IsSuccessStatusCode)
@@ -91,6 +110,10 @@ namespace Clearance.Client.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
             }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
             var response = await httpClient.PutAsJsonAsync($"api/Direction/Put/{Id}", directionDTO);
 
             if (response.IsSuccessStatusCode)
@@ -112,6 +135,10 @@ namespace Clearance.Client.Services
             if (token != null && token.Expiration > DateTime.UtcNow)
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
             }
             var response = await httpClient.DeleteAsync($"api/Direction/Delete/{Id}");
 
