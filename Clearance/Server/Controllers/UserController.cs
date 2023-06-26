@@ -289,6 +289,7 @@ namespace Clearance.Server.Controllers
             data.LastName = userDTO.LastName;
             data.Father = userDTO.Father;
             data.Direction_Id = userDTO.Direction_Id;
+            data.UserName = userDTO.UserName;
 
             db.Entry(data).State = EntityState.Modified;
             try
