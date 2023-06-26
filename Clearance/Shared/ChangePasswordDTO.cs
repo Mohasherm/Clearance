@@ -17,6 +17,7 @@ namespace Clearance.Shared
         [DataType(DataType.Password)]
         public string NewPassword { get; set; } = string.Empty;
         [Required(ErrorMessage = "أدخل تأكيد كلمة المرور الجديدة")]
+
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "كلمة المرور الجديدة غير متطابقة")]
         public string ConfirmNewPassword { get; set; } = string.Empty;
