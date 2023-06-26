@@ -10,8 +10,8 @@ namespace Clearance.Shared
     public class UserLoginDTO
     {
 
-        [Required(ErrorMessage ="الرجاء إدخال الإيميل")]
-        [EmailAddress(ErrorMessage = "أدخل إيميل صحيح")]
+        [Required(ErrorMessage ="الرجاء إدخال اسم المستخدم")]
+        //[EmailAddress(ErrorMessage = "أدخل إيميل صحيح")]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "الرجاء إدخال كلمة المرور")]

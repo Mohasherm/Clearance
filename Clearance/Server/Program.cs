@@ -4,6 +4,7 @@ using Clearance.Server.Repo.IRepo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -32,6 +33,8 @@ builder.Services.AddIdentity<AppUser, AppRole>(op =>
     op.Password.RequireUppercase = false;
     op.Password.RequireNonAlphanumeric = false;
     op.SignIn.RequireConfirmedEmail = false;
+    //op.User.AllowedUserNameCharacters =
+    //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 })
    .AddDefaultTokenProviders()
    .AddEntityFrameworkStores<DataContext>();

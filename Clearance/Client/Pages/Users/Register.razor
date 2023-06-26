@@ -6,6 +6,7 @@
 @inject HttpClient http
 @attribute [Authorize(Roles = "Admin")]
 
+
 <AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>إضافة موظف</PageTitle>
@@ -32,7 +33,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <InputText class="form-control" id="Email" @bind-Value="userRegisterDTO.Email" placeholder="إيميل المستخدم" />
+                            <InputText class="form-control" id="empUserName" @bind-Value="userRegisterDTO.empUserName" placeholder="اسم المستخدم" />
                         </div>
 
                         <div class="mb-3">
@@ -103,7 +104,7 @@
     private async Task register()
     {
         registering = true;
-
+        userRegisterDTO.Email = userRegisterDTO.empUserName + "@unv.com";
         var result = await Http.RegisterUser(userRegisterDTO);
 
         if (result.Succeeded)

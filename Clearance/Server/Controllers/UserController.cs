@@ -115,13 +115,13 @@ namespace Clearance.Server.Controllers
             IdentityResult result;
 
             AppUser newUser = new()
-            {
+            {                
                 FirstName = userRegisterDTO.FirstName,
                 LastName = userRegisterDTO.LastName,
                 Father = userRegisterDTO.Father,
                 Direction_Id = userRegisterDTO.Direction_Id,
                 Email = userRegisterDTO.Email,
-                UserName = userRegisterDTO.Email,
+                UserName = userRegisterDTO.empUserName,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
@@ -158,6 +158,7 @@ namespace Clearance.Server.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO userLoginDTO)
         {
+            userLoginDTO.Email += "@unv.com";
             var user = await _userManager.FindByEmailAsync(userLoginDTO.Email);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, userLoginDTO.Password))
@@ -180,7 +181,7 @@ namespace Clearance.Server.Controllers
             return Unauthorized(new UserLoginResultDTO
             {
                 Succeeded = false,
-                Message = "The email and password combination was invalid."
+                Message = "اسم المستخدم أو كلمة المرور غير صالح."
             });
         }
 
