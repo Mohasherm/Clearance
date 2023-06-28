@@ -1,6 +1,7 @@
 using Clearance.Server.Data;
 using Clearance.Server.Repo;
 using Clearance.Server.Repo.IRepo;
+using FastReport.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+
+FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -85,6 +89,7 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
+app.UseFastReport();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
