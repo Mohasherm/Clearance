@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FastReport.Data.MsSql" Version="2023.2.0" />
+    <PackageReference Include="FastReport.OpenSource" Version="2023.2.18" />
+    <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2023.2.18" />
+    <PackageReference Include="FastReport.OpenSource.Web" Version="2023.2.18" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.8" />
@@ -25,6 +29,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\Clearance.Client.csproj" />
     <ProjectReference Include="..\Shared\Clearance.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Reports\" />
   </ItemGroup>
 
 

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/26/2023 23:17:28" ReportInfo.Modified="06/27/2023 01:14:03" ReportInfo.CreatorVersion="2020.3.7.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFX+Rk5Xs9R9uyZF52U/FXTw8BHPF6e/LmWdd7f/5X7+lL+HYUpPj+AaTcfd2GKLjCCrek1ev9UhFs+cssnigR6z7uihdRX3Sc2a80O7oqCn0a05MoLEFYVOwYw/UP934P" ConnectionStringExpression="[con]">
+      <TableDataSource Name="Table" Alias="tblClearance" DataType="System.Int32" Enabled="true" SelectCommand="select FirstName +' ' +LastName as stdName ,Collages.Name as colName , UnivNum , AppointmentDate from Clearances&#13;&#10;inner join Collages on Collages.Id = CollageId&#13;&#10;where Clearances.Id = @Id">
+        <Column Name="UnivNum" DataType="System.String"/>
+        <Column Name="AppointmentDate" DataType="System.DateTime"/>
+        <Column Name="stdName" DataType="System.String"/>
+        <Column Name="colName" DataType="System.String"/>
+        <CommandParameter Name="Id" DataType="22" Expression="[Id]"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="Id" DataType="System.String"/>
+    <Parameter Name="con" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <DataBand Name="Data1" Width="718.2" Height="217.35">
+      <TextObject Name="Text1" Left="604.8" Top="9.45" Width="94.5" Height="18.9" Text="الكلية / المعهد :" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text2" Left="604.8" Top="37.8" Width="94.5" Height="18.9" Text="الرقم الجامعي :" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="604.8" Top="66.15" Width="94.5" Height="18.9" Text="اسم الطالب الثلاثي :" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text4" Left="529.2" Top="94.5" Width="170.1" Height="18.9" Text="تاريخ المراجعة لاستلام براءة الذمة :" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="302.4" Top="9.45" Width="302.4" Height="18.9" Text="[tblClearance.colName]" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="302.4" Top="37.8" Width="302.4" Height="18.9" Text="[tblClearance.UnivNum]" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="302.4" Top="66.15" Width="302.4" Height="18.9" Text="[tblClearance.stdName]" RightToLeft="true" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="302.4" Top="94.5" Width="226.8" Height="18.9" Text="[tblClearance.AppointmentDate]" Format="Date" Format.Format="d" RightToLeft="true" Font="Arial, 10pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>
