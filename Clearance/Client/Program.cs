@@ -23,4 +23,5 @@ builder.Services.AddScoped<CollageService>();
 builder.Services.AddScoped<CollageDirectionService>();
 builder.Services.AddScoped<ClearanceService>();
 
+
 await builder.Build().RunAsync();

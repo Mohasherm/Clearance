@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsClearance" targetNamespace="http://tempuri.org/dsClearance.xsd" xmlns:mstns="http://tempuri.org/dsClearance.xsd" xmlns="http://tempuri.org/dsClearance.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsClearance" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="dsClearance" msprop:Generator_DataSetName="dsClearance">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsClearance" msprop:Generator_RowEvHandlerName="dsClearanceRowChangeEventHandler" msprop:Generator_RowDeletedName="dsClearanceRowDeleted" msprop:Generator_RowDeletingName="dsClearanceRowDeleting" msprop:Generator_RowEvArgName="dsClearanceRowChangeEvent" msprop:Generator_TablePropName="_dsClearance" msprop:Generator_RowChangedName="dsClearanceRowChanged" msprop:Generator_RowChangingName="dsClearanceRowChanging" msprop:Generator_TableClassName="dsClearanceDataTable" msprop:Generator_RowClassName="dsClearanceRow" msprop:Generator_TableVarName="tabledsClearance" msprop:Generator_UserTableName="dsClearance">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
+              <xs:element name="colName" msprop:Generator_ColumnPropNameInRow="colName" msprop:Generator_ColumnPropNameInTable="colNameColumn" msprop:Generator_ColumnVarNameInTable="columncolName" msprop:Generator_UserColumnName="colName" type="xs:string" minOccurs="0" />
+              <xs:element name="stdName" msprop:Generator_ColumnPropNameInRow="stdName" msprop:Generator_ColumnPropNameInTable="stdNameColumn" msprop:Generator_ColumnVarNameInTable="columnstdName" msprop:Generator_UserColumnName="stdName" type="xs:string" minOccurs="0" />
+              <xs:element name="UnivNum" msprop:Generator_ColumnPropNameInRow="UnivNum" msprop:Generator_ColumnPropNameInTable="UnivNumColumn" msprop:Generator_ColumnVarNameInTable="columnUnivNum" msprop:Generator_UserColumnName="UnivNum" type="xs:string" minOccurs="0" />
+              <xs:element name="AppointmentDate" msprop:Generator_ColumnPropNameInRow="AppointmentDate" msprop:Generator_ColumnPropNameInTable="AppointmentDateColumn" msprop:Generator_ColumnVarNameInTable="columnAppointmentDate" msprop:Generator_UserColumnName="AppointmentDate" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

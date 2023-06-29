@@ -1,0 +1,36 @@
+﻿@*@page "/"
+@using FastReport
+@using System.Data;
+@inject HttpClient HttpClient
+
+@if (isReady)
+{
+    <WebReportContainer WebReport="myWebReport" />
+}
+
+@code {
+    WebReport myWebReport;
+    private bool isReady = false;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        // We receive a report
+        var reportBytes = await HttpClient.GetByteArrayAsync("Simple List.frx");
+        var reportStream = new MemoryStream(reportBytes);
+        var report = Report.FromStream(reportStream);
+
+        // Get xml database and register it
+        var dataBytes = await HttpClient.GetByteArrayAsync("nwind.xml");
+        var dataSet = new DataSet();
+        dataSet.ReadXml(new MemoryStream(dataBytes));
+        report.RegisterData(dataSet, "NorthWind");
+
+        // Create a WebReport and assign a report to it
+        myWebReport = new WebReport()
+            {
+                Report = report,
+                EmbedPictures = true
+            };
+        isReady = true;
+    }
+}*@

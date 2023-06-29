@@ -70,6 +70,8 @@ builder.Services.AddAuthentication(options =>
 
 FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
 
+builder.Services.AddFastReport();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
