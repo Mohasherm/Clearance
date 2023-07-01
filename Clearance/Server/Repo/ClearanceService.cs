@@ -98,7 +98,7 @@ namespace Clearance.Server.Repo
             }
             int dirId = (int)data.Direction_Id;
 
-            return await(
+            return await (
               from a in db.ClearanceDirections
               where a.DirectionId == dirId && a.State == state
               select new ClearanceDirectionsDTO
@@ -118,7 +118,7 @@ namespace Clearance.Server.Repo
                  ).ToListAsync();
         }
 
-       
+
         public async Task<List<ClearanceDTO>> GetAllByUserId(Guid Id)
         {
             return await (
@@ -150,7 +150,7 @@ namespace Clearance.Server.Repo
 
         public async Task<List<ClearanceDirectionsDTO>?> GetByclId(int id)
         {
-            return await(
+            return await (
              from a in db.ClearanceDirections
              where a.ClearanceId == id
              select new ClearanceDirectionsDTO
@@ -399,7 +399,7 @@ namespace Clearance.Server.Repo
 
             int dirId = (int)data.Direction_Id;
 
-            return await(
+            return await (
               from a in db.ClearanceDirections
               where a.DirectionId == dirId && a.State == state &&
               (a.Clearance.FirstName.Contains(Name) ||
@@ -475,7 +475,8 @@ namespace Clearance.Server.Repo
                 await db.SaveChangesAsync();
 
                 if (!db.ClearanceDirections
-                    .Where(x=>x.State == false && x.ClearanceId == data.ClearanceId).Any())
+                    .Where(x => (x.State == false || x.State == null) 
+                    && x.ClearanceId == data.ClearanceId).Any())
                 {
                     var clData = db.Clearances.Find(data.ClearanceId);
                     clData.State = "بريء الذمة";
@@ -495,6 +496,6 @@ namespace Clearance.Server.Repo
             }
         }
 
-       
+
     }
 }
