@@ -1,0 +1,134 @@
+﻿:root {
+    --maint-color-light: #47bff3;
+    --maint-color: #139bd6;
+    --maint-color_dark: #0c5b7d;
+    --maint-color2: #5bc0a0;
+    --maint-color2_dark: #409a7d;
+}
+
+
+@font-face {
+    font-family: CairoMedium;
+    src: url('../myfonts/Cairo-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: TajawalMedium;
+    src: url('../myfonts/Tajawal-Medium.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: TajawalBold;
+    src: url('../myfonts/Tajawal-Bold.ttf') format('truetype');
+}
+
+
+body {
+    font-family: TajawalMedium;
+}
+
+
+.nav-scrollable {
+    font-family: CairoMedium;
+    background-color: var(--maint-color_dark)
+}
+
+
+/*.nav-link {
+    font-size: 1em ;
+}
+*/
+
+
+/*th {*/
+    /*background-color: #1938A8;*/
+    /*background-color: var(--maint-color2) !important;*/
+    /*color: white;
+}*/
+
+
+
+.btn-above {
+    background-color: white;
+    border-color: var(--maint-color2_dark);
+    float: left;
+    /*border-width: 2px;*/
+}
+
+    .btn-above:hover {
+        background-color: var(--maint-color2);
+        color: white;
+    }
+
+
+
+.btn-submit {
+    background-color: var(--maint-color2);
+    border-color: var(--maint-color2_dark);
+    /*border-width: 2px;*/
+    /*color:white;*/
+}
+
+    .btn-submit:hover {
+        background-color: var(--maint-color2_dark);
+        color: white;
+    }
+
+
+.btn-cancel {
+    background-color: white;
+    border-color: #4f4f4f;
+    /*border-width: 1px;*/
+    /*color:white;*/
+}
+
+    .btn-cancel:hover {
+        background-color: #aeaeae;
+        color: white;
+    }
+
+.edit {
+    color: var(--maint-color2)
+}
+
+    .edit:hover {
+        color: var(--maint-color2_dark)
+    }
+
+
+
+.delete {
+    color: #e14b4b
+}
+
+    .delete:hover {
+        color: #ba4646
+    }
+
+
+.card-header {
+    background-color: var(--maint-color);
+}
+
+
+
+.card-header-text {
+    /*font-size: 1.2em;*/
+    color: white;
+    font-family: TajawalBold;
+    display: inline-block;
+    padding-top: 5px;
+}
+
+
+
+.nva {
+    padding-right:0px !important;
+}
+
+
+thead {
+    background-color: var(--maint-color) ;
+    color: white;
+}
