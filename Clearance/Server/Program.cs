@@ -28,9 +28,9 @@ var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(cs));
 builder.Services.AddIdentity<AppUser, AppRole>(op =>
 {
-    op.Password.RequireDigit = false;
-    op.Password.RequiredLength = 3;
-    op.Password.RequireLowercase = false;
+    op.Password.RequireDigit = true;
+    op.Password.RequiredLength = 6;
+    op.Password.RequireLowercase = true;
     op.Password.RequireUppercase = false;
     op.Password.RequireNonAlphanumeric = false;
     op.SignIn.RequireConfirmedEmail = false;
