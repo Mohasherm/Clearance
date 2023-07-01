@@ -72,7 +72,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>الكلية / المعهد :</Value>
+                                  <Value>: الكلية / المعهد</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -107,7 +107,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>الرقم الجامعي :</Value>
+                                  <Value>: الرقم الجامعي</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -142,7 +142,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>اسم الطالب :</Value>
+                                  <Value>: اسم الطالب</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -177,7 +177,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>تاريخ المراجعة :</Value>
+                                  <Value>: تاريخ المراجعة</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -228,7 +228,6 @@
               <Border>
                 <Style>None</Style>
               </Border>
-              <TextAlign>Right</TextAlign>
             </Style>
           </Tablix>
           <Tablix Name="Tablix2">
@@ -255,7 +254,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox17</rd:DefaultName>
@@ -290,7 +291,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox16</rd:DefaultName>
@@ -325,7 +328,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox18</rd:DefaultName>
@@ -358,11 +363,13 @@
                                 <TextRun>
                                   <Value>=Fields!AppointmentDate.Value</Value>
                                   <Style>
-                                    <Format>yyyy/MM/dd</Format>
+                                    <Format>yyyy-MM-dd</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox10</rd:DefaultName>
@@ -403,7 +410,7 @@
             </TablixRowHierarchy>
             <DataSetName>dsClearance</DataSetName>
             <Top>0.68474cm</Top>
-            <Left>3.89974cm</Left>
+            <Left>3.93502cm</Left>
             <Height>2.4cm</Height>
             <Width>8.30319cm</Width>
             <ZIndex>1</ZIndex>
@@ -411,7 +418,6 @@
               <Border>
                 <Style>None</Style>
               </Border>
-              <TextAlign>Right</TextAlign>
             </Style>
           </Tablix>
           <Textbox Name="param">
@@ -430,9 +436,9 @@
             </Paragraphs>
             <rd:DefaultName>param</rd:DefaultName>
             <Top>3.62162cm</Top>
-            <Left>2.40453cm</Left>
+            <Left>3.93502cm</Left>
             <Height>0.6cm</Height>
-            <Width>12.21021cm</Width>
+            <Width>10.67972cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -445,7 +451,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>2in</Height>
+        <Height>2.00302in</Height>
         <Style />
       </Body>
       <Width>7.53484in</Width>

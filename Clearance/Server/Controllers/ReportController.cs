@@ -94,7 +94,7 @@ namespace Clearance.Server.Controllers
             var path = Path.Combine(webHostEnvironment.ContentRootPath, "Reports", "Report1.rdlc");
             Dictionary<string, string> param = new()
             {
-                { "param", "Blazor" }
+                { "param", "barcode here" }
             };
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("dsClearance",dt);
