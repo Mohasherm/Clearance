@@ -48,7 +48,6 @@
                                 <button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>
                             </div>
                         </div>
-                        <a class="btn" href="">طباعة</a>
                     </EditForm>
                 </div>
             </div>
@@ -110,9 +109,9 @@
 
             if (result)
             {
-               var response = await HttpClient.GetByteArrayAsync($"api/Report/GetReport/{24}");
-               
-                navManager.NavigateTo($"/api/Report/GetReport/{24}");
+                var response = await HttpClient.GetByteArrayAsync($"api/Report/GetReport/{28}");
+
+                navManager.NavigateTo($"/api/Report/GetReport/{28}");
 
                 // navManager.NavigateTo("/Clearances");
             }

@@ -53,6 +53,7 @@
                                     <td>@r.OrderApplyDate</td>
                                     <td>
                                         <a class="btn btn-warning" title="تفاصيل" data-toggle="tooltip" href="@($"/DetailsClearance/{r.Id}")"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-info" title="طباعة الوصل" data-toggle="tooltip" target="_blank" href="@($"/api/Report/GetReport/{r.Id}")"><i class="oi oi-print"></i></a>
                                     </td>
                                 </tr>
                             }
