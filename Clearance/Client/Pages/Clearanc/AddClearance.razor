@@ -68,11 +68,9 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { set; get; }
     AuthenticationState user;
-
     private ClearanceDTO? clearanceDTO;
     private UserDTO userDTO;
     private CollageDTO collageDTO;
-    // Dictionary<string, string> paramlst = new();
     bool adding;
 
     protected override async Task OnInitializedAsync()
@@ -109,10 +107,6 @@
 
             if (result)
             {
-               // var response = await HttpClient.GetByteArrayAsync($"api/Report/GetReport/{28}");
-
-               // navManager.NavigateTo($"/api/Report/GetReport/{28}");
-
                  navManager.NavigateTo("/Clearances");
             }
             else

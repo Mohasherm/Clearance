@@ -1,11 +1,10 @@
 ﻿using AspNetCore.Reporting;
 using Clearance.Server.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NetBarcode;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Text;
+
 
 namespace Clearance.Server.Controllers
 {
@@ -15,49 +14,20 @@ namespace Clearance.Server.Controllers
     {
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly DataContext db;
-        private readonly IConfiguration configuration;
 
-        public ReportController(IWebHostEnvironment webHostEnvironment, DataContext db, IConfiguration configuration)
+        public ReportController(IWebHostEnvironment webHostEnvironment, DataContext db)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.db = db;
-            this.configuration = configuration;
-            System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
-        //[HttpGet("GetReport/{Id}")]
-        //public IActionResult GetReport(int Id)
-        //{
-        //    WebReport web = new();
-        //    var path = Path.Combine(webHostEnvironment.ContentRootPath, "Reports", "voucher.frx");
-        //    web.Report.Load(path);
-
-        //    var connection = new MsSqlDataConnection();
-        //    connection.ConnectionString = configuration.GetConnectionString("DefaultConnection");
-        //    var con = connection.ConnectionString;
-        //    web.Report.SetParameterValue("Id", Id);
-        //    web.Report.SetParameterValue("con", con);
-
-        //    web.Report.Prepare();
-        //    Stream stream = new MemoryStream();
-        //    web.Report.Export(new PDFSimpleExport(), stream);
-        //    return File(stream, "Application/zip", "report.pdf");
-
-        //}
+        
 
         [HttpGet("GetReport/{Id}")]
         public IActionResult GetReport(int Id)
         {
-      //      IEnumerable<DataRow> query =
-      //(IEnumerable<DataRow>)(from clearance in db.Clearances.AsEnumerable()
-      //                       where clearance.Id == Id
-      //                       select new { 
-      //                           clearance.Id,
-      //                           colName = clearance.Collage.Name,
-      //                           stdName = clearance.FirstName+" "+clearance.Father+" "+ clearance.LastName,
-      //                           clearance.UnivNum,
-      //                           clearance.AppointmentDate
-      //                       });
+    
 
             var data = db.Clearances.Select(x => new {
                 x.Id,
@@ -67,8 +37,10 @@ namespace Clearance.Server.Controllers
                 x.AppointmentDate
             }).FirstOrDefault(x => x.Id == Id);
 
-            // Create a table from the query.
-            //DataTable dt = query.CopyToDataTable<DataRow>();
+            string MyValue = Path.Combine(webHostEnvironment.ContentRootPath, "DetailsClearance", Id.ToString());
+
+            var barcode = new Barcode(MyValue, NetBarcode.Type.Code128B);
+            var value = barcode.GetBase64Image();
 
             var dt = new DataTable();
             dt.Columns.Add("Id");
@@ -76,6 +48,7 @@ namespace Clearance.Server.Controllers
             dt.Columns.Add("stdName");
             dt.Columns.Add("UnivNum");
             dt.Columns.Add("AppointmentDate");
+            dt.Columns.Add("Image");
 
             DataRow dr = dt.NewRow();
             dr["Id"] = data.Id;
@@ -83,6 +56,7 @@ namespace Clearance.Server.Controllers
             dr["stdName"] = data.stdName;
             dr["UnivNum"] = data.UnivNum;
             dr["AppointmentDate"] = data.AppointmentDate;
+            dr["Image"] = value;
 
             dt.Rows.Add(dr);
 
@@ -92,17 +66,12 @@ namespace Clearance.Server.Controllers
             {
                 { "param", "barcode here" }
             };
-            LocalReport localReport = new LocalReport(path);
+            LocalReport localReport = new(path);
             localReport.AddDataSource("dsClearance",dt);
 
             //pdf
             var result = localReport.Execute(RenderType.Pdf, 1, param, mimeType);
             return File(result.MainStream, "application/pdf");
-
-
-            //excel
-            // var result = localReport.Execute(RenderType.Excel, 1, param, mimeType);
-            //return File(result.MainStream , "application/pdf");
 
         }
 

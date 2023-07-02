@@ -37,10 +37,14 @@
           <DataField>AppointmentDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="Image">
+          <DataField>Image</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsClearance</rd:DataSetName>
-        <rd:SchemaPath>D:\project\web\Clearance\Clearance\rdlc\dsClearance.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\project\web\Clearance\Clearance\Clearance\Server\Reports\dsClearance.xsd</rd:SchemaPath>
         <rd:TableName>dsClearance</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -420,14 +424,15 @@
               </Border>
             </Style>
           </Tablix>
-          <Image Name="barcode">
-            <Source>Embedded</Source>
-            <Value>barcode</Value>
+          <Image Name="barcode1">
+            <Source>Database</Source>
+            <Value>=First(Fields!Image.Value, "dsClearance")</Value>
+            <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>2.77606cm</Top>
-            <Left>3.17113cm</Left>
-            <Height>1.5cm</Height>
-            <Width>4.38396cm</Width>
+            <Top>2.66113cm</Top>
+            <Left>4.22946cm</Left>
+            <Height>1.10312cm</Height>
+            <Width>4.46333cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -436,7 +441,7 @@
             </Style>
           </Image>
         </ReportItems>
-        <Height>1.8051in</Height>
+        <Height>1.59971in</Height>
         <Style />
       </Body>
       <Width>4.43067in</Width>
@@ -482,6 +487,11 @@ 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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="barcode1">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAArIAAADrCAAAAACwDCpKAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAGdaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA1LjQuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjY5MDwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj4yMzU8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4Khu4n7AAAA4FJREFUeNrt1G1SYkcUgOHTiB+4t4CKICLi2qKIjiIqzN4GBSXdTX4kK0hN6nmqvZ7ue0HKeou0DfidNPJPSsc//zz+Gb/+uKlnt2Vup+Nl2fxq36za+fw2FXkeR9y1lrFql31rcddaxKozziuf12fyMMm/jhbx0bmu8/XHSV757O9tvh6+l2cO3+PzpF5PR/VP36c0qvP9wVusyzCt73m1Pr3Kt9dnZXPwOs0rH9aXTPdf84rN2XBT75a5O4x42J/nuw/15cOv7m6lZjmMr+5lxGPzJb7Oy+3my+PeS3zXuQ6DvCJ+lLk3+O6lvVl51bZXDhuzPJQnG7OnvFK6iHhqPNcH
++mXenZQnnp9TPY9+P/opPUVc9Mv2on6op+dGXmXqbS921952kFedY9ZIve+Y7f2o7zDofefzPA/Oy5A9Rlyef8fLXhnqNrvsfuUV8+bjvJnykM2bDxHD7ibm++Vl3U2eh2ebeK3bOkzrPI242l3P1vF6MK1vWE7eyjw6XY9Suq+Ho9PPeDvM86h+kvv3w9359cnndUqTOpRtvTt5P5osjia7BzofsThKnY9xXindRYw7q3Jj0SqPtlfj9iqWrXx+k9JtPl+W89vlcV6p/Y9k4Tf7lgXJgmRBskgWJAuSRbIgWZAskgXJgmSRLEgW/m0rWXzLgmRBskgWJAuSRbIgWZAskgXJgmSRLEgWJItkQbIgWSQLkgXJgmSRLEgWJItkQbIgWSQLkgXJIlmQLEgWyYJkQbJIFiQLkkWyIFmQLJIFyYJkkSxIFiQLkkWyIFmQLJIFyYJkkSxIFiSLZEGyIFkkC5IFySJZkCxIFsmCZEGySBYkC5JFsiBZkCxIFsmCZEGySBYkC5JFsiBZkCySBcmCZJEsSBYki2RBsiBZJAuSBckiWZAsSBbJgmRBsiBZJAuSBckiWZAsSBbJgmRBskgWJAuSRbIgWZAskgXJgmSRLEgWJItkQbIgWSQLkgXJIlmQLEgWJItkQbIgWSQLkgXJIlmQLEgWyYJkQbJIFiQLkkWyIFmQLJIFyYJkkSxIFiSLZEGyIFmQLJIFyYJkkSxIFiSLZEGyIFkkC5IFySJZkCxIFsmCZEGySBYkC5JFsiBZkCySBcmCZEGySBYkC5JFsiBZkCySBcmCZJEsSBYki2RBsiBZJAuSBckiWZAsSBbJ8p/a+hdIlv+ZvwAmi7tgGOxiDQAAAABJRU5ErkJggg==</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
