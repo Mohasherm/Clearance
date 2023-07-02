@@ -289,6 +289,8 @@ namespace Clearance.Server.Reports {
             
             private global::System.Data.DataColumn columnAppointmentDate;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dsClearanceDataTable() {
@@ -364,6 +366,14 @@ namespace Clearance.Server.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -399,14 +409,15 @@ namespace Clearance.Server.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dsClearanceRow AdddsClearanceRow(string Id, string colName, string stdName, string UnivNum, System.DateTime AppointmentDate) {
+            public dsClearanceRow AdddsClearanceRow(string Id, string colName, string stdName, string UnivNum, System.DateTime AppointmentDate, byte Image) {
                 dsClearanceRow rowdsClearanceRow = ((dsClearanceRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
                         colName,
                         stdName,
                         UnivNum,
-                        AppointmentDate};
+                        AppointmentDate,
+                        Image};
                 rowdsClearanceRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsClearanceRow);
                 return rowdsClearanceRow;
@@ -434,6 +445,7 @@ namespace Clearance.Server.Reports {
                 this.columnstdName = base.Columns["stdName"];
                 this.columnUnivNum = base.Columns["UnivNum"];
                 this.columnAppointmentDate = base.Columns["AppointmentDate"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -449,6 +461,8 @@ namespace Clearance.Server.Reports {
                 base.Columns.Add(this.columnUnivNum);
                 this.columnAppointmentDate = new global::System.Data.DataColumn("AppointmentDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAppointmentDate);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_dsClearance");
                 this.ExtendedProperties.Add("Generator_UserTableName", "dsClearance");
             }
@@ -673,6 +687,22 @@ namespace Clearance.Server.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public byte Image {
+                get {
+                    try {
+                        return ((byte)(this[this.tabledsClearance.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'dsClearance\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsClearance.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsIdNull() {
                 return this.IsNull(this.tabledsClearance.IdColumn);
             }
@@ -729,6 +759,18 @@ namespace Clearance.Server.Reports {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetAppointmentDateNull() {
                 this[this.tabledsClearance.AppointmentDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tabledsClearance.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetImageNull() {
+                this[this.tabledsClearance.ImageColumn] = global::System.Convert.DBNull;
             }
         }
         
