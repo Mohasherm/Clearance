@@ -66,6 +66,19 @@
                                         <td>@clearanceDTO.OrderApplyDate</td>
                                     </tr>
                                     <tr>
+                                        <td><strong>تم استلامه من قبل الطالب</strong></td>
+                                        <td>
+                                            @if (clearanceDTO.Done)
+                                            {
+                                                <p>تم الاستلام</p>
+                                            }else
+                                            {
+                                                <p>الاستلام لم يتم</p>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td><strong>تاريخ انتهاء الطلب</strong></td>
                                         <td>@clearanceDTO.OrderRecieveDate</td>
                                     </tr>

@@ -2,7 +2,7 @@
 @inject ClearanceService ser
 @inject NavigationManager navManager
 @inject IJSRuntime js
-@attribute [Authorize(Roles ="User")]
+@attribute [Authorize(Roles = "User")]
 
 <AuthorizeView>
     <Authorized>
@@ -65,6 +65,10 @@
                         </tbody>
                     </table>
                     <div class="form-group d-flex justify-content-center">
+                        @if (clearanceDTO.State.Equals("بريء الذمة") && !clearanceDTO.Done)
+                        {
+                            <button class="btn btn-success mx-2" @onclick="Deliver">تسليم براءة الذمة</button>
+                        }
                         <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
                     </div>
                 </div>
@@ -106,14 +110,16 @@
 
     }
 
-    async void Done()
+
+    async void Deliver()
     {
-        bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع عن هذا الإجراء لاحقاً");
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع لاحقاً");
         if (confirmed)
         {
-            clearanceDTO.State = "بريء الذمة";
             clearanceDTO.OrderRecieveDate = DateTime.Now;
+            clearanceDTO.Done = true;
             var result = await ser.Update(clearanceDTO, Id);
+
             if (result)
             {
                 navManager.NavigateTo("/Clearances");
@@ -125,19 +131,7 @@
         }
     }
 
-    async void NotDone()
-    {
-        clearanceDTO.State = "غير بريء الذمة";
-        var result = await ser.Update(clearanceDTO, Id);
-        if (result)
-        {
-            navManager.NavigateTo("/Clearances");
-        }
-        else
-        {
-            await js.InvokeVoidAsync("alert", "حدث خطأ");
-        }
-    }
+
 
     void Cancel()
     {

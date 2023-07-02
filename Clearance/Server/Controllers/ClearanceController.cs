@@ -174,7 +174,7 @@ namespace Clearance.Server.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin,SuperVisor")]
+        [Authorize]
         [Route("Put/{Id}")]
         public async Task<ActionResult> Put([FromBody] ClearanceDTO clearanceDTO, int Id)
         {
