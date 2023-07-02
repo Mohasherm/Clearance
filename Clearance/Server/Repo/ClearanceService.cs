@@ -445,6 +445,7 @@ namespace Clearance.Server.Repo
             data.Mobile = clearanceDTO.Mobile;
             data.State = clearanceDTO.State;
             data.OrderRecieveDate = clearanceDTO.OrderRecieveDate;
+            data.Done = clearanceDTO.Done;
             db.Entry(data).State = EntityState.Modified;
 
             try

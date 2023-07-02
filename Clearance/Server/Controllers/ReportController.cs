@@ -1,9 +1,5 @@
 ﻿using AspNetCore.Reporting;
 using Clearance.Server.Data;
-using FastReport;
-using FastReport.Data;
-using FastReport.Export.PdfSimple;
-using FastReport.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
