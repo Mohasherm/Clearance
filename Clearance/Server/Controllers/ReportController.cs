@@ -27,7 +27,6 @@ namespace Clearance.Server.Controllers
         [HttpGet("GetReport/{Id}")]
         public IActionResult GetReport(int Id)
         {
-    
 
             var data = db.Clearances.Select(x => new {
                 x.Id,
@@ -74,7 +73,5 @@ namespace Clearance.Server.Controllers
             return File(result.MainStream, "application/pdf");
 
         }
-
-
     }
 }

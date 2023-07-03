@@ -8,9 +8,9 @@
 <AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>@title</PageTitle>
-        <div class="card ">
-            <div class="card-header bg-dark text-white">
-                @title
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">@title</span>
             </div>
             <div class="card-body">
                 <EditForm Model="directionDTO" OnValidSubmit="Save">
@@ -56,7 +56,7 @@
         }
         else
         {
-            title = "إَضافة جهة";
+            title = "إضافة جهة";
         }
     }
 

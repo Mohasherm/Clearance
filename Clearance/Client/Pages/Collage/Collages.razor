@@ -8,9 +8,10 @@
     <Authorized>
         <PageTitle>المراكز</PageTitle>
 
-        <div class="card ">
-            <div class="card-header bg-dark text-white">
-                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddCollage")"><i class="oi oi-plus"></i> إضافة جديد</a>
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">المراكز</span>
+                <a class="btn btn-above" title="إضافة جديد" data-toggle="tooltip" href="@("/AddCollage")"><i class="oi oi-plus"></i> إضافة جديد</a>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
@@ -20,7 +21,7 @@
                     <div class="col-auto">
                         @if (!searching)
                         {
-                            <button class="btn btn-outline-info" @onclick="search">بحث</button>
+                            <button class="btn btn-above" @onclick="search">بحث</button>
                         }
                         else
                         {
@@ -31,7 +32,7 @@
                 @if (lst_CollageDTO != null && lst_CollageDTO.Count > 0)
                 {
                     <table class="table table-sm table-bordered table-striped table-hover">
-                        <thead class="table-dark">
+                        <thead class="">
                             <tr>
                                 <th><i class="fa pull-right hidden-xs"></i>المركز</th>
                                 <th><i class="fa pull-right hidden-xs"></i>الموظف المسؤول في المركز</th>

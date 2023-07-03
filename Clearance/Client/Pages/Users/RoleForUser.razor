@@ -6,18 +6,25 @@
 
 <AuthorizeView>
     <Authorized>
-        <PageTitle>صلاحيات المستخدمين</PageTitle>
-        <button class="btn rounded btn-outline-success mb-2" @onclick="AddNew">إضافة صلاحية</button>
-        <div class="card ">
-            <div class="card-header bg-dark text-white">
-                <select @onchange="Search" class="form-select">
-                    <option value="">إختر مستخدم</option>
-                    @foreach (var user in lst_Users)
-                    {
-                        <option value="@user.Id">@user.UserName</option>
-                    }
-                </select>
+        <PageTitle>الصلاحيات</PageTitle>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">الصلاحيات</span>
+
+
+
+                <button class="btn btn-above" @onclick="AddNew">إضافة صلاحية للمستخدم</button>
             </div>
+
+            <select @onchange="Search" class="form-select">
+                <option value="">اختر مستخدم</option>
+                @foreach (var user in lst_Users)
+                {
+                    <option value="@user.Id">@user.UserName</option>
+                }
+            </select>
+
             <div class="card-body">
                 @if (lst_roles != null && lst_roles.Count > 0)
                 {
