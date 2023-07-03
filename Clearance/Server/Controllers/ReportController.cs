@@ -27,7 +27,6 @@ namespace Clearance.Server.Controllers
         [HttpGet("GetReport/{Id}")]
         public IActionResult GetReport(int Id)
         {
-    
 
             var data = db.Clearances.Select(x => new {
                 x.Id,
@@ -37,10 +36,10 @@ namespace Clearance.Server.Controllers
                 x.AppointmentDate
             }).FirstOrDefault(x => x.Id == Id);
 
-            string MyValue = Path.Combine(webHostEnvironment.ContentRootPath, "DetailsClearance", Id.ToString());
+            //string MyValue = Path.Combine(webHostEnvironment.ContentRootPath, "DetailsClearance", Id.ToString());
 
-            var barcode = new Barcode(MyValue, NetBarcode.Type.Code128B);
-            var value = barcode.GetBase64Image();
+            //var barcode = new Barcode(MyValue, NetBarcode.Type.Code128B);
+            //var value = barcode.GetBase64Image();
 
             var dt = new DataTable();
             dt.Columns.Add("Id");
@@ -56,7 +55,7 @@ namespace Clearance.Server.Controllers
             dr["stdName"] = data.stdName;
             dr["UnivNum"] = data.UnivNum;
             dr["AppointmentDate"] = data.AppointmentDate;
-            dr["Image"] = value;
+            //dr["Image"] = value;
 
             dt.Rows.Add(dr);
 
@@ -74,7 +73,5 @@ namespace Clearance.Server.Controllers
             return File(result.MainStream, "application/pdf");
 
         }
-
-
     }
 }
