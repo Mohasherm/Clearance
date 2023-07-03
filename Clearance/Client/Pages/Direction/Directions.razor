@@ -2,15 +2,16 @@
 @inject NavigationManager navigate
 @inject DirectionService ser
 @inject IJSRuntime js
-@attribute [Authorize(Roles ="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <AuthorizeView>
     <Authorized>
         <PageTitle>الجهات</PageTitle>
 
         <div class="card">
-            <div class="card-header bg-dark text-white">
-                <a class="btn btn-success" title="إضافة جديد" data-toggle="tooltip" href="@("/AddDirection/")"><i class="oi oi-plus"</i> إضافة جديد</a>
+            <div class="card-header">
+                <span class="card-header-text">الجهات</span>
+                <a class="btn btn-above" title="إضافة جديد" data-toggle="tooltip" href="@("/AddDirection/")"><i class="oi oi-plus"</i> إضافة جديد</a>
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-3">
@@ -31,7 +32,7 @@
                 @if (lst_DirectionDTO != null && lst_DirectionDTO.Count > 0)
                 {
                     <table class="table table-sm table-bordered table-striped table-hover">
-                        <thead class="table-dark">
+                        <thead class="">
                             <tr>
                                 <th><i class="fa  pull-right hidden-xs"></i>اسم الجهة</th>
                                 <th><i class="fa  pull-right hidden-xs"></i> </th>
@@ -99,5 +100,5 @@
         searching = false;
     }
 
-   
+
 }
