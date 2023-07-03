@@ -135,7 +135,7 @@ namespace Clearance.Server.Controllers
                 });
 
             await SeedRoles();
-           // result = await _userManager.AddToRoleAsync(newUser, "User");
+          //  result = await _userManager.AddToRoleAsync(newUser, "User");
 
             return CreatedAtAction(nameof(Register), new UserRegisterResultDTO { Succeeded = true });
         }
