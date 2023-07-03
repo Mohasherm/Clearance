@@ -10,70 +10,116 @@
 
         @if (clearanceDTO != null)
         {
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    تفاصيل براءة الذمة
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td><strong>اسم الطالب</strong></td>
-                                <td>@clearanceDTO.FirstName</td>
-                            </tr>
-                            <tr>
-                                <td><strong>الكنية</strong></td>
-                                <td>@clearanceDTO.LastName</td>
-                            </tr>
-                            <tr>
-                                <td><strong>اسم الأب</strong></td>
-                                <td>@clearanceDTO.Father</td>
-                            </tr>
-                            <tr>
-                                <td><strong>اسم الأم</strong></td>
-                                <td>@clearanceDTO.Mother</td>
-                            </tr>
+            <div class="row">
 
-                            <tr>
-                                <td><strong>الرقم الجامعي</strong></td>
-                                <td>@clearanceDTO.UnivNum </td>
-                            </tr>
-                            <tr>
-                                <td><strong>الرقم الوطني</strong></td>
-                                <td>@clearanceDTO.NationalNum</td>
-                            </tr>
-                            <tr>
-                                <td><strong>الكلية/المعهد</strong></td>
-                                <td>@clearanceDTO.CollageName </td>
-                            </tr>
-                            <tr>
-                                <td><strong>القسم</strong></td>
-                                <td>@clearanceDTO.Department </td>
-                            </tr>
-                            <tr>
-                                <td><strong>تاريخ المراجعة</strong></td>
-                                <td>@clearanceDTO.AppointmentDate</td>
-                            </tr>
-                            <tr>
-                                <td><strong>الموظف مدخل الطلب</strong></td>
-                                <td>@clearanceDTO.UserName</td>
-                            </tr>
-                            <tr>
-                                <td><strong>تاريخ تقديم الطلب</strong></td>
-                                <td>@clearanceDTO.OrderApplyDate</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="form-group d-flex justify-content-center">
-                        @if (clearanceDTO.State.Equals("بريء الذمة") && !clearanceDTO.Done)
-                        {
-                            <button class="btn btn-success mx-2" @onclick="Deliver">تسليم براءة الذمة</button>
-                        }
-                        <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            تفاصيل براءة الذمة
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>اسم الطالب</strong></td>
+                                        <td>@clearanceDTO.FirstName</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>الكنية</strong></td>
+                                        <td>@clearanceDTO.LastName</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>اسم الأب</strong></td>
+                                        <td>@clearanceDTO.Father</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>اسم الأم</strong></td>
+                                        <td>@clearanceDTO.Mother</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>الرقم الجامعي</strong></td>
+                                        <td>@clearanceDTO.UnivNum </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>الرقم الوطني</strong></td>
+                                        <td>@clearanceDTO.NationalNum</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>الكلية/المعهد</strong></td>
+                                        <td>@clearanceDTO.CollageName </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>القسم</strong></td>
+                                        <td>@clearanceDTO.Department </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>تاريخ المراجعة</strong></td>
+                                        <td>@clearanceDTO.AppointmentDate</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>الموظف مدخل الطلب</strong></td>
+                                        <td>@clearanceDTO.UserName</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>تاريخ تقديم الطلب</strong></td>
+                                        <td>@clearanceDTO.OrderApplyDate</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group d-flex justify-content-center">
+                                @if (clearanceDTO.State.Equals("بريء الذمة") && !clearanceDTO.Done)
+                                {
+                                    <button class="btn btn-success mx-2" @onclick="Deliver">تسليم براءة الذمة</button>
+                                }
+                                <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-header-text">تفاصيل الجهات</span>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>الجهة</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in lst_ClearanceDirectionsDTO)
+                                    {
+                                        <tr>
+                                            <td>@item.DirectionName</td>
+
+                                            <td>
+                                                @if (item.State is null)
+                                                {
+                                                    <p class="m-0">غير معالج</p>
+                                                }
+                                                else if (item.State == true)
+                                                {
+                                                    <p class="m-0">بريء الذمة</p>
+                                                }
+                                                else if (item.State == false)
+                                                {
+                                                    <p class="m-0">غير بريء الذمة</p>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div>
-
 
         }
         else
@@ -95,12 +141,15 @@
     [Parameter]
     public int Id { get; set; }
     private ClearanceDTO? clearanceDTO = new();
+    private List<ClearanceDirectionsDTO>? lst_ClearanceDirectionsDTO = new();
+
 
     protected override async Task OnParametersSetAsync()
     {
         if (Id > 0)
         {
             clearanceDTO = await ser.GetById(Id);
+            lst_ClearanceDirectionsDTO = await ser.GetByclId(Id);
         }
         else
         {
