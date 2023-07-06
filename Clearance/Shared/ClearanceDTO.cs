@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace Clearance.Shared
 {
@@ -41,5 +42,8 @@ namespace Clearance.Shared
         public string State { get; set; } = string.Empty; 
         public DateTime? OrderRecieveDate { get; set; }
         public bool Done{ get; set; }
+        [MinLength(4, ErrorMessage = "أدخل سنة صحيحة"), MaxLength(4, ErrorMessage = "أدخل سنة صحيحة")]
+        [Range(2020, 3000,ErrorMessage ="مجال السنوات يجب أن يكون أكبر من 2020")]
+        public string Year { get; set; } = string.Empty;
     }
 }
