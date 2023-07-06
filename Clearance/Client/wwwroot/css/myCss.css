@@ -129,6 +129,7 @@ body {
 
 
 thead {
-    background-color: var(--maint-color);
-    color: white;
+    /*background-color: var(--maint-color);*/
+    /*color: white;*/
+    
 }
