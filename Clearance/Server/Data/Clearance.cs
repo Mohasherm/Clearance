@@ -20,6 +20,7 @@ namespace Clearance.Server.Data
         public string State { get; set; }
         public DateTime? OrderRecieveDate { get; set; }
         public bool Done { get; set; } = false;
+        public string Year { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public AppUser AppUser { get; set; }

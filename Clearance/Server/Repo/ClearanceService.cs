@@ -55,7 +55,8 @@ namespace Clearance.Server.Repo
                     OrderApplyDate = a.OrderApplyDate,
                     State = a.State,
                     OrderRecieveDate = a.OrderRecieveDate,
-                    Done = a.Done
+                    Done = a.Done,
+                    Year = a.Year
                 }
                    ).ToListAsync();
         }
@@ -143,7 +144,9 @@ namespace Clearance.Server.Repo
                   OrderApplyDate = a.OrderApplyDate,
                   State = a.State,
                   OrderRecieveDate = a.OrderRecieveDate,
-                  Done = a.Done
+                  Done = a.Done,
+                  Year = a.Year
+
               }
                  ).ToListAsync();
         }
@@ -239,7 +242,9 @@ namespace Clearance.Server.Repo
                 OrderApplyDate = clearanceDTO.OrderApplyDate,
                 State = clearanceDTO.State,
                 OrderRecieveDate = clearanceDTO.OrderRecieveDate,
-                Done = false
+                Done = false,
+                Year = clearanceDTO.Year
+
             };
             await db.Clearances.AddAsync(data);
 
@@ -303,7 +308,8 @@ namespace Clearance.Server.Repo
                OrderApplyDate = a.OrderApplyDate,
                State = a.State,
                OrderRecieveDate = a.OrderRecieveDate,
-               Done = a.Done
+               Done = a.Done,
+               Year = a.Year
            }
               ).ToListAsync();
         }
@@ -343,7 +349,8 @@ namespace Clearance.Server.Repo
                 OrderApplyDate = a.OrderApplyDate,
                 State = a.State,
                 OrderRecieveDate = a.OrderRecieveDate,
-                Done = a.Done
+                Done = a.Done,
+                Year = a.Year 
             }
                ).ToListAsync();
         }
@@ -446,6 +453,7 @@ namespace Clearance.Server.Repo
             data.State = clearanceDTO.State;
             data.OrderRecieveDate = clearanceDTO.OrderRecieveDate;
             data.Done = clearanceDTO.Done;
+            data.Year = clearanceDTO.Year;
             db.Entry(data).State = EntityState.Modified;
 
             try
@@ -476,7 +484,7 @@ namespace Clearance.Server.Repo
                 await db.SaveChangesAsync();
 
                 if (!db.ClearanceDirections
-                    .Where(x => (x.State == false || x.State == null) 
+                    .Where(x => (x.State == false || x.State == null)
                     && x.ClearanceId == data.ClearanceId).Any())
                 {
                     var clData = db.Clearances.Find(data.ClearanceId);
