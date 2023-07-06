@@ -26,6 +26,7 @@
 
 body {
     font-family: TajawalMedium;
+    background: url(../images/7.jpg) #e6e4d7 !important;
 }
 
 
@@ -103,9 +104,12 @@ body {
 }
 
     .delete:hover {
-        color: #ba4646
+        color: #e2f3fa
     }
 
+.card {
+    background-color: #fbfdff
+}
 
 .card-header {
     background-color: var(--maint-color);
