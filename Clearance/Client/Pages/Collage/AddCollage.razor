@@ -11,9 +11,9 @@
 <AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>@title</PageTitle>
-        <div class="card ">
+        <div class="card">
             <div class="card-header">
-                @title
+                <span class="card-header-text">@title</span>
             </div>
             <div class="card-body">
                 <EditForm Model="collageDTO" OnValidSubmit="Save">
@@ -39,8 +39,9 @@
                         @if (Id > 0)
                         {
                             <div class="card mb-2">
-                                <div class="card-header bg-primary text-white">
-                                    الجهات المتعلقة بهذا المركز
+                                <div class="card-header">
+                                    <span class="card-header-text">الجهات المتعلقة بهذا المركز</span>
+                                    
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3 mb-3">

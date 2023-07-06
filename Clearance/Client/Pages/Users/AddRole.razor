@@ -6,10 +6,11 @@
 <AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>إضافة صلاحية</PageTitle>
-           <div class="card ">
-            <div class="card-header bg-dark text-white">
-                إضافة صلاحية
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">إضافة صلاحية</span>
             </div>
+
             <div class="card-body">
                 <EditForm Model="userRolesDTO" OnValidSubmit="Save">
                         <DataAnnotationsValidator />
