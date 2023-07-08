@@ -13,8 +13,8 @@
         <div class="col-lg-4 col-md-6 col-sm-10">
 
             <div class="card p-0 mt-5">
-                <div class="card-header bg-dark text-white">
-                    تسجيل الدخول
+                <div class="card-header">
+                    <span class="card-header-text">تسجيل الدخول</span>
                 </div>
                 <div class="card-body">
                     <EditForm Model="@userLoginDTO" OnValidSubmit="@HandleValidSubmit">
@@ -23,16 +23,21 @@
                         <ValidationSummary />
 
                         <div class="mb-3">
-                            <InputText class="form-control" id="Email" @bind-Value="userLoginDTO.Email" placeholder="اسم المستخدم" />
+                            <label for="name">اسم المستخدم</label>
+                            <InputText id="Email" class="form-control" @bind-Value="userLoginDTO.Email" placeholder="اسم المستخدم"></InputText>
                         </div>
 
                         <div class="mb-3">
+                            <label for="name">كلمة المرور</label>
                             <input type="password" class="form-control" id="Password" @bind-value="userLoginDTO.Password" placeholder="كلمة المرور" />
                         </div>
 
                         @if (!loggingIn)
                         {
-                            <button class="btn mx-2 btn-outline-success" type="submit">تسجيل الدخول</button>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-submit" type="submit">تسجيل الدخول</button>
+                            </div>
+
                         }
                         else
                         {

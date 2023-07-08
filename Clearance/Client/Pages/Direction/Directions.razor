@@ -27,7 +27,7 @@
                                 <div class="col-auto">
                                     @if (!searching)
                                     {
-                                        <button class="btn btn-outline-info" @onclick="search">بحث</button>
+                                        <button class="btn btn-above" @onclick="search">&nbsp; بحث <i class="fa fa-search"></i> </button>
                                     }
                                     else
                                     {
@@ -50,8 +50,8 @@
                                             <tr>
                                                 <td>@r.Name</td>
                                                 <td>
-                                                    <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="oi oi-pencil"></i></a>
-                                                    <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="oi oi-trash"></i></a>
+                                                    <a class="btn btn-in-column " title="تعديل" data-toggle="tooltip" href="@($"/EditDirection/{r.Id}")"><i class="fas fa-pen fa-sm"></i></a>
+                                                    <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteDirection/{r.Id}")"><i class="far fa-trash-alt fa-sm"></i></a>
                                                 </td>
                                             </tr>
                                         }
