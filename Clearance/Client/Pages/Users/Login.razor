@@ -23,12 +23,12 @@
                         <ValidationSummary />
 
                         <div class="mb-3">
-                            <label for="name">اسم المستخدم</label>
+                            <label for="Email">اسم المستخدم</label>
                             <InputText id="Email" class="form-control" @bind-Value="userLoginDTO.Email" placeholder="اسم المستخدم"></InputText>
                         </div>
 
                         <div class="mb-3">
-                            <label for="name">كلمة المرور</label>
+                            <label for="Password">كلمة المرور</label>
                             <input type="password" class="form-control" id="Password" @bind-value="userLoginDTO.Password" placeholder="كلمة المرور" />
                         </div>
 
@@ -50,12 +50,12 @@
                     </EditForm>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-3 col-md-2 col-sm-0">
-            </div>
-
+        <div class="col-lg-4 col-md-3 col-sm-1">
         </div>
     </div>
+
 </div>
 
 @code {
