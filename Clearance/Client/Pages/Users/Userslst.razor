@@ -13,19 +13,21 @@
                 <span class="card-header-text">الموظفون</span>
                 </div>
             <div class="card-body">
-                <div class="row g-3 mb-3">
-                    <div class="col-auto">
-                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم الموظف..."></input>
+                <div class="row g-3 mb-3 d-flex justify-content-center">
+                    <div class="col-lg-3 col-md-8 col-sm-6 ">
+                        <input class="form-control" @bind-value="NameFilter" placeholder="ادخل اسم للبحث..."></input>
                     </div>
                     <div class="col-auto">
                         @if (!searching)
                         {
-                            <button class="btn btn-outline-info" @onclick="search">بحث</button>
+                            <button class="btn btn-above" @onclick="search">&nbsp; بحث <i class="fa fa-search"></i></button>
                         }
                         else
                         {
                             <p>يتم البحث الآن ...</p>
                         }
+                    </div>
+                    <div class="col-auto">
                     </div>
                 </div>
                 @if (lst_UserDTO != null && lst_UserDTO.Count > 0)
@@ -33,22 +35,22 @@
                     <table class="table table-sm table-bordered table-striped table-hover">
                         <thead class="table-primary">
                             <tr>
-                                <th><i class="fa  pull-right hidden-xs"></i>الاسم الثلاثي</th>
-                                <th><i class="fa  pull-right hidden-xs"></i>اسم المستخدم</th>
-                                <th><i class="fa  pull-right hidden-xs"></i>الجهة التابع لها</th>
-                                <th><i class="fa  pull-right hidden-xs"></i> </th>
+                                <th><i class="fa pull-right hidden-xs"></i>الاسم الثلاثي</th>
+                                <th><i class="fa pull-right hidden-xs"></i>اسم المستخدم</th>
+                                <th><i class="fa pull-right hidden-xs"></i>الجهة التابع لها</th>
+                                <th><i class="fa pull-right hidden-xs"></i> </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var r in lst_UserDTO)
                             {
                                 <tr>
-                                    <td>@r.FullName</td>
-                                    <td>@r.UserName</td>
-                                    <td>@r.DirectionName</td>
-                                    <td>
-                                        <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditUser/{r.Id}")"><i class="oi oi-pencil"></i></a>
-                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteUser/{r.Id}")"><i class="oi oi-trash"></i></a>
+                                    <td class="col-auto">@r.FullName</td>
+                                    <td class="col-auto">@r.UserName</td>
+                                    <td class="col-auto">@r.DirectionName</td>
+                                    <td class="col-auto">
+                                        <a class="btn btn-in-column" title="تعديل" data-toggle="tooltip" href="@($"/EditUser/{r.Id}")"><i class="fas fa-pen fa-sm"></i></a>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteUser/{r.Id}")"><i class="far fa-trash-alt fa-sm"></i></a>
                                     </td>
                                 </tr>
                             }

@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Clearance.Server.Repo
 {
-    public class CollageDirectionService : ICollageDirectionService
+    public class DepartmentDirectionService : IDepartmentDirectionService
     {
         DataContext db;
-        public CollageDirectionService(DataContext db)
+        public DepartmentDirectionService(DataContext db)
         {
             this.db = db;
         }
         public async Task<bool> Delete(int id)
         {
-            var data = await db.CollageDirections.FindAsync(id);
+            var data = await db.DepartmentDirection.FindAsync(id);
             if (data == null)
             {
                 return false;
@@ -31,42 +31,42 @@ namespace Clearance.Server.Repo
             }
         }
 
-        public async Task<List<CollageDirectionDTO>> GetAll(int collageId)
+        public async Task<List<DepartmentDirectionDTO>> GetAll(int DepId)
         {
             return await (
-               from a in db.CollageDirections
-               where a.CollageId == collageId
-               select new CollageDirectionDTO
+               from a in db.DepartmentDirection
+               where a.DepartmentId == DepId
+               select new DepartmentDirectionDTO
                {
                    Id = a.Id,
-                   CollageId = a.CollageId,
+                   DepartmentId = a.DepartmentId,
                    DirectionId = a.DirectionId,
                    DirectionName = a.Direction.Name
                }
                   ).ToListAsync();
         }
 
-        public async Task<CollageDirectionDTO?> GetById(int id)
+        public async Task<DepartmentDirectionDTO?> GetById(int id)
         {
             return await (
-              from a in db.CollageDirections
-              select new CollageDirectionDTO
+              from a in db.DepartmentDirection
+              select new DepartmentDirectionDTO
               {
                   Id = a.Id,
-                  CollageId = a.CollageId,
+                  DepartmentId = a.DepartmentId,
                   DirectionId = a.DirectionId,
                   DirectionName = a.Direction.Name
               }
                  ).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Insert(CollageDirectionDTO collageDirectionDTO)
+        public async Task<bool> Insert(DepartmentDirectionDTO departmentDirectionDTO)
         {
-            await db.CollageDirections.AddAsync(new CollageDirection
+            await db.DepartmentDirection.AddAsync(new DepartmentDirection
             {
-                Id = collageDirectionDTO.Id,
-                CollageId = collageDirectionDTO.CollageId,
-                DirectionId = collageDirectionDTO.DirectionId
+                Id = departmentDirectionDTO.Id,
+                DepartmentId = departmentDirectionDTO.DepartmentId,
+                DirectionId = (int)departmentDirectionDTO.DirectionId
             });
 
             try

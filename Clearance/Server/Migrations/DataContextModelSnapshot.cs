@@ -148,9 +148,8 @@ namespace Clearance.Server.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Done")
                         .HasColumnType("bit");
@@ -260,7 +259,7 @@ namespace Clearance.Server.Migrations
                     b.ToTable("Collages");
                 });
 
-            modelBuilder.Entity("Clearance.Server.Data.CollageDirection", b =>
+            modelBuilder.Entity("Clearance.Server.Data.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,16 +270,38 @@ namespace Clearance.Server.Migrations
                     b.Property<int>("CollageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DirectionId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CollageId");
 
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("Clearance.Server.Data.DepartmentDirection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DirectionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
                     b.HasIndex("DirectionId");
 
-                    b.ToTable("CollageDirections");
+                    b.ToTable("DepartmentDirection");
                 });
 
             modelBuilder.Entity("Clearance.Server.Data.Direction", b =>
@@ -460,11 +481,22 @@ namespace Clearance.Server.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("Clearance.Server.Data.CollageDirection", b =>
+            modelBuilder.Entity("Clearance.Server.Data.Department", b =>
                 {
                     b.HasOne("Clearance.Server.Data.Collage", "Collage")
                         .WithMany()
                         .HasForeignKey("CollageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collage");
+                });
+
+            modelBuilder.Entity("Clearance.Server.Data.DepartmentDirection", b =>
+                {
+                    b.HasOne("Clearance.Server.Data.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -474,7 +506,7 @@ namespace Clearance.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Collage");
+                    b.Navigation("Department");
 
                     b.Navigation("Direction");
                 });

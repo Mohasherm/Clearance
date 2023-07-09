@@ -15,9 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IDirectionService, DirectionService>();
 builder.Services.AddScoped<ICollageService, CollageService>();
-builder.Services.AddScoped<ICollageDirectionService, CollageDirectionService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IDirectionService, DirectionService>();
+builder.Services.AddScoped<IDepartmentDirectionService, DepartmentDirectionService>();
 builder.Services.AddScoped<IClearanceService, ClearanceService>();
 
 builder.Services.AddTransient<IClaimsService, ClaimsService>();

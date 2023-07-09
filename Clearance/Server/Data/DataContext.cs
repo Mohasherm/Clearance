@@ -20,9 +20,10 @@ namespace Clearance.Server.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Direction> Directions { get; set; }
         public DbSet<Collage> Collages { get; set; }
-        public DbSet<CollageDirection> CollageDirections { get; set; }
+        public DbSet<Department> Departments{ get; set; }
+        public DbSet<Direction> Directions { get; set; }
+        public DbSet<DepartmentDirection> DepartmentDirection { get; set; }
         public DbSet<Clearance> Clearances{ get; set; }
         public DbSet<ClearanceDirection> ClearanceDirections { get; set; }
 

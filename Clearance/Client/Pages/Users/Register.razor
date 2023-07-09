@@ -10,74 +10,95 @@
 <AuthorizeView Context="aContext">
     <Authorized>
         <PageTitle>إضافة موظف</PageTitle>
-        <div class="card">
-            <div class="card-header">
-                <span class="card-header-text">إضافة موظف</span>
-            </div>
-            <div class="card-body">
-                @if (!succeeded)
-                {
-                    <EditForm Model="@userRegisterDTO" OnValidSubmit="register">
-                        <CustomValidation @ref="customValidation" />
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-sm-0">
+                </div>
+                <div class="col-lg-6 col-md-8 col-sm-12">
 
-                        <div class="mb-3">
-                            <InputText class="form-control" @bind-Value="userRegisterDTO.FirstName" placeholder="اسم الموظف" />
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-header-text">إضافة موظف</span>
                         </div>
-                        <div class="mb-3">
-                            <InputText class="form-control" @bind-Value="userRegisterDTO.LastName" placeholder="الكنية" />
-                        </div>
-                        <div class="mb-3">
-                            <InputText class="form-control" @bind-Value="userRegisterDTO.Father" placeholder="الأب" />
-                        </div>
+                        <div class="card-body">
+                            @if (!succeeded)
+                            {
+                                <EditForm Model="@userRegisterDTO" OnValidSubmit="register">
+                                    <CustomValidation @ref="customValidation" />
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
 
-                        <div class="mb-3">
-                            <InputText class="form-control" id="empUserName" @bind-Value="userRegisterDTO.empUserName" placeholder="اسم المستخدم" />
-                        </div>
+                                    <div class="mb-3">
+                                        <label for="FirstName">اسم الموظف</label>
+                                        <InputText class="form-control" @bind-Value="userRegisterDTO.FirstName" placeholder="اسم الموظف" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="LastName">الكنية</label>
+                                        <InputText class="form-control" @bind-Value="userRegisterDTO.LastName" placeholder="الكنية" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Father">الأب</label>
+                                        <InputText class="form-control" @bind-Value="userRegisterDTO.Father" placeholder="الأب" />
+                                    </div>
 
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="Password" @bind-value="userRegisterDTO.Password" placeholder="كلمة المرور" />
-                        </div>
+                                    <div class="mb-3">
+                                        <label for="empUserName">اسم المستخدم</label>
+                                        <InputText class="form-control" id="empUserName" @bind-Value="userRegisterDTO.empUserName" placeholder="اسم المستخدم" />
+                                    </div>
 
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="ConfirmPassword" @bind-value="userRegisterDTO.ConfirmPassword" placeholder="تأكيد كلمة المرور" />
-                        </div>
+                                    <div class="mb-3">
+                                        <label for="Password">كلمة المرور</label>
+                                        <input type="password" class="form-control" id="Password" @bind-value="userRegisterDTO.Password" placeholder="كلمة المرور" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="ConfirmPassword">تأكيد كلمة المرور</label>
+                                        <input type="password" class="form-control" id="ConfirmPassword" @bind-value="userRegisterDTO.ConfirmPassword" placeholder="تأكيد كلمة المرور" />
+                                    </div>
 
 
-                        @if (lst_DirectionDTO != null)
-                        {
-                            <div class="mb-3">
-                                <InputSelect class="form-select" id="JobTitle" @bind-Value="userRegisterDTO.Direction_Id">
-                                    <option value="">اختر الجهة....</option>
-                                    @foreach (var item in lst_DirectionDTO)
+                                    @if (lst_DirectionDTO != null)
                                     {
-                                        <option value="@item.Id">@item.Name</option>
-                                    }
-                                </InputSelect>
-                            </div>
-                        }
+                                        <div class="mb-3">
+                                            <label for="">الجهة</label>
 
-                        @if (!registering)
-                        {
-                            <button class="btn mx-2 btn-success" type="submit">حفظ</button>
-                        }
-                        else
-                        {
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-                        }
-                    </EditForm>
-                }
-                else
-                {
-                    <p>
-                        تم إضافة موظف جديد بنجاح
-                    </p>
-                }
+                                            <InputSelect class="form-select" id="JobTitle" @bind-Value="userRegisterDTO.Direction_Id">
+                                                <option value=""> ... (ليس موظف جهة) ... </option>
+                                                @foreach (var item in lst_DirectionDTO)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </InputSelect>
+                                        </div>
+                                    }
+
+                                    @if (!registering)
+                                    {
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn btn-submit" type="submit">حفظ</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        </div>
+                                    }
+                                </EditForm>
+                            }
+                            else
+                            {
+                                <p>
+                                    تم إضافة موظف جديد بنجاح
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-0">
+                </div>
             </div>
         </div>
 

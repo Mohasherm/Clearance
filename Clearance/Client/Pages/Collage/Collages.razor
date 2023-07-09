@@ -8,7 +8,10 @@
     <Authorized>
         <PageTitle>المراكز</PageTitle>
 
-        <div class="card">
+               <div class="d-flex justify-content-center">
+
+            <div class="card col-lg-6 col-md-8 col-sm-12">
+
             <div class="card-header">
                 <span class="card-header-text">المراكز</span>
                 <a class="btn btn-above" title="إضافة جديد" data-toggle="tooltip" href="@("/AddCollage")"><i class="oi oi-plus"></i> إضافة جديد</a>
@@ -43,9 +46,9 @@
                             @foreach (var r in lst_CollageDTO)
                             {
                                 <tr>
-                                    <td>@r.Name</td>
-                                    <td>@r.UserName</td>
-                                    <td>
+                                    <td  >@r.Name</td>
+                                    <td  >@r.UserName</td>
+                                    <td  >
                                         <a class="btn btn-info" title="تعديل" data-toggle="tooltip" href="@($"/EditCollage/{r.Id}")"><i class="oi oi-pencil"></i></a>
                                         <a class="btn btn-danger" title="حذف" data-toggle="tooltip" href="@($"/DeleteCollage/{r.Id}")"><i class="oi oi-trash"></i></a>
                                     </td>
@@ -68,6 +71,7 @@
                         </div>
                     </div>
                 }
+            </div>
             </div>
         </div>
     </Authorized>

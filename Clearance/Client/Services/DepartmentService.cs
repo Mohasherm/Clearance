@@ -6,20 +6,20 @@ using System.Net.Http.Json;
 
 namespace Clearance.Client.Services
 {
-    public class CollageDirectionService
+    public class DepartmentService
     {
         private readonly HttpClient httpClient;
         private readonly ITokenService tokenService;
         private readonly NavigationManager navigationManager;
 
-        public CollageDirectionService(HttpClient httpClient, ITokenService tokenService,NavigationManager navigationManager)
+        public DepartmentService(HttpClient httpClient, ITokenService tokenService, NavigationManager navigationManager)
         {
             this.httpClient = httpClient;
             this.tokenService = tokenService;
             this.navigationManager = navigationManager;
         }
 
-        public async Task<List<CollageDirectionDTO>?> GetAll(int CollageId)
+        public async Task<List<DepartmentDTO>?> GetAll(int collageId)
         {
             var token = await tokenService.GetToken();
 
@@ -31,10 +31,25 @@ namespace Clearance.Client.Services
             {
                 navigationManager.NavigateTo("login", true);
             }
-            return await httpClient.GetFromJsonAsync<List<CollageDirectionDTO>>($"api/CollageDirection/GetAll/{CollageId}");
+            return await httpClient.GetFromJsonAsync<List<DepartmentDTO>>($"api/Department/GetAll/{collageId}");
+        }
+        
+        public async Task<List<DepartmentDTO>?> Search(string? Name)
+        {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
+            return await httpClient.GetFromJsonAsync<List<DepartmentDTO>>($"api/Department/Search/{Name}");
         }
 
-        public async Task<CollageDirectionDTO?> GetById(int Id)
+        public async Task<DepartmentDTO?> GetById(int Id)
         {
             var token = await tokenService.GetToken();
 
@@ -46,7 +61,7 @@ namespace Clearance.Client.Services
             {
                 navigationManager.NavigateTo("login", true);
             }
-            var response = await httpClient.GetAsync($"api/CollageDirection/GetById/{Id}");
+            var response = await httpClient.GetAsync($"api/Department/GetById/{Id}");
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -54,7 +69,7 @@ namespace Clearance.Client.Services
                     return null;
                 }
 
-                return await response.Content.ReadFromJsonAsync<CollageDirectionDTO>();
+                return await response.Content.ReadFromJsonAsync<DepartmentDTO>();
             }
             else
             {
@@ -62,8 +77,7 @@ namespace Clearance.Client.Services
             }
         }
 
-
-        public async Task<bool> Insert(CollageDirectionDTO collageDirectionDTO)
+        public async Task<bool> Insert(DepartmentDTO departmentDTO)
         {
             var token = await tokenService.GetToken();
 
@@ -76,7 +90,33 @@ namespace Clearance.Client.Services
                 navigationManager.NavigateTo("login", true);
             }
 
-            var response = await httpClient.PostAsJsonAsync("api/CollageDirection/Post/", collageDirectionDTO);
+            var response = await httpClient.PostAsJsonAsync("api/Department/Post/", departmentDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+
+        public async Task<bool> Update(DepartmentDTO departmentDTO, int Id)
+        {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
+            var response = await httpClient.PutAsJsonAsync($"api/Department/Put/{Id}", departmentDTO);
+
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -101,7 +141,7 @@ namespace Clearance.Client.Services
             {
                 navigationManager.NavigateTo("login", true);
             }
-            var response = await httpClient.DeleteAsync($"api/CollageDirection/Delete/{Id}");
+            var response = await httpClient.DeleteAsync($"api/Department/Delete/{Id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -114,5 +154,7 @@ namespace Clearance.Client.Services
             else
                 return false;
         }
+
+
     }
 }

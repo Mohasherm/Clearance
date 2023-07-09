@@ -24,6 +24,8 @@ namespace Clearance.Shared
         [Required(ErrorMessage = "الرجاء إختيار المركز")]
         public int? CollageId { get; set; }
         public string CollageName { get; set; } = string.Empty;
+        [Required(ErrorMessage ="الرجاء إختيار القسم")]
+        public int? DepartmentId { get; set; } 
         public string Department { get; set; } = string.Empty;
         [Required(ErrorMessage = "الرجاء إدخال رقم الموبايل")]
         [DataType(DataType.PhoneNumber)]
