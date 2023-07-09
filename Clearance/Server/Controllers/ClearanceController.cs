@@ -185,12 +185,24 @@ namespace Clearance.Server.Controllers
                 return BadRequest();
         }
 
+          [HttpPut]
+        [Authorize]
+        [Route("RenewOrder/{Id}")]
+        public async Task<ActionResult> RenewOrder([FromBody] ClearanceDTO clearanceDTO, int Id)
+        {
+            var data = await clearanceService.RenewOrder(clearanceDTO, Id);
+            if (data)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
         [HttpPut]
         [Authorize(Roles = "Admin,SuperVisor")]
-        [Route("PutDirection/{Id}")]
-        public async Task<ActionResult> PutDirection([FromBody] ClearanceDirectionsDTO clearanceDirectionsDTO, int Id)
+        [Route("PutDirection/{Id}/{userId}")]
+        public async Task<ActionResult> PutDirection([FromBody] ClearanceDirectionsDTO clearanceDirectionsDTO, int Id,Guid userId)
         {
-            var data = await clearanceService.UpdateDirection( clearanceDirectionsDTO, Id);
+            var data = await clearanceService.UpdateDirection( clearanceDirectionsDTO, Id,userId);
             if (data)
                 return Ok();
             else

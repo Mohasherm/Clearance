@@ -13,7 +13,7 @@ namespace Clearance.Shared
         public int ClearanceId { get; set; }
         public int DirectionId { get; set; }
         public bool? State { get; set; }
-
+        public string UserName { get; set; } = string.Empty;
         public string CollageName { get; set; } = string.Empty;
         public string DirectionName { get; set; } = string.Empty;
         public string StudentName { get; set; } = string.Empty;
@@ -21,5 +21,6 @@ namespace Clearance.Shared
         public string NationalNum { get; set; }
         public string Department { get; set; } = string.Empty;
         public DateTime OrderApplyDate { get; set; }
+        public DateTime? DoneDate { get; set; }
     }
 }

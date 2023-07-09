@@ -255,7 +255,8 @@ namespace Clearance.Client.Services
             else
                 return false;
         }
-        public async Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id)
+
+        public async Task<bool> RenewOrder(ClearanceDTO clearanceDTO, int Id)
         {
             var token = await tokenService.GetToken();
 
@@ -267,7 +268,33 @@ namespace Clearance.Client.Services
             {
                 navigationManager.NavigateTo("login", true);
             }
-            var response = await httpClient.PutAsJsonAsync($"api/Clearance/PutDirection/{Id}", clearanceDirectionsDTO);
+            var response = await httpClient.PutAsJsonAsync($"api/Clearance/RenewOrder/{Id}", clearanceDTO);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
+
+        public async Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id,Guid userId)
+        {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
+            var response = await httpClient.PutAsJsonAsync($"api/Clearance/PutDirection/{Id}/{userId}", clearanceDirectionsDTO);
 
             if (response.IsSuccessStatusCode)
             {
