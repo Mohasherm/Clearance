@@ -1,5 +1,6 @@
 ﻿@page "/DetailClearanceSuperVisor/{Id:int}"
 @inject ClearanceService ser
+@inject AuthenticationHttpClient http
 @inject NavigationManager navManager
 @inject IJSRuntime js
 @attribute [Authorize(Roles = "SuperVisor")]
@@ -79,11 +80,19 @@
     public int Id { get; set; }
     private ClearanceDirectionsDTO? clearanceDTO = new();
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { set; get; }
+    AuthenticationState user;
+    private UserDTO userDTO;
+
     protected override async Task OnParametersSetAsync()
     {
         if (Id > 0)
         {
             clearanceDTO = await ser.GetByDirectionId(Id);
+            user = await authenticationState;
+            var Email = user.User.Identity.Name;
+            userDTO = await http.GetUser(Email);
         }
         else
         {
@@ -99,7 +108,7 @@
         if (confirmed)
         {
             clearanceDTO.State = true;
-            var result = await ser.UpdateDirection(clearanceDTO, Id);
+            var result = await ser.UpdateDirection(clearanceDTO, Id,userDTO.Id);
             if (result)
             {
                 navManager.NavigateTo("/SuperVisorClearancesNotDone");

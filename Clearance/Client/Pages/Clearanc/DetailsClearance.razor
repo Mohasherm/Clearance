@@ -122,6 +122,53 @@
                 </div>
             </div>
 
+            <div id="print" class="container m-5" hidden>
+                <div class="row" dir="rtl" lang="ar-sy">
+                    <p class="d-block text-center mb-3">
+                        <strong>
+                            براءة ذمة
+                        </strong>
+                    </p>
+                    <p class="d-block">
+                        إن الطالب @clearanceDTO.FirstName @clearanceDTO.LastName بن @clearanceDTO.Father المسجل ب @clearanceDTO.CollageName فرع @clearanceDTO.Department برقم جامعي @clearanceDTO.UnivNum
+                    </p>
+
+                    @for (int i = 0; i < lst_ClearanceDirectionsDTO.Count; i++)
+                    {
+                        <p class="d-block">
+                            @(i + 1) - هو بريء الذمة تجاه @lst_ClearanceDirectionsDTO[i].DirectionName @lst_ClearanceDirectionsDTO[i].UserName  @(Convert.ToDateTime(lst_ClearanceDirectionsDTO[i].DoneDate).ToString("yyyy/MM/dd hh:mm"))
+                        </p>
+                    }
+                    <p class="d-block">
+                       سدد الرسوم الجامعية كافة وتقديم وثيقة تبرع / اعفاء بالدم صادرة عن:  ــــــــــــــــــــــــــــــــــــــــــ برقم / ــــــــــــــــــــــــــــــــــــــــــ
+                        <br>
+                       تاريخ  ـــــــــ  /ـــــــــ/  ـــــــــ 20
+                    </p>
+                    @if (clearanceDTO.DateValidation is not null)
+                    {
+
+                        <p class="d-block">
+                            <strong>
+                                @Convert.ToDateTime(clearanceDTO.DateValidation).ToString("yyyy/MM/dd")
+                            </strong>
+                        </p>
+                        @if (clearanceDTO.DateValidation.Value.AddMonths(3) >= DateTime.Now)
+                        {
+                            <p class="d-block">
+                                صالحة لغاية 3 أشهر
+                            </p>
+                        }
+                    }
+
+                    <div class="form-group d-flex justify-content-around mt-3">
+                        <p class="d-block"><strong>رئيس المركز</strong></p>
+                        <p class="d-block"><strong>العميد</strong></p>
+                    </div>
+
+                </div>
+            </div>
+
+
         }
         else
         {
@@ -172,7 +219,7 @@
 
             if (result)
             {
-                navManager.NavigateTo("/Clearances");
+                await js.InvokeVoidAsync("printDiv", "print");
             }
             else
             {
@@ -181,14 +228,17 @@
         }
     }
 
-    
+
+
     async void ReNew()
     {
         clearanceDTO.AppointmentDate = DateTime.Now.AddDays(5);
         clearanceDTO.OrderApplyDate = DateTime.Now;
         clearanceDTO.OrderRecieveDate = null;
         clearanceDTO.State = "قيد المعالجة";
-        var result = await ser.Update(clearanceDTO, Id);
+        clearanceDTO.Done = false;
+
+        var result = await ser.RenewOrder(clearanceDTO, Id);
 
         if (result)
         {

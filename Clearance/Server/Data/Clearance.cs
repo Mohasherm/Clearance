@@ -21,15 +21,13 @@ namespace Clearance.Server.Data
         public DateTime? OrderRecieveDate { get; set; }
         public bool Done { get; set; } = false;
         public string Year { get; set; }
+        public DateTime? DateValidation { get; set; } 
 
         [ForeignKey(nameof(UserId))]
         public AppUser AppUser { get; set; }
 
         [ForeignKey(nameof(CollageId))]
         public Collage Collage{ get; set; }
-
-        //[ForeignKey(nameof(DepartmentId))]
-        //public Department Department{ get; set; }
 
     }
 }

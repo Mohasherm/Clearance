@@ -86,7 +86,9 @@ namespace Clearance.Server.Repo
                   CollageName = a.Clearance.Collage.Name,
                   Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
-                  DirectionName = a.Direction.Name
+                  DirectionName = a.Direction.Name,
+                  DoneDate = a.DoneDate,
+                  UserName = a.AppUser == null ? "" : a.AppUser.UserName
               }
                  ).ToListAsync();
         }
@@ -115,7 +117,9 @@ namespace Clearance.Server.Repo
                   CollageName = a.Clearance.Collage.Name,
                   Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
-                  DirectionName = a.Direction.Name
+                  DirectionName = a.Direction.Name,
+                  DoneDate = a.DoneDate,
+                  UserName = a.AppUser == null ? "" : a.AppUser.UserName
               }
                  ).ToListAsync();
         }
@@ -170,7 +174,9 @@ namespace Clearance.Server.Repo
                  CollageName = a.Clearance.Collage.Name,
                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                  OrderApplyDate = a.Clearance.OrderApplyDate,
-                 DirectionName = a.Direction.Name
+                 DirectionName = a.Direction.Name,
+                 DoneDate = a.DoneDate,
+                 UserName = a.AppUser == null ? "" : a.AppUser.UserName
              }
                 ).ToListAsync();
         }
@@ -191,7 +197,9 @@ namespace Clearance.Server.Repo
                  CollageName = a.Clearance.Collage.Name,
                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                  OrderApplyDate = a.Clearance.OrderApplyDate,
-                 DirectionName = a.Direction.Name
+                 DirectionName = a.Direction.Name,
+                 DoneDate = a.DoneDate,
+                 UserName = a.AppUser == null ? "" : a.AppUser.UserName
              }
                 ).FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -221,7 +229,8 @@ namespace Clearance.Server.Repo
                   State = a.State,
                   OrderRecieveDate = a.OrderRecieveDate,
                   Done = a.Done,
-                  Year = a.Year
+                  Year = a.Year,
+                  DateValidation = a.DateValidation
 
               }
                  ).FirstOrDefaultAsync(x => x.Id == id);
@@ -265,13 +274,51 @@ namespace Clearance.Server.Repo
                     List<ClearanceDirection> lst = new();
                     foreach (var dirId in directions)
                     {
-                        lst.Add(new() { ClearanceId = data.Id, DirectionId = dirId, State = null });
+                        lst.Add(new() { 
+                            ClearanceId = data.Id, 
+                            DirectionId = dirId, 
+                            State = null,
+                            UserId = null
+                        });
                     }
                     await db.AddRangeAsync(lst);
                     await db.SaveChangesAsync();
                 }
 
                 return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RenewOrder(ClearanceDTO clearanceDTO, int Id)
+        {
+            if (clearanceDTO == null || clearanceDTO.Id != Id)
+                return false;
+            var data = await db.Clearances.FindAsync(Id);
+           
+            data.AppointmentDate = clearanceDTO.AppointmentDate;
+            data.OrderApplyDate = clearanceDTO.OrderApplyDate;
+            data.OrderRecieveDate = clearanceDTO.OrderRecieveDate;
+            data.State = clearanceDTO.State;
+            data.Done = clearanceDTO.Done;
+
+            db.Entry(data).State = EntityState.Modified;
+
+            var clDirec = await db.ClearanceDirections.Where(x => x.ClearanceId == Id).ToListAsync();
+
+            clDirec.ForEach(x => x.State = null);
+
+            try
+            {
+                await db.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
             }
             catch (DbUpdateException)
             {
@@ -290,7 +337,7 @@ namespace Clearance.Server.Repo
                  a.UnivNum.Contains(Name) ||
                  a.NationalNum.Contains(Name) ||
                  a.Collage.Name.Contains(Name) ||
-                  db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name)|| //a.Department.Name.Contains(Name) ||
+                  db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name) || //a.Department.Name.Contains(Name) ||
                  a.Mobile.Contains(Name) ||
                  a.State.Contains(Name)
            select new ClearanceDTO
@@ -330,7 +377,7 @@ namespace Clearance.Server.Repo
                   a.UnivNum.Contains(Name) ||
                   a.NationalNum.Contains(Name) ||
                   a.Collage.Name.Contains(Name) ||
-                   db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name)|| //a.Department.Name.Contains(Name) ||
+                   db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name) || //a.Department.Name.Contains(Name) ||
                   a.Mobile.Contains(Name) ||
                   a.State.Contains(Name)
                   )
@@ -381,7 +428,7 @@ namespace Clearance.Server.Repo
                   a.Clearance.UnivNum.Contains(Name) ||
                   a.Clearance.NationalNum.Contains(Name) ||
                   a.Clearance.Collage.Name.Contains(Name) ||
-                  db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name)||// a.Clearance.Department.Name.Contains(Name) ||
+                  db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name) ||// a.Clearance.Department.Name.Contains(Name) ||
                   a.Clearance.Mobile.Contains(Name) ||
                   a.Clearance.State.Contains(Name)
                   )
@@ -397,7 +444,9 @@ namespace Clearance.Server.Repo
                   CollageName = a.Clearance.Collage.Name,
                   Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
-                  DirectionName = a.Direction.Name
+                  DirectionName = a.Direction.Name,
+                  DoneDate = a.DoneDate,
+                  UserName = a.AppUser == null ? "" : a.AppUser.UserName
               }
                  ).ToListAsync();
         }
@@ -422,7 +471,7 @@ namespace Clearance.Server.Repo
                   a.Clearance.UnivNum.Contains(Name) ||
                   a.Clearance.NationalNum.Contains(Name) ||
                   a.Clearance.Collage.Name.Contains(Name) ||
-                   db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name)|| //a.Clearance.Department.Name.Contains(Name) ||
+                   db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name) || //a.Clearance.Department.Name.Contains(Name) ||
                   a.Clearance.Mobile.Contains(Name) ||
                   a.Clearance.State.Contains(Name)
                   )
@@ -438,7 +487,9 @@ namespace Clearance.Server.Repo
                   CollageName = a.Clearance.Collage.Name,
                   Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
-                  DirectionName = a.Direction.Name
+                  DirectionName = a.Direction.Name,
+                  DoneDate = a.DoneDate,
+                  UserName = a.AppUser == null ? "" : a.AppUser.UserName
               }
                  ).ToListAsync();
         }
@@ -477,12 +528,14 @@ namespace Clearance.Server.Repo
             }
         }
 
-        public async Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id)
+        public async Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id , Guid userId)
         {
             if (clearanceDirectionsDTO == null || clearanceDirectionsDTO.Id != Id)
                 return false;
             var data = await db.ClearanceDirections.FindAsync(Id);
             data.State = clearanceDirectionsDTO.State;
+            data.DoneDate = DateTime.Now;
+            data.UserId = userId;
             db.Entry(data).State = EntityState.Modified;
 
             try
@@ -495,6 +548,7 @@ namespace Clearance.Server.Repo
                 {
                     var clData = db.Clearances.Find(data.ClearanceId);
                     clData.State = "بريء الذمة";
+                    clData.DateValidation = DateTime.Now;
                     db.Entry(clData).State = EntityState.Modified;
                     await db.SaveChangesAsync();
                 }

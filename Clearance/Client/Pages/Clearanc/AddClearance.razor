@@ -42,7 +42,6 @@
                             {
 
                                 <label for="Department">القسم / الاختصاص</label>
-                                @*<InputText id="Department" class="form-control mb-2" @bind-Value="clearanceDTO.Department" placeholder="القسم / الاختصاص"></InputText>*@
                                 <InputSelect class="form-select" @bind-Value="clearanceDTO.DepartmentId">
                                     <option value="">اختر القسم.....</option>
                                     @foreach (var dep in departmentlst)
@@ -85,8 +84,8 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { set; get; }
     AuthenticationState user;
-    private ClearanceDTO? clearanceDTO;
     private UserDTO userDTO;
+    private ClearanceDTO? clearanceDTO;
     private CollageDTO collageDTO;
     List<DepartmentDTO> departmentlst;
 

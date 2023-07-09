@@ -21,7 +21,8 @@ namespace Clearance.Server.Repo.IRepo
         Task<bool> Insert(ClearanceDTO clearanceDTO);
 
         Task<bool> Update(ClearanceDTO clearanceDTO, int Id);
-        Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id);
+        Task<bool> RenewOrder(ClearanceDTO clearanceDTO, int Id);
+        Task<bool> UpdateDirection(ClearanceDirectionsDTO clearanceDirectionsDTO, int Id, Guid UserId);
 
         Task<bool> Delete(int id);
     }
