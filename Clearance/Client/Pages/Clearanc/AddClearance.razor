@@ -1,6 +1,7 @@
 ﻿@page "/AddClearance"
 @inject ClearanceService ser
 @inject CollageService colSer
+@inject DepartmentService depSer
 @inject AuthenticationHttpClient http
 @inject NavigationManager navManager
 @inject IJSRuntime js
@@ -36,13 +37,27 @@
                             <InputText id="NationalNum" class="form-control mb-2" @bind-Value="clearanceDTO.NationalNum" placeholder="الرقم الوطني"></InputText>
                             <label for="CollageId">كلية / معهد الطالب</label>
                             <input readonly id="CollageId" class="form-control mb-2" @bind-value="collageDTO.Name" placeholder="كلية / معهد الطالب"></input>
-                            <label for="Department">القسم / الاختصاص</label>
-                            <InputText id="Department" class="form-control mb-2" @bind-Value="clearanceDTO.Department" placeholder="القسم / الاختصاص"></InputText>
+
+                            @if (departmentlst is not null)
+                            {
+
+                                <label for="Department">القسم / الاختصاص</label>
+                                @*<InputText id="Department" class="form-control mb-2" @bind-Value="clearanceDTO.Department" placeholder="القسم / الاختصاص"></InputText>*@
+                                <InputSelect class="form-select" @bind-Value="clearanceDTO.DepartmentId">
+                                    <option value="">اختر القسم.....</option>
+                                    @foreach (var dep in departmentlst)
+                                    {
+                                        <option value="@dep.Id">@dep.Name</option>
+                                    }
+                                </InputSelect>
+
+                            }
+
                             <label for="UserId">الموظف مدخل البيانات</label>
                             <input readonly id="UserId" class="form-control mb-2" @bind-value="userDTO.FullName" placeholder="الموظف مدخل البيانات"></input>
                             <label for="Mobile">رقم الموبايل</label>
                             <InputText id="Mobile" class="form-control mb-2" @bind-Value="clearanceDTO.Mobile" placeholder="09..."></InputText>
-                             <label for="year">السنة الدراسية</label>
+                            <label for="year">السنة الدراسية</label>
                             <InputText id="year" class="form-control mb-2" @bind-Value="clearanceDTO.Year" placeholder="السنة الدراسية"></InputText>
 
                             <div class="form-group d-flex justify-content-center">
@@ -73,7 +88,7 @@
     private ClearanceDTO? clearanceDTO;
     private UserDTO userDTO;
     private CollageDTO collageDTO;
-    bool adding;
+    List<DepartmentDTO> departmentlst;
 
     protected override async Task OnInitializedAsync()
     {
@@ -91,6 +106,7 @@
         {
             clearanceDTO.UserId = userDTO.Id;
             clearanceDTO.CollageId = collageDTO.Id;
+            departmentlst = await depSer.GetAll(collageDTO.Id);
         }
     }
 
@@ -109,7 +125,7 @@
 
             if (result)
             {
-                 navManager.NavigateTo("/Clearances");
+                navManager.NavigateTo("/Clearances");
             }
             else
             {
@@ -118,7 +134,7 @@
         }
     }
 
-    async void Cancel()
+    void Cancel()
     {
         navManager.NavigateTo("/Clearances");
     }

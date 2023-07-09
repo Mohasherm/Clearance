@@ -1,0 +1,94 @@
+﻿@page "/DepartmentDirectionDetails/{depId:int}"
+@inject DepartmentDirectionService ser
+@inject NavigationManager navManager
+@inject IJSRuntime js
+@attribute [Authorize(Roles = "Admin")]
+
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>الجهات التابعة للقسم</PageTitle>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">الجهات التابعة للقسم</span>
+            </div>
+
+
+            <div class="card-body">
+                @if (lst_DepartmentDirecction != null && lst_DepartmentDirecction.Count > 0)
+                {
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الجهة</th>
+                                <th><i class="fa pull-right hidden-xs"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in lst_DepartmentDirecction)
+                            {
+                                <tr>
+                                    <td>
+                                        @r.DirectionName
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" @onclick="(() => Delete(r.Id))"><i class="oi oi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="form-group d-flex justify-content-center">
+                        <button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-info" role="alert">
+                            لا يوجد أقسام قم بإضافة قسم
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            ليس لديك صلاحية
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public int depId { get; set; }
+    private List<DepartmentDirectionDTO>? lst_DepartmentDirecction { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (depId > 0)
+        {
+            lst_DepartmentDirecction = await ser.GetAll(depId);
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", "حدث خطأ");
+            navManager.NavigateTo("/Departments");
+        }
+    }
+
+    async void Delete(int Id)
+    {
+        await ser.Delete(Id);
+        lst_DepartmentDirecction = await ser.GetAll(depId);
+        StateHasChanged();
+    }
+
+     void Cancel()
+    {
+        navManager.NavigateTo("/Departments");
+    }
+}

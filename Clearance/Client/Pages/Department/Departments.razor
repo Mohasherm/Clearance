@@ -1,0 +1,140 @@
+﻿@page "/Departments"
+@inject DepartmentService dSer
+@inject CollageService cSer
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@attribute [Authorize(Roles = "Admin")]
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>الأقسام</PageTitle>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-header-text">الأقسام</span>
+
+
+
+                <button class="btn btn-above" @onclick="AddNew">إضافة قسم للمركز</button>
+            </div>
+
+            <select @onchange="Search" class="form-select">
+                <option value="">اختر المركز</option>
+                @foreach (var collage in lst_Collage)
+                {
+                    <option value="@collage.Id">@collage.Name</option>
+                }
+            </select>
+
+            <div class="card-body">
+                @if (lst_Department != null && lst_Department.Count > 0)
+                {
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fa pull-right hidden-xs"></i>الأقسام</th>
+                                <th><i class="fa pull-right hidden-xs"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in lst_Department)
+                            {
+                                <tr>
+                                    <td>
+                                        @r.Name
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info" title="إضافة جهة جديدة" data-toggle="tooltip" @onclick="(() => AddNewDirection(r.Id))"><i class="oi oi-plus"></i></a>
+                                        <a class="btn btn-warning" title="تفاصيل الجهات" data-toggle="tooltip" @onclick="(() => DirectionDetails(r.Id))"><i class="oi oi-menu"></i></a>
+                                        <a class="btn btn-danger" title="حذف" data-toggle="tooltip" @onclick="(() => DeleteDepartment(r.Id))"><i class="oi oi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-info" role="alert">
+                            @if (lst_Department is null)
+                            {
+                                <p class="m-0">
+                                    الرجاء اختيار مركز لعرض الأقسام
+                                </p>
+                            }
+
+                            else @if (lst_Department.Count == 0)
+                            {
+                                <p class="m-0">
+                                    لا يوجد أقسام قم بإضافة قسم
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert">
+            ليس لديك صلاحية
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<CollageDTO>? lst_Collage { get; set; } = new();
+    private List<DepartmentDTO>? lst_Department { get; set; }
+    int collageId = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lst_Collage = await cSer.GetAll();
+    }
+
+    async void Search(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(e.Value.ToString()))
+        {
+            collageId = Convert.ToInt32(e.Value.ToString());
+            lst_Department = await dSer.GetAll(collageId);
+            StateHasChanged();
+        }
+        else
+        {
+            lst_Department = null;
+            collageId = 0;
+            await js.InvokeVoidAsync("alert", "إختر مركز");
+        }
+    }
+
+     void DirectionDetails(int depId)
+    {
+        NavigationManager.NavigateTo($"/DepartmentDirectionDetails/{depId}");
+    }
+
+     void AddNewDirection(int depId)
+    {
+        NavigationManager.NavigateTo($"/AddDepartmentDirection/{depId}");
+    }
+
+    async void AddNew()
+    {
+        if (collageId > 0)
+        {
+            NavigationManager.NavigateTo($"/AddDepartment/{collageId}");
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", "إختر مركز");
+        }
+    }
+
+    async void DeleteDepartment(int Id)
+    {
+        await dSer.Delete(Id);
+        lst_Department = await dSer.GetAll(collageId);
+        StateHasChanged();
+    }
+}

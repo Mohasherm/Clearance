@@ -12,7 +12,7 @@ namespace Clearance.Server.Data
         public string UnivNum { get; set; }
         public string NationalNum { get; set; }
         public int? CollageId { get; set; }
-        public string Department { get; set; }
+        public int DepartmentId { get; set; }
         public string Mobile { get; set; }
         public DateTime AppointmentDate { get; set; }
         public Guid? UserId { get; set; }
@@ -24,8 +24,12 @@ namespace Clearance.Server.Data
 
         [ForeignKey(nameof(UserId))]
         public AppUser AppUser { get; set; }
+
         [ForeignKey(nameof(CollageId))]
         public Collage Collage{ get; set; }
+
+        //[ForeignKey(nameof(DepartmentId))]
+        //public Department Department{ get; set; }
 
     }
 }

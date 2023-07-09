@@ -10,18 +10,18 @@ namespace Clearance.Server.Controllers
     [ApiController]
     public class CollageDirectionController : ControllerBase
     {
-        private readonly ICollageDirectionService collageDirectionService;
+        private readonly IDepartmentDirectionService departmentDirectionService;
 
-        public CollageDirectionController(ICollageDirectionService collageDirectionService)
+        public CollageDirectionController(IDepartmentDirectionService departmentDirectionService)
         {
-            this.collageDirectionService = collageDirectionService;
+            this.departmentDirectionService = departmentDirectionService;
         }
 
         [HttpGet]
         [Route("GetAll/{Id}")]
-        public async Task<ActionResult<List<CollageDirectionDTO>>> GetAll(int Id)
+        public async Task<ActionResult<List<DepartmentDirectionDTO>>> GetAll(int Id)
         {
-            var c = await collageDirectionService.GetAll(Id);
+            var c = await departmentDirectionService.GetAll(Id);
             if (c == null)
             {
                 return NoContent();
@@ -32,9 +32,9 @@ namespace Clearance.Server.Controllers
 
         [HttpGet("GetById/{Id}")]
 
-        public async Task<ActionResult<CollageDirectionDTO>> GetByID(int Id)
+        public async Task<ActionResult<DepartmentDirectionDTO>> GetByID(int Id)
         {
-            var c = await collageDirectionService.GetById(Id);
+            var c = await departmentDirectionService.GetById(Id);
             if (c == null)
             {
                 return NoContent();
@@ -46,9 +46,9 @@ namespace Clearance.Server.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("Post")]
-        public async Task<ActionResult> Post([FromBody] CollageDirectionDTO collageDirectionDTO)
+        public async Task<ActionResult> Post([FromBody] DepartmentDirectionDTO departmentDirectionDTO)
         {
-            var data = await collageDirectionService.Insert(collageDirectionDTO);
+            var data = await departmentDirectionService.Insert(departmentDirectionDTO);
             if (data)
                 return Ok();
             else
@@ -61,7 +61,7 @@ namespace Clearance.Server.Controllers
         [HttpDelete("Delete/{Id}")]
         public async Task<ActionResult<bool>> Delete(int Id)
         {
-            var result = await collageDirectionService.Delete(Id);
+            var result = await departmentDirectionService.Delete(Id);
             if (result)
             {
                 return Ok();

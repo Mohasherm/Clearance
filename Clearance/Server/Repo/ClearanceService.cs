@@ -47,7 +47,8 @@ namespace Clearance.Server.Repo
                     NationalNum = a.NationalNum,
                     CollageId = a.CollageId,
                     CollageName = a.Collage.Name,
-                    Department = a.Department,
+                    DepartmentId = a.DepartmentId,
+                    Department = db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name,//a.Department.Name,
                     Mobile = a.Mobile,
                     AppointmentDate = a.AppointmentDate,
                     UserId = a.UserId,
@@ -83,7 +84,7 @@ namespace Clearance.Server.Repo
                   UnivNum = a.Clearance.UnivNum,
                   NationalNum = a.Clearance.NationalNum,
                   CollageName = a.Clearance.Collage.Name,
-                  Department = a.Clearance.Department,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
                   DirectionName = a.Direction.Name
               }
@@ -112,7 +113,7 @@ namespace Clearance.Server.Repo
                   UnivNum = a.Clearance.UnivNum,
                   NationalNum = a.Clearance.NationalNum,
                   CollageName = a.Clearance.Collage.Name,
-                  Department = a.Clearance.Department,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
                   DirectionName = a.Direction.Name
               }
@@ -136,7 +137,8 @@ namespace Clearance.Server.Repo
                   NationalNum = a.NationalNum,
                   CollageId = a.CollageId,
                   CollageName = a.Collage.Name,
-                  Department = a.Department,
+                  DepartmentId = a.DepartmentId,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name,//a.Department.Name,
                   Mobile = a.Mobile,
                   AppointmentDate = a.AppointmentDate,
                   UserId = a.UserId,
@@ -166,7 +168,7 @@ namespace Clearance.Server.Repo
                  UnivNum = a.Clearance.UnivNum,
                  NationalNum = a.Clearance.NationalNum,
                  CollageName = a.Clearance.Collage.Name,
-                 Department = a.Clearance.Department,
+                 Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                  OrderApplyDate = a.Clearance.OrderApplyDate,
                  DirectionName = a.Direction.Name
              }
@@ -187,7 +189,7 @@ namespace Clearance.Server.Repo
                  UnivNum = a.Clearance.UnivNum,
                  NationalNum = a.Clearance.NationalNum,
                  CollageName = a.Clearance.Collage.Name,
-                 Department = a.Clearance.Department,
+                 Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                  OrderApplyDate = a.Clearance.OrderApplyDate,
                  DirectionName = a.Direction.Name
              }
@@ -209,7 +211,8 @@ namespace Clearance.Server.Repo
                   NationalNum = a.NationalNum,
                   CollageId = a.CollageId,
                   CollageName = a.Collage.Name,
-                  Department = a.Department,
+                  DepartmentId = a.DepartmentId,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name,//a.Department.Name,
                   Mobile = a.Mobile,
                   AppointmentDate = a.AppointmentDate,
                   UserId = a.UserId,
@@ -217,7 +220,8 @@ namespace Clearance.Server.Repo
                   OrderApplyDate = a.OrderApplyDate,
                   State = a.State,
                   OrderRecieveDate = a.OrderRecieveDate,
-                  Done = a.Done
+                  Done = a.Done,
+                  Year = a.Year
 
               }
                  ).FirstOrDefaultAsync(x => x.Id == id);
@@ -235,7 +239,7 @@ namespace Clearance.Server.Repo
                 UnivNum = clearanceDTO.UnivNum,
                 NationalNum = clearanceDTO.NationalNum,
                 CollageId = clearanceDTO.CollageId,
-                Department = clearanceDTO.Department,
+                DepartmentId = (int)clearanceDTO.DepartmentId,
                 Mobile = clearanceDTO.Mobile,
                 AppointmentDate = clearanceDTO.AppointmentDate,
                 UserId = clearanceDTO.UserId,
@@ -252,8 +256,8 @@ namespace Clearance.Server.Repo
             {
                 await db.SaveChangesAsync();
                 // ارسال طلب براءة الذمة الى الجهات التابعة للمركز
-                var directions = await db.CollageDirections
-                    .Where(x => x.CollageId == clearanceDTO.CollageId)
+                var directions = await db.DepartmentDirection
+                    .Where(x => x.DepartmentId == clearanceDTO.DepartmentId)
                     .Select(x => x.DirectionId).ToArrayAsync();
 
                 if (directions is not null)
@@ -286,7 +290,7 @@ namespace Clearance.Server.Repo
                  a.UnivNum.Contains(Name) ||
                  a.NationalNum.Contains(Name) ||
                  a.Collage.Name.Contains(Name) ||
-                 a.Department.Contains(Name) ||
+                  db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name)|| //a.Department.Name.Contains(Name) ||
                  a.Mobile.Contains(Name) ||
                  a.State.Contains(Name)
            select new ClearanceDTO
@@ -300,7 +304,8 @@ namespace Clearance.Server.Repo
                NationalNum = a.NationalNum,
                CollageId = a.CollageId,
                CollageName = a.Collage.Name,
-               Department = a.Department,
+               DepartmentId = a.DepartmentId,
+               Department = db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name,//a.Department.Name,
                Mobile = a.Mobile,
                AppointmentDate = a.AppointmentDate,
                UserId = a.UserId,
@@ -325,7 +330,7 @@ namespace Clearance.Server.Repo
                   a.UnivNum.Contains(Name) ||
                   a.NationalNum.Contains(Name) ||
                   a.Collage.Name.Contains(Name) ||
-                  a.Department.Contains(Name) ||
+                   db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name.Contains(Name)|| //a.Department.Name.Contains(Name) ||
                   a.Mobile.Contains(Name) ||
                   a.State.Contains(Name)
                   )
@@ -341,7 +346,8 @@ namespace Clearance.Server.Repo
                 NationalNum = a.NationalNum,
                 CollageId = a.CollageId,
                 CollageName = a.Collage.Name,
-                Department = a.Department,
+                DepartmentId = a.DepartmentId,
+                Department = db.Departments.FirstOrDefault(x => x.Id == a.DepartmentId).Name,//a.Department.Name,
                 Mobile = a.Mobile,
                 AppointmentDate = a.AppointmentDate,
                 UserId = a.UserId,
@@ -350,7 +356,7 @@ namespace Clearance.Server.Repo
                 State = a.State,
                 OrderRecieveDate = a.OrderRecieveDate,
                 Done = a.Done,
-                Year = a.Year 
+                Year = a.Year
             }
                ).ToListAsync();
         }
@@ -375,7 +381,7 @@ namespace Clearance.Server.Repo
                   a.Clearance.UnivNum.Contains(Name) ||
                   a.Clearance.NationalNum.Contains(Name) ||
                   a.Clearance.Collage.Name.Contains(Name) ||
-                  a.Clearance.Department.Contains(Name) ||
+                  db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name)||// a.Clearance.Department.Name.Contains(Name) ||
                   a.Clearance.Mobile.Contains(Name) ||
                   a.Clearance.State.Contains(Name)
                   )
@@ -389,7 +395,7 @@ namespace Clearance.Server.Repo
                   UnivNum = a.Clearance.UnivNum,
                   NationalNum = a.Clearance.NationalNum,
                   CollageName = a.Clearance.Collage.Name,
-                  Department = a.Clearance.Department,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
                   DirectionName = a.Direction.Name
               }
@@ -416,7 +422,7 @@ namespace Clearance.Server.Repo
                   a.Clearance.UnivNum.Contains(Name) ||
                   a.Clearance.NationalNum.Contains(Name) ||
                   a.Clearance.Collage.Name.Contains(Name) ||
-                  a.Clearance.Department.Contains(Name) ||
+                   db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name.Contains(Name)|| //a.Clearance.Department.Name.Contains(Name) ||
                   a.Clearance.Mobile.Contains(Name) ||
                   a.Clearance.State.Contains(Name)
                   )
@@ -430,7 +436,7 @@ namespace Clearance.Server.Repo
                   UnivNum = a.Clearance.UnivNum,
                   NationalNum = a.Clearance.NationalNum,
                   CollageName = a.Clearance.Collage.Name,
-                  Department = a.Clearance.Department,
+                  Department = db.Departments.FirstOrDefault(x => x.Id == a.Clearance.DepartmentId).Name,//a.Clearance.Department.Name,
                   OrderApplyDate = a.Clearance.OrderApplyDate,
                   DirectionName = a.Direction.Name
               }
@@ -448,7 +454,7 @@ namespace Clearance.Server.Repo
             data.Mother = clearanceDTO.Mother;
             data.UnivNum = clearanceDTO.UnivNum;
             data.NationalNum = clearanceDTO.NationalNum;
-            data.Department = clearanceDTO.Department;
+            data.DepartmentId = (int)clearanceDTO.DepartmentId;
             data.Mobile = clearanceDTO.Mobile;
             data.State = clearanceDTO.State;
             data.OrderRecieveDate = clearanceDTO.OrderRecieveDate;

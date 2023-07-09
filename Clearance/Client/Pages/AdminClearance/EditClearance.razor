@@ -38,7 +38,9 @@
                             <input readonly id="UserName" class="form-control mb-2" @bind-value="clearanceDTO.UserName" placeholder="الموظف مدخل البيانات"></input>
                             <label for="Mobile">رقم الموبايل</label>
                             <InputText id="Mobile" class="form-control mb-2" @bind-Value="clearanceDTO.Mobile" placeholder="09..."></InputText>
-
+                            <label for="year">السنة الدراسية</label>
+                            <InputText id="year" class="form-control mb-2" @bind-Value="clearanceDTO.Year" placeholder="السنة الدراسية"></InputText>
+                           
                             <label for="AppointmentDate">تاريخ المراجعة</label>
                             <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.AppointmentDate" placeholder="الموظف مدخل البيانات"></input>
                             <label for="AppointmentDate">تاريخ تقديم الطلب</label>
@@ -69,9 +71,7 @@
     public int Id { get; set; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { set; get; }
-    AuthenticationState user;
     private ClearanceDTO? clearanceDTO = new();
-    bool adding;
 
 
     protected override async Task OnParametersSetAsync()
@@ -103,7 +103,7 @@
 
     }
 
-    async void Cancel()
+    void Cancel()
     {
         navManager.NavigateTo("/AdminClearances");
     }
