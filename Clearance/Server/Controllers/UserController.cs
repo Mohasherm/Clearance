@@ -290,6 +290,10 @@ namespace Clearance.Server.Controllers
             data.Father = userDTO.Father;
             data.Direction_Id = userDTO.Direction_Id;
             data.UserName = userDTO.UserName;
+            data.NormalizedUserName = userDTO.UserName.ToUpper();
+            data.Email = userDTO.UserName + "@unv.com";
+            data.NormalizedEmail = (userDTO.UserName + "@unv.com").ToUpper();
+
 
             db.Entry(data).State = EntityState.Modified;
             try
