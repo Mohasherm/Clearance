@@ -60,6 +60,11 @@
                             }
                         </tbody>
                     </table>
+
+                    @if (Adding)
+                    {
+                        <AddRole Id="@userID.ToString()" RefreshData="refresh"></AddRole>
+                    }
                 }
                 else
                 {
@@ -83,9 +88,18 @@
     private List<UserDTO>? lst_Users { get; set; } = new();
     private IList<string>? lst_roles { get; set; }
     private Guid userID;
+    bool Adding = false;
+
     protected override async Task OnInitializedAsync()
     {
         lst_Users = await Http.GetUsers();
+    }
+
+    async void refresh()
+    {
+        lst_roles = await Http.GetRoleForUser(userID);
+        Adding = false;
+        StateHasChanged();
     }
 
     async void Search(ChangeEventArgs e)
@@ -107,7 +121,8 @@
     {
         if (!userID.Equals(new Guid("00000000-0000-0000-0000-000000000000")))
         {
-            NavigationManager.NavigateTo($"/AddRole/{userID.ToString()}");
+            Adding = true;
+            // NavigationManager.NavigateTo($"/AddRole/{userID.ToString()}");
         }
         else
         {

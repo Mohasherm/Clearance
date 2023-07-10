@@ -46,6 +46,8 @@
     [Parameter]
     public string Id { get; set; }
     private UserRolesDTO? userRolesDTO { get; set; }
+    [Parameter]
+    public EventCallback RefreshData { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -64,6 +66,7 @@
             var result = await Http.SetRole(userRolesDTO);
             if (result)
             {
+                await RefreshData.InvokeAsync();
                 NavigationManager.NavigateTo("/RoleForUser");
             }
             else
@@ -73,9 +76,9 @@
         }
     }
 
-    void Cancel()
+    async void Cancel()
     {
-        NavigationManager.NavigateTo("/RoleForUser");
+        await RefreshData.InvokeAsync();
     }
 
 }
