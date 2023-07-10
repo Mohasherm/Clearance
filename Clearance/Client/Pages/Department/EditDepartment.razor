@@ -41,7 +41,9 @@
 @code {
     [Parameter]
     public int depId { get; set; }
-    private DepartmentDTO departmentDTO { get; set; }
+
+   [Parameter]
+    public DepartmentDTO departmentDTO { get; set; }
 
     [Parameter]
     public EventCallback RefreshData { get; set; }

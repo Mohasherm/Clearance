@@ -55,7 +55,7 @@
                     }
                      @if (Editing)
                     {
-                        <EditDepartment depId="DepartmentId" RefreshData="refresh"></EditDepartment>
+                        <EditDepartment departmentDTO="lst_Department.FirstOrDefault(x =>x.Id == DepartmentId)" depId="DepartmentId" RefreshData="refresh"></EditDepartment>
                     }
 
                 }
