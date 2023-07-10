@@ -39,8 +39,16 @@
                             <label for="Mobile">رقم الموبايل</label>
                             <InputText id="Mobile" class="form-control mb-2" @bind-Value="clearanceDTO.Mobile" placeholder="09..."></InputText>
                             <label for="year">السنة الدراسية</label>
-                            <InputText id="year" class="form-control mb-2" @bind-Value="clearanceDTO.Year" placeholder="السنة الدراسية"></InputText>
-                           
+                            <InputSelect id="year" class="form-select mb-2" @bind-Value="clearanceDTO.Year" placeholder="السنة الدراسية">
+                                <option value="">إختر السنة الدراسية....</option>
+                                <option value="الأولى">الأولى</option>
+                                <option value="الثانية">الثانية</option>
+                                <option value="الثالثة">الثالثة</option>
+                                <option value="الرابعة">الرابعة</option>
+                                <option value="الخامسة">الخامسة</option>
+                                <option value="السادسة">السادسة</option>
+                                <option value="متخرج">متخرج</option>
+                            </InputSelect>
                             <label for="AppointmentDate">تاريخ المراجعة</label>
                             <input type="datetime" readonly id="AppointmentDate" class="form-control mb-2" @bind-value="clearanceDTO.AppointmentDate" placeholder="الموظف مدخل البيانات"></input>
                             <label for="AppointmentDate">تاريخ تقديم الطلب</label>
