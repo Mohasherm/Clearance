@@ -1,4 +1,4 @@
-﻿@page "/AddDepartment/{colId:int}"
+﻿@page "/EditDepartment/{depId:int}"
 @inject DepartmentService ser
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
@@ -40,31 +40,30 @@
 
 @code {
     [Parameter]
-    public int colId { get; set; }
-    private DepartmentDTO departmentDTO{ get; set; }
+    public int depId { get; set; }
+    private DepartmentDTO departmentDTO { get; set; }
 
     [Parameter]
     public EventCallback RefreshData { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        if (colId > 0)
+        if (depId > 0)
         {
-            departmentDTO = new();
-            departmentDTO.CollageId = colId;
+            departmentDTO = await ser.GetById(depId);
         }
 
     }
 
     async void Save()
     {
-        if (colId > 0)
+        if (depId > 0)
         {
-            var result = await ser.Insert(departmentDTO);
+            var result = await ser.Update(departmentDTO,depId);
             if (result)
             {
                 await RefreshData.InvokeAsync();
-                NavigationManager.NavigateTo("/Departments");
+               // NavigationManager.NavigateTo("/Departments");
             }
             else
             {

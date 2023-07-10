@@ -176,7 +176,7 @@ namespace Clearance.Server.Repo
                  OrderApplyDate = a.Clearance.OrderApplyDate,
                  DirectionName = a.Direction.Name,
                  DoneDate = a.DoneDate,
-                 UserName = a.AppUser == null ? "" : a.AppUser.UserName
+                 UserName = a.AppUser == null ? "" : a.AppUser.FirstName + " "+ a.AppUser.LastName
              }
                 ).ToListAsync();
         }
