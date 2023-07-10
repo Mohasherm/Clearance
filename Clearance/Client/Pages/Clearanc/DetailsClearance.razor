@@ -130,13 +130,13 @@
                         </strong>
                     </p>
                     <p class="d-block">
-                        إن الطالب @clearanceDTO.FirstName @clearanceDTO.LastName بن @clearanceDTO.Father المسجل ب @clearanceDTO.CollageName فرع @clearanceDTO.Department برقم جامعي @clearanceDTO.UnivNum
+                        إن الطالب @clearanceDTO.FirstName @clearanceDTO.LastName بن @clearanceDTO.Father المسجل بـ @clearanceDTO.CollageName فرع @clearanceDTO.Department برقم جامعي @clearanceDTO.UnivNum
                     </p>
 
                     @for (int i = 0; i < lst_ClearanceDirectionsDTO.Count; i++)
                     {
                         <p class="d-block">
-                            @(i + 1) - هو بريء الذمة تجاه @lst_ClearanceDirectionsDTO[i].DirectionName @lst_ClearanceDirectionsDTO[i].UserName  @(Convert.ToDateTime(lst_ClearanceDirectionsDTO[i].DoneDate).ToString("yyyy/MM/dd hh:mm"))
+                            @(i + 1) - هو بريء الذمة تجاه @lst_ClearanceDirectionsDTO[i].DirectionName  &nbsp; @lst_ClearanceDirectionsDTO[i].UserName  &nbsp;  @(Convert.ToDateTime(lst_ClearanceDirectionsDTO[i].DoneDate).ToString("yyyy/MM/dd"))
                         </p>
                     }
                     <p class="d-block">

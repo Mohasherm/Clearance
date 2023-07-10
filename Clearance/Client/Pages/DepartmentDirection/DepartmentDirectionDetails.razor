@@ -39,9 +39,11 @@
                             }
                         </tbody>
                     </table>
-                    <div class="form-group d-flex justify-content-center">
-                        <button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>
+                    <div class="form-group d-flex justify-content-center mb-3">
+                        <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
                     </div>
+
+
                 }
                 else
                 {
@@ -51,6 +53,7 @@
                         </div>
                     </div>
                 }
+                <AddDepartmentDirection depId="depId" RefreshData="refresh"></AddDepartmentDirection>
             </div>
         </div>
     </Authorized>
@@ -80,6 +83,12 @@
         }
     }
 
+    async void refresh()
+    {
+        lst_DepartmentDirecction = await ser.GetAll(depId);
+        StateHasChanged();
+    }
+
     async void Delete(int Id)
     {
         await ser.Delete(Id);
@@ -87,7 +96,7 @@
         StateHasChanged();
     }
 
-     void Cancel()
+    void Cancel()
     {
         navManager.NavigateTo("/Departments");
     }

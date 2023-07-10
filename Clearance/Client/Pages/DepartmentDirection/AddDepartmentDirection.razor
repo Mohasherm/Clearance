@@ -36,7 +36,7 @@
 
                         <div class="form-group d-flex justify-content-center">
                             <button class="btn btn-success mx-2" type="submit">حفظ</button>
-                            <button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>
+                            @*<button class="btn btn-outline-dark" @onclick="Cancel">إلغاء الأمر</button>*@
                         </div>
                     </div>
 
@@ -59,6 +59,10 @@
     public int depId { get; set; }
     private List<DirectionDTO>? lst_DirectionDTO = new();
     DepartmentDirectionDTO departmentDirectionDTO = new();
+    [Parameter]
+    public EventCallback RefreshData { get; set; }
+
+
     protected override async Task OnParametersSetAsync()
     {
         if (depId > 0)
@@ -82,7 +86,8 @@
             var result = await ddSer.Insert(departmentDirectionDTO);
             if (result)
             {
-                navManager.NavigateTo("/Departments");
+                await RefreshData.InvokeAsync();
+                // navManager.NavigateTo("/Departments");
             }
             else
             {
@@ -91,9 +96,9 @@
         }
     }
 
-    void Cancel()
+    async void Cancel()
     {
-        navManager.NavigateTo("/Departments");
+        await RefreshData.InvokeAsync();
     }
 
 }
