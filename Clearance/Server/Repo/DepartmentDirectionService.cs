@@ -60,23 +60,37 @@ namespace Clearance.Server.Repo
                  ).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<int> GetCollageIdByDepartment(int depId)
+        {
+            return db.Departments.Where(x => x.Id ==  depId).FirstOrDefault().CollageId;
+        }
+
         public async Task<bool> Insert(DepartmentDirectionDTO departmentDirectionDTO)
         {
-            await db.DepartmentDirection.AddAsync(new DepartmentDirection
+            if (db.DepartmentDirection.Where(x => x.DepartmentId == departmentDirectionDTO.DepartmentId
+            && x.DirectionId == departmentDirectionDTO.DirectionId).Any())
             {
-                Id = departmentDirectionDTO.Id,
-                DepartmentId = departmentDirectionDTO.DepartmentId,
-                DirectionId = (int)departmentDirectionDTO.DirectionId
-            });
-
-            try
-            {
-                await db.SaveChangesAsync();
                 return true;
             }
-            catch (DbUpdateException)
+            else
             {
-                return false;
+
+                await db.DepartmentDirection.AddAsync(new DepartmentDirection
+                {
+                    Id = departmentDirectionDTO.Id,
+                    DepartmentId = departmentDirectionDTO.DepartmentId,
+                    DirectionId = (int)departmentDirectionDTO.DirectionId
+                });
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
             }
         }
     }

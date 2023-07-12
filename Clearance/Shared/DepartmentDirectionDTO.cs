@@ -5,8 +5,6 @@ namespace Clearance.Shared
     public class DepartmentDirectionDTO
     {
         public int Id { get; set; }
-
-
         public int DepartmentId { get; set; }
 
         [Required(ErrorMessage ="الرجاء إختيار الجهة")]

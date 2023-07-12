@@ -8,5 +8,6 @@ namespace Clearance.Server.Repo.IRepo
         Task<List<DepartmentDirectionDTO>> GetAll(int DepId);
         Task<bool> Insert(DepartmentDirectionDTO collageDirectionDTO);
         Task<bool> Delete(int id);
+        Task<int> GetCollageIdByDepartment(int depId);
     }
 }
