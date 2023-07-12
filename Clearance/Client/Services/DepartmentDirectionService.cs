@@ -62,6 +62,34 @@ namespace Clearance.Client.Services
             }
         }
 
+         public async Task<int?> GetCollageIdByDepartment(int depId)
+        {
+            var token = await tokenService.GetToken();
+
+            if (token != null && token.Expiration > DateTime.UtcNow)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{token.Token}");
+            }
+            else
+            {
+                navigationManager.NavigateTo("login", true);
+            }
+            var response = await httpClient.GetAsync($"api/CollageDirection/GetCollageIdByDepartment/{depId}");
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         public async Task<bool> Insert(DepartmentDirectionDTO collageDirectionDTO)
         {

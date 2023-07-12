@@ -16,7 +16,7 @@
 
 
             <div class="card-body">
-                @if (lst_DepartmentDirecction != null && lst_DepartmentDirecction.Count > 0)
+                @if (lst_DepartmentDirection != null && lst_DepartmentDirection.Count > 0)
                 {
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var r in lst_DepartmentDirecction)
+                            @foreach (var r in lst_DepartmentDirection)
                             {
                                 <tr>
                                     <td>
@@ -68,13 +68,13 @@
 @code {
     [Parameter]
     public int depId { get; set; }
-    private List<DepartmentDirectionDTO>? lst_DepartmentDirecction { get; set; }
+    private List<DepartmentDirectionDTO>? lst_DepartmentDirection { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
         if (depId > 0)
         {
-            lst_DepartmentDirecction = await ser.GetAll(depId);
+            lst_DepartmentDirection = await ser.GetAll(depId);
         }
         else
         {
@@ -85,19 +85,20 @@
 
     async void refresh()
     {
-        lst_DepartmentDirecction = await ser.GetAll(depId);
+        lst_DepartmentDirection = await ser.GetAll(depId);
         StateHasChanged();
     }
 
     async void Delete(int Id)
     {
         await ser.Delete(Id);
-        lst_DepartmentDirecction = await ser.GetAll(depId);
+        lst_DepartmentDirection = await ser.GetAll(depId);
         StateHasChanged();
     }
 
-    void Cancel()
+    async void Cancel()
     {
-        navManager.NavigateTo("/Departments");
+        var colId = await ser.GetCollageIdByDepartment(depId);
+        navManager.NavigateTo($"/Departments/{colId}");
     }
 }

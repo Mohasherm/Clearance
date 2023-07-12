@@ -43,6 +43,19 @@ namespace Clearance.Server.Controllers
             return Ok(c);
         }
 
+        [HttpGet("GetCollageIdByDepartment/{depId}")]
+
+        public async Task<ActionResult<int>> GetCollageIdByDepartment(int depId)
+        {
+            var c = await departmentDirectionService.GetCollageIdByDepartment(depId);
+            //if (c == null)
+            //{
+            //    return NoContent();
+            //}
+
+            return Ok(c);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("Post")]
@@ -55,7 +68,7 @@ namespace Clearance.Server.Controllers
                 return BadRequest();
         }
 
-        
+
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{Id}")]
