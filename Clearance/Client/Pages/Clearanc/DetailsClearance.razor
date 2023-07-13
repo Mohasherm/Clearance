@@ -68,9 +68,9 @@
                                 </tbody>
                             </table>
                             <div class="form-group d-flex justify-content-center">
-                                @if (clearanceDTO.State.Equals("بريء الذمة") && !clearanceDTO.Done)
+                                @if (clearanceDTO.State.Equals("بريء الذمة") @* && !clearanceDTO.Done *@)
                                 {
-                                    <button class="btn btn-success mx-2" @onclick="Deliver">طباعة براءة الذمة</button>
+                                    <button class="btn btn-success mx-2" @onclick="Deliver">تسليم وطباعة براءة الذمة</button>
                                 }
                                 <button class="btn btn-outline-warning mx-2" @onclick="ReNew">تجديد الطلب</button>
                                 <button class="btn btn-outline-dark" @onclick="Cancel">رجوع</button>
@@ -210,8 +210,8 @@
 
     async void Deliver()
     {
-        bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع لاحقاً");
-        if (confirmed)
+        // bool confirmed = await js.InvokeAsync<bool>("confirm", "هل أنت متأكد؟ لا يمكنك التراجع لاحقاً");
+        // if (confirmed)
         {
             clearanceDTO.OrderRecieveDate = DateTime.Now;
             clearanceDTO.Done = true;
@@ -232,21 +232,25 @@
 
     async void ReNew()
     {
-        clearanceDTO.AppointmentDate = DateTime.Now.AddDays(5);
-        clearanceDTO.OrderApplyDate = DateTime.Now;
-        clearanceDTO.OrderRecieveDate = null;
-        clearanceDTO.State = "قيد المعالجة";
-        clearanceDTO.Done = false;
-
-        var result = await ser.RenewOrder(clearanceDTO, Id);
-
-        if (result)
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "سيتم إعادة الطلب من المرحلة الأولى، وتحويل حالة الطلب في كافة الجهات إلى 'غير معالج'، هل أنت متأكد؟ علماً أنه لا يمكنك التراجع لاحقاً");
+        if (confirmed)
         {
-            navManager.NavigateTo("/Clearances");
-        }
-        else
-        {
-            await js.InvokeVoidAsync("alert", "حدث خطأ عند الحفظ");
+            clearanceDTO.AppointmentDate = DateTime.Now.AddDays(5);
+            clearanceDTO.OrderApplyDate = DateTime.Now;
+            clearanceDTO.OrderRecieveDate = null;
+            clearanceDTO.State = "قيد المعالجة";
+            clearanceDTO.Done = false;
+
+            var result = await ser.RenewOrder(clearanceDTO, Id);
+
+            if (result)
+            {
+                navManager.NavigateTo("/Clearances");
+            }
+            else
+            {
+                await js.InvokeVoidAsync("alert", "حدث خطأ عند الحفظ");
+            }
         }
     }
 
